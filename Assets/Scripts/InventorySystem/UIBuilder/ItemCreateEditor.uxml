@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/InventorySystem/UIBuilder/ItemCreateEditor.uss?fileID=7433441132597879392&amp;guid=1fb8a5cf766bf7940af46d587d3f9666&amp;type=3#ItemCreateEditor" />
+    <ui:Label tabindex="-1" text="物品图标" parse-escape-sequences="true" display-tooltip-when-elided="true" name="icon-label" style="-unity-font-style: bold; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); border-bottom-width: 1px; padding-left: 5px; background-color: rgb(37, 37, 37);" />
+    <ui:VisualElement name="icon-image" style="margin-top: 4%; margin-right: 4%; margin-bottom: 4%; margin-left: 4%; flex-basis: 30%;" />
+    <ui:Label tabindex="-1" text="物品标签" parse-escape-sequences="true" display-tooltip-when-elided="true" name="item-label" style="background-color: rgb(37, 37, 37); border-bottom-width: 1px; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88);" />
+    <uie:Toolbar name="label-list" />
+    <ui:TextField picking-mode="Ignore" label="新标签" name="new-label-text">
+        <ui:Button text="添加" parse-escape-sequences="true" display-tooltip-when-elided="true" name="add-label" />
+    </ui:TextField>
+    <ui:Label tabindex="-1" text="物品属性Inspector" parse-escape-sequences="true" display-tooltip-when-elided="true" name="inspector-label" style="border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); border-bottom-width: 1px; padding-left: 5px; background-color: rgb(37, 37, 37); -unity-font-style: bold;" />
+    <InventoryItemInspectorView name="inspector-view" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px; flex-basis: 70%;" />
+    <ui:Toggle label="保存后自动设置物品ID" name="auto-id" style="align-self: center;" />
+    <ui:Button text="确认" parse-escape-sequences="true" display-tooltip-when-elided="true" name="apply-button" style="-unity-font-style: bold;" />
+    <ui:Button text="取消" parse-escape-sequences="true" display-tooltip-when-elided="true" name="canel-button" style="-unity-font-style: bold;" />
+</ui:UXML>

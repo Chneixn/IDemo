@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97dde180576400745a5e079b291eafd0, type: 3}
+  m_Name: InventorySystemEditorSetting
+  m_EditorClassIdentifier: 
+  usingSetting: {fileID: 11400000}
+  editorUxml: {fileID: 9197481963319205126, guid: c25caa9eddb297540829d6be0f9cb422,
+    type: 3}
+  editorStyle: {fileID: 7433441132597879392, guid: b5bd124783620ac408eabceae5ae8f99,
+    type: 3}
+  createEditorUxml: {fileID: 9197481963319205126, guid: 6efc293f65ed2f141844476d491681f1,
+    type: 3}
+  createEditorStyle: {fileID: 7433441132597879392, guid: 1fb8a5cf766bf7940af46d587d3f9666,
+    type: 3}
+  itemIDEditorUxml: {fileID: 9197481963319205126, guid: 9d3c8917ac069a74c89ccbac9c7e6deb,
+    type: 3}
+  itemIDEditorStyle: {fileID: 7433441132597879392, guid: 2c9eb78ad130b434d94f1e01974478fd,
+    type: 3}
+  databaseEditorUxml: {fileID: 9197481963319205126, guid: e7c6a7705ef4458428d61b790cf1f16d,
+    type: 3}
+  databaseEditorStyle: {fileID: 7433441132597879392, guid: 6ed36f2d60349bc40a6b588b417db3d3,
+    type: 3}

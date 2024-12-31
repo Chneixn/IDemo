@@ -1,0 +1,222 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3756476493494781479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07b899e700656ed4f85a1b9155b81d1d, type: 3}
+  m_Name: SequencerNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 19b552bf597032b4a94c9d80ad63d687
+  position: {x: 0, y: 143.59662}
+  blackboard:
+    MoveSpeed: 5
+    HasTarget: 0
+    Target: {fileID: 0}
+    TargetTransform: {fileID: 0}
+    MoveToPosition: {x: 0, y: 0, z: 0}
+  enemyControl: {fileID: 0}
+  description: 
+  children:
+  - {fileID: 8565820284552653784}
+  - {fileID: -1963893152256324071}
+--- !u!114 &-1963893152256324071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ffb1004d978abf429627519cdf88d51, type: 3}
+  m_Name: WaitNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: ed0480f8dcba5e845b316b49966a39db
+  position: {x: 108.90755, y: 324.30252}
+  blackboard:
+    MoveSpeed: 5
+    HasTarget: 0
+    Target: {fileID: 0}
+    TargetTransform: {fileID: 0}
+    MoveToPosition: {x: 0, y: 0, z: 0}
+  enemyControl: {fileID: 0}
+  description: 
+  duration: 1
+--- !u!114 &-848932005062376472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07b899e700656ed4f85a1b9155b81d1d, type: 3}
+  m_Name: SequencerNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b32c4aae4f3256648be930db28594d65
+  position: {x: 0, y: -5.6470604}
+  blackboard:
+    MoveSpeed: 5
+    HasTarget: 0
+    Target: {fileID: 0}
+    TargetTransform: {fileID: 0}
+    MoveToPosition: {x: 0, y: 0, z: 0}
+  enemyControl: {fileID: 0}
+  description: 
+  children:
+  - {fileID: 3348942314021228905}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27cab1969c60a6e4c9139a2d99cba6ab, type: 3}
+  m_Name: Zombie BehaviourTree
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 4654048476744428933}
+  treeState: 0
+  nodes:
+  - {fileID: 4654048476744428933}
+  - {fileID: -1963893152256324071}
+  - {fileID: 8565820284552653784}
+  - {fileID: -3756476493494781479}
+  - {fileID: 8094502342933698148}
+  - {fileID: -848932005062376472}
+  - {fileID: 3348942314021228905}
+  blackboard:
+    MoveSpeed: 5
+    HasTarget: 0
+    Target: {fileID: 0}
+    TargetTransform: {fileID: 0}
+    MoveToPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &3348942314021228905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd1bd5536725f64f9d897282583e70c, type: 3}
+  m_Name: RepeatNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 9e0878dfdd04eaf418fe7f5a67a61f2e
+  position: {x: -279.93277, y: 156.50421}
+  blackboard:
+    MoveSpeed: 5
+    HasTarget: 0
+    Target: {fileID: 0}
+    TargetTransform: {fileID: 0}
+    MoveToPosition: {x: 0, y: 0, z: 0}
+  enemyControl: {fileID: 0}
+  description: 
+  child: {fileID: 8094502342933698148}
+--- !u!114 &4654048476744428933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6921508a7156074880876bcb9ff218d, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: aac98c54b3c37b24b8404689bff1343b
+  position: {x: 0, y: -147.63025}
+  blackboard:
+    MoveSpeed: 5
+    HasTarget: 0
+    Target: {fileID: 0}
+    TargetTransform: {fileID: 0}
+    MoveToPosition: {x: 0, y: 0, z: 0}
+  enemyControl: {fileID: 0}
+  description: 
+  child: {fileID: -848932005062376472}
+--- !u!114 &8094502342933698148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ecbac988f6ba7f4aafe06ca97755035, type: 3}
+  m_Name: SectorScan
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 241cc7e5df357ce428606dcce0d823c3
+  position: {x: -279.93277, y: 261.37814}
+  blackboard:
+    MoveSpeed: 5
+    HasTarget: 0
+    Target: {fileID: 0}
+    TargetTransform: {fileID: 0}
+    MoveToPosition: {x: 0, y: 0, z: 0}
+  enemyControl: {fileID: 0}
+  description: "\u6247\u5F62\u626B\u63CF"
+  distance: 10
+  angle: 30
+  height: 1
+  scanFrequency: 30
+  scanLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  occlusionLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  debugDetectRange: 0
+  debugScaner: 0
+  debugTarget: 0
+  debugColor: {r: 169, g: 84, b: 236, a: 0.5}
+--- !u!114 &8565820284552653784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba40abde28d4cf419113535f1ab8a41, type: 3}
+  m_Name: RandomWalk
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: bb1699c26de81554fb557b5463a221c5
+  position: {x: -93.579834, y: 324.30252}
+  blackboard:
+    MoveSpeed: 5
+    HasTarget: 0
+    Target: {fileID: 0}
+    TargetTransform: {fileID: 0}
+    MoveToPosition: {x: 0, y: 0, z: 0}
+  enemyControl: {fileID: 0}
+  description: 
+  range: 25
+  targetUpdateTime: 1

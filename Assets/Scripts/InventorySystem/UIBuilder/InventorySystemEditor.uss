@@ -1,0 +1,54 @@
+.item-list-node {
+    -unity-text-align: middle-left;
+    min-height: 20px;
+    margin-left: 2px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+    border-left-color: rgb(88, 88, 88);
+    border-right-color: rgb(88, 88, 88);
+    border-top-color: rgb(88, 88, 88);
+    border-bottom-color: rgb(88, 88, 88);
+    margin-right: 2px;
+    padding-left: 5px;
+}
+
+.item-list-view {
+    flex-grow: 1;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    flex-basis: 100%;
+}
+
+.label-node {
+    padding-left: 5px;
+    padding-right: 2px;
+    -unity-font-style: bold;
+    background-color: rgb(37, 37, 37);
+    border-left-color: rgb(81, 81, 81);
+    border-right-color: rgb(81, 81, 81);
+    border-top-color: rgb(81, 81, 81);
+    border-bottom-color: rgb(81, 81, 81);
+    border-bottom-width: 1px;
+}
+
+.label-list-node {
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+    border-bottom-right-radius: 5%;
+    border-bottom-left-radius: 5%;
+    background-color: rgb(36, 172, 242);
+    margin-top: 1px;
+    margin-right: 5px;
+    margin-bottom: 1px;
+    margin-left: 5px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}

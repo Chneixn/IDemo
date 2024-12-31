@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f954a4565735fd4c99408b64ee9b214, type: 3}
+  m_Name: BehaviourTreeSettings
+  m_EditorClassIdentifier: 
+  UsingSetting: {fileID: 11400000}
+  behaviourTreeUxml: {fileID: 9197481963319205126, guid: 82cd5cb28adf8194bbef69d9c4b58496, type: 3}
+  behaviourTreeStyle: {fileID: 7433441132597879392, guid: 380b9aaaa3d443244a811bca8c397edc, type: 3}
+  nodeUxml: {fileID: 9197481963319205126, guid: 3cb18d7a6edb4ca428414cdf06475c7e, type: 3}
