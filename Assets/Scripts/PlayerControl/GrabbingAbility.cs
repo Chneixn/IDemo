@@ -108,7 +108,7 @@ public class GrabbingAbility : BaseAbility
         gcache = cc.Gravity;        //缓存重力
         cc.Gravity = Vector3.zero;  //关闭重力
 
-        cc.TransitionToState(CharacterMovementState.Jumping);
+        cc.TransitionToState(MovementState.Jumping);
         vcache = cc.MaxAirSpeed;    //缓存空速
         cc.MaxAirSpeed = 20f;
         // JumpingToPosition(grapplePoint, highestPointOnArc);

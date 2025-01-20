@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 19b552bf597032b4a94c9d80ad63d687
-  position: {x: 0, y: 143.59662}
+  position: {x: 0, y: 147.63025}
   blackboard:
     MoveSpeed: 5
     HasTarget: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: ed0480f8dcba5e845b316b49966a39db
-  position: {x: 108.90755, y: 324.30252}
+  position: {x: 108.90756, y: 324.30252}
   blackboard:
     MoveSpeed: 5
     HasTarget: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 9e0878dfdd04eaf418fe7f5a67a61f2e
-  position: {x: -279.93277, y: 156.50421}
+  position: {x: -279.93277, y: 155.69748}
   blackboard:
     MoveSpeed: 5
     HasTarget: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: aac98c54b3c37b24b8404689bff1343b
-  position: {x: 0, y: -147.63025}
+  position: {x: 0, y: -120.201675}
   blackboard:
     MoveSpeed: 5
     HasTarget: 0

@@ -22,6 +22,7 @@ public class GameManager : SingleMonoBase<GameManager>
 
     public CharacterControl CharacterControl;
     public CameraController PlayerCam;
+    public Interactor Interactor;
     public SkillHolder SkillHolder;
     public WeaponHolder WeaponHolder;
     public PlayerInputReceiver PlayerInput;

@@ -19,38 +19,38 @@ public class PlayerBodyAnimation : MonoBehaviour
         this.character = character;
     }
 
-    public void UpdateAnimations(CharacterMovementState nextState, CharacterMovementState lastState)
+    public void UpdateAnimations(MovementState nextState, MovementState lastState)
     {
         string animationName = nextState.ToString();
 
         switch (nextState)
         {
-            case CharacterMovementState.Idle:
+            case MovementState.Idle:
                 {
-                    if (lastState == CharacterMovementState.InAir)
+                    if (lastState == MovementState.InAir)
                     {
                         animationName = "Jump-Land";
                     }
                 }
                 break;
-            case CharacterMovementState.Walking:
+            case MovementState.Walking:
                 break;
-            case CharacterMovementState.Running:
+            case MovementState.Running:
                 break;
-            case CharacterMovementState.Jumping:
+            case MovementState.Jumping:
                 {
                     animationName = "Jump-Start";
                 }
                 break;
-            case CharacterMovementState.Crouching:
+            case MovementState.Crouching:
                 break;
-            case CharacterMovementState.Sliding:
+            case MovementState.Sliding:
                 break;
-            case CharacterMovementState.Swimming:
+            case MovementState.Swimming:
                 break;
-            case CharacterMovementState.InAir:
+            case MovementState.InAir:
                 {
-                    if (lastState == CharacterMovementState.Jumping)
+                    if (lastState == MovementState.Jumping)
                     {
                         animationName = "Jump-MidAir";
                     }
@@ -60,12 +60,12 @@ public class PlayerBodyAnimation : MonoBehaviour
                     }
                 }
                 break;
-            case CharacterMovementState.Fly:
+            case MovementState.Fly:
                 {
                     animationName = "Jump-MidAir";
                 }
                 break;
-            case CharacterMovementState.ClimbingLadder:
+            case MovementState.ClimbingLadder:
                 break;
         }
 

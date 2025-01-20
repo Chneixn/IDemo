@@ -3,11 +3,8 @@ using Unity.Cinemachine;
 using KinematicCharacterController;
 using UnityEngine;
 
-public enum CamState
-{
-    FPS,
-    TPS
-}
+public enum CamState { FPS, TPS }
+public enum UpModes { Player, World };
 
 public struct CameraInput
 {
@@ -17,6 +14,12 @@ public struct CameraInput
     public CamState activeCamState;
 }
 
+//public interface ICameraState
+//{
+//    CamState CamState { get; }
+//    void HandleInput(ref CameraInput inputs);
+//}
+
 /// <summary>
 /// 实现玩家视角操控和操作输入传入
 /// </summary>
@@ -25,37 +28,31 @@ public class CameraController : SingleMonoBase<CameraController>
     [SerializeField, ReadOnly] private CamState currentCamState;
     public CamState CurrentCamState => currentCamState;
     public Action<CamState> OnCamStateChange;
+    public Transform CameraPosition;
 
-    [Header("MouseSensitivity鼠标灵敏度")]
-    [SerializeField]
+    [SerializeField, Header("MouseSensitivity鼠标灵敏度")]
     private float XmouseSensitivity = 1f;
 
     [SerializeField]
     private float YmouseSensitivity = 1f;
 
-    [Range(0f, 5f)]
-    [Tooltip("只有在isMixXYSensitivity开启时生效")]
-    [SerializeField]
-    private float mouseMixSensitivity = 1f;
-
     [SerializeField]
     private bool isMixXYSensitivity;
+    [Tooltip("只有在isMixXYSensitivity开启时生效")]
+    [SerializeField, Range(0f, 5f)]
+    private float mouseMixSensitivity = 1f;
 
     [Header("鼠标移动系数")]
-    [Tooltip("数值越大，视角速度越慢")]
-    [SerializeField]
+    [SerializeField, Tooltip("数值越大，视角速度越慢")]
     private float X_Mult = 25f;
 
-    [Tooltip("数值越大，视角速度越慢")]
-    [SerializeField]
+    [SerializeField, Tooltip("数值越大，视角速度越慢")]
     private float Y_Mult = 25f;
 
-    [SerializeField]
-    [ReadOnly]
+    [SerializeField, ReadOnly]
     private float _mouseX;
 
-    [SerializeField]
-    [ReadOnly]
+    [SerializeField, ReadOnly]
     private float _mouseY;
 
     [Header("FPS Settings")]
@@ -75,24 +72,19 @@ public class CameraController : SingleMonoBase<CameraController>
     private CinemachinePositionComposer t_framingTransposer;
     private CinemachinePanTilt t_camPOV;
 
-    [SerializeField]
-    [Range(0f, 10f)]
+    [SerializeField, Range(0f, 10f)]
     private float t_defaultCamDistance = 6f;
 
-    [SerializeField]
-    [Range(0f, 10f)]
+    [SerializeField, Range(0f, 10f)]
     private float t_maxCamDistance = 1f;
 
-    [SerializeField]
-    [Range(0f, 10f)]
+    [SerializeField, Range(0f, 10f)]
     private float t_minCamDistance = 6f;
 
-    [SerializeField]
-    [Range(0f, 10f)]
+    [SerializeField, Range(0f, 10f)]
     private float t_smooth_mult = 4f;
 
-    [SerializeField]
-    [Range(0f, 10f)]
+    [SerializeField, Range(0f, 10f)]
     private float t_zoomSensitivity = 1f;
     private float t_currentTargetDistance;
 
@@ -100,6 +92,7 @@ public class CameraController : SingleMonoBase<CameraController>
     LayerMask t_renderIgnore;
 
     private CinemachineBrain brain;
+    private Vector3 lastRawInput = new(0f, 0f, 0f);
 
     protected override void Awake()
     {
@@ -128,6 +121,8 @@ public class CameraController : SingleMonoBase<CameraController>
 
     public void ApplyInput(ref CameraInput inputs)
     {
+        transform.parent.rotation = CameraPosition.transform.rotation;
+
         // 读取鼠标移动数值
         if (isMixXYSensitivity)
         {
@@ -143,6 +138,11 @@ public class CameraController : SingleMonoBase<CameraController>
         // 读取控制表的摄像机状态
         if (currentCamState != inputs.activeCamState)
             UpdateCamState(inputs.activeCamState);
+
+        //// Get the reference frame for the input
+        //var rawInput = new Vector3(inputs.mouseX, 0, inputs.mouseY);
+        //var inputFrame = GetInputFrame(Vector3.Dot(rawInput, lastRawInput) < 0.8f);
+        //lastRawInput = rawInput;
 
         switch (currentCamState)
         {
@@ -197,6 +197,70 @@ public class CameraController : SingleMonoBase<CameraController>
         currentCamState = camState;
         OnCamStateChange?.Invoke(currentCamState);
     }
+
+    //// Get the reference frame for the input.  The idea is to map camera fwd/right
+    //// to the player's XZ plane.  There is some complexity here to avoid
+    //// gimbal lock when the player is tilted 180 degrees relative to the input frame.
+    //Quaternion GetInputFrame(bool inputDirectionChanged)
+    //{
+    //    // Get the raw input frame, depending of forward mode setting
+    //    var frame = Quaternion.identity;
+    //    frame = transform.rotation;
+
+    //    // Map the raw input frame to something that makes sense as a direction for the player
+    //    var playerUp = transform.up;
+    //    var up = frame * Vector3.up;
+
+    //    // Is the player in the top or bottom hemisphere?  This is needed to avoid gimbal lock,
+    //    // but only when the player is upside-down relative to the input frame.
+    //    const float BlendTime = 2f;
+    //    m_TimeInHemisphere += Time.deltaTime;
+    //    bool inTopHemisphere = Vector3.Dot(up, playerUp) >= 0;
+    //    if (inTopHemisphere != m_InTopHemisphere)
+    //    {
+    //        m_InTopHemisphere = inTopHemisphere;
+    //        m_TimeInHemisphere = Mathf.Max(0, BlendTime - m_TimeInHemisphere);
+    //    }
+
+    //    // If the player is untilted relative to the input frmae, then early-out with a simple LookRotation
+    //    var axis = Vector3.Cross(up, playerUp);
+    //    if (axis.sqrMagnitude < 0.001f && inTopHemisphere)
+    //        return frame;
+
+    //    // Player is tilted relative to input frame: tilt the input frame to match
+    //    var angle = UnityVectorExtensions.SignedAngle(up, playerUp, axis);
+    //    var frameA = Quaternion.AngleAxis(angle, axis) * frame;
+
+    //    // If the player is tilted, then we need to get tricky to avoid gimbal-lock
+    //    // when player is tilted 180 degrees.  There is no perfect solution for this,
+    //    // we need to cheat it :/
+    //    Quaternion frameB = frameA;
+    //    if (!inTopHemisphere || m_TimeInHemisphere < BlendTime)
+    //    {
+    //        // Compute an alternative reference frame for the bottom hemisphere.
+    //        // The two reference frames are incompatible where they meet, especially
+    //        // when player up is pointing along the X axis of camera frame. 
+    //        // There is no one reference frame that works for all player directions.
+    //        frameB = frame * m_Upsidedown;
+    //        var axisB = Vector3.Cross(frameB * Vector3.up, playerUp);
+    //        if (axisB.sqrMagnitude > 0.001f)
+    //            frameB = Quaternion.AngleAxis(180f - angle, axisB) * frameB;
+    //    }
+    //    // Blend timer force-expires when user changes input direction
+    //    if (inputDirectionChanged)
+    //        m_TimeInHemisphere = BlendTime;
+
+    //    // If we have been long enough in one hemisphere, then we can just use its reference frame
+    //    if (m_TimeInHemisphere >= BlendTime)
+    //        return inTopHemisphere ? frameA : frameB;
+
+    //    // Because frameA and frameB do not join seamlessly when player Up is along X axis,
+    //    // we blend them over a time in order to avoid degenerate spinning.
+    //    // This will produce weird movements occasionally, but it's the lesser of the evils.
+    //    if (inTopHemisphere)
+    //        return Quaternion.Slerp(frameB, frameA, m_TimeInHemisphere / BlendTime);
+    //    return Quaternion.Slerp(frameA, frameB, m_TimeInHemisphere / BlendTime);
+    //}
 
 #if UNITY_EDITOR
     [ContextMenu("同步FPS相机位置")]

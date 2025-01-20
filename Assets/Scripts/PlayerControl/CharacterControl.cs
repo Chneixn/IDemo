@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using KinematicCharacterController;
 using UnityEngine;
-using MState = CharacterMovementState;
 
-public enum CharacterMovementState
+public enum MovementState
 {
     Freeze,
     Idle,
@@ -39,11 +38,12 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     private PlayerBodyAnimation bodyAnimation;
 
     #region Public
+    public KinematicCharacterMotor Motor => motor;
     public Vector3 MoveDirection => _moveDirection;
     public Vector3 CurrentSpeed => currentVelocity;
     public bool IsStableGround => motor.GroundingStatus.IsStableOnGround;
     public bool IsAnyGround => motor.GroundingStatus.FoundAnyGround;
-    public MState CurrentMovementState => currentMovementState;
+    public MovementState CurrentMovementState => currentMovementState;
     #endregion
 
     [Header("相机绑定")]
@@ -59,13 +59,13 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     private bool camPosUpdateRequested = false;
 
     [Header("MovementState移动状态")]
-    [SerializeField, ReadOnly] private MState currentMovementState;
-    public Action<MState> OnMovementStateChanged;
+    [SerializeField, ReadOnly] private MovementState currentMovementState;
+    public Action<MovementState> OnMovementStateChanged;
 
     [Header("DirectionInfo方向信息")]
     [SerializeField, ReadOnly] private Quaternion _camRotation;
     [SerializeField, ReadOnly] private Vector3 _moveDirection;
-    [SerializeField, ReadOnly] private Vector3 _lookDirection;
+    [SerializeField, ReadOnly] private Vector3 _faceDirection;
     [SerializeField, ReadOnly] private Vector3 _moveDirectionInput;
 
     #region Setting
@@ -138,6 +138,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     #region Crouch
 
     [Header("CrouchSet下蹲")]
+    public Crouching crouching;
     [SerializeField] private float crouchSpeed = 2f; //下蹲后的移动速度
 
     [SerializeField] private float crouchTime = 0.8f; //下蹲动作完成时间
@@ -243,7 +244,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         public float height;
         public float yOffset;
     }
-    // 存储初始与下顿时的胶囊体数据
+    // 存储初始与下蹲时的胶囊体数据
     private CapsuleInfo initialCapusle;
     private CapsuleInfo crouchCapsule;
 
@@ -286,23 +287,23 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
         camPosCache = characterCamPos.localPosition.y;
         using_gravity = default_gravity;
-        currentMovementState = MState.Walking;
+        currentMovementState = MovementState.Walking;
     }
 
     private void Start()
     {
         airTimer = TimerManager.CreateTimer();
 
-        TransitionToState(MState.Idle);
+        TransitionToState(MovementState.Idle);
     }
 
     #region ChangeStateFSM
     /// <summary>
     /// 跳转下一个状态
     /// </summary>
-    public void TransitionToState(MState nextState)
+    public void TransitionToState(MovementState nextState)
     {
-        MState lastState = currentMovementState;
+        MovementState lastState = currentMovementState;
         OnStateExit(lastState, nextState);
         currentMovementState = nextState;
         OnStateEnter(nextState, lastState);
@@ -313,33 +314,33 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     /// <summary>
     /// 进入新状态前
     /// </summary>
-    public void OnStateEnter(MState nextState, MState lastState)
+    public void OnStateEnter(MovementState nextState, MovementState lastState)
     {
         switch (nextState)
         {
-            case MState.Freeze:
+            case MovementState.Freeze:
                 {
                     enableGravity = false;
                 }
                 break;
-            case MState.Idle:
+            case MovementState.Idle:
                 {
                     break;
                 }
-            case MState.Walking:
+            case MovementState.Walking:
                 break;
-            case MState.Running:
+            case MovementState.Running:
                 {
                     maxSpeed = runSpeed;
                 }
                 break;
-            case MState.Jumping:
+            case MovementState.Jumping:
                 {
                     _readyToCrouch = false;
                     _readyToJump = false;
                 }
                 break;
-            case MState.Crouching:
+            case MovementState.Crouching:
                 {
                     //状态更新
                     _readyToCrouch = false;
@@ -355,7 +356,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     camPosUpdateRequested = true;
                 }
                 break;
-            case MState.Sliding:
+            case MovementState.Sliding:
                 {
                     maxSpeed = slidingSpeed;
                     _allowToRun = false;
@@ -369,15 +370,15 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     camPosUpdateRequested = true;
                 }
                 break;
-            case MState.WallRunning:
+            case MovementState.WallRunning:
                 {
                     enableGravity = false;
                     wallRunEnter = true;
                     break;
                 }
-            case MState.Swimming:
+            case MovementState.Swimming:
                 break;
-            case MState.InAir:
+            case MovementState.InAir:
                 {
                     if (!airTimer.IsActive)
                     {
@@ -386,7 +387,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     }
                 }
                 break;
-            case MState.Fly:
+            case MovementState.Fly:
                 {
                     motor.SetCapsuleCollisionsActivation(false);
                     motor.SetMovementCollisionsSolvingActivation(false);
@@ -394,7 +395,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     break;
                 }
 
-            case MState.ClimbingLadder:
+            case MovementState.ClimbingLadder:
                 {
                     motor.SetMovementCollisionsSolvingActivation(false);
                     motor.SetGroundSolvingActivation(false);
@@ -408,27 +409,27 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     /// <summary>
     /// 退出状态前
     /// </summary>
-    public void OnStateExit(MState nowState, MState nextState)
+    public void OnStateExit(MovementState nowState, MovementState nextState)
     {
         switch (nowState)
         {
-            case MState.Freeze:
+            case MovementState.Freeze:
                 {
                     enableGravity = true;
                 }
                 break;
-            case MState.Walking:
+            case MovementState.Walking:
                 break;
-            case MState.Running:
+            case MovementState.Running:
                 break;
-            case MState.Jumping:
+            case MovementState.Jumping:
                 {
                     _readyToCrouch = true;
                 }
                 break;
-            case MState.Crouching:
+            case MovementState.Crouching:
                 {
-                    if (nextState == MState.Crouching)
+                    if (nextState == MovementState.Crouching)
                         return;
 
                     //恢复为初始胶囊体
@@ -438,7 +439,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     {
                         // //如果胶囊体有重叠碰撞，进入下蹲状态
                         // motor.SetCapsuleDimensions(crouchCapsule.radius, crouchCapsule.height, crouchCapsule.center.y);
-                        TransitionToState(MState.Crouching);
+                        TransitionToState(MovementState.Crouching);
                     }
                     else
                     {
@@ -451,7 +452,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     }
                 }
                 break;
-            case MState.Sliding:
+            case MovementState.Sliding:
                 {
                     _allowToRun = true;
                     _readyToSlide = true;
@@ -464,7 +465,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     {
                         // //如果胶囊体有重叠碰撞，恢复为下蹲时胶囊体，并进入下蹲状态
                         // motor.SetCapsuleDimensions(crouchCapsule.radius, crouchCapsule.height, crouchCapsule.center.y);
-                        TransitionToState(MState.Crouching);
+                        TransitionToState(MovementState.Crouching);
                     }
                     else
                     {
@@ -474,14 +475,14 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     }
                 }
                 break;
-            case MState.WallRunning:
+            case MovementState.WallRunning:
                 {
                     enableGravity = true;
                     break;
                 }
-            case MState.Swimming:
+            case MovementState.Swimming:
                 break;
-            case MState.InAir:
+            case MovementState.InAir:
                 {
                     if (airTimer.IsActive)
                     {
@@ -490,18 +491,18 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                 }
                 break;
 
-            case MState.Idle:
+            case MovementState.Idle:
                 {
                     break;
                 }
-            case MState.Fly:
+            case MovementState.Fly:
                 {
                     motor.SetCapsuleCollisionsActivation(true);
                     motor.SetMovementCollisionsSolvingActivation(true);
                     motor.SetGroundSolvingActivation(true);
                     break;
                 }
-            case MState.ClimbingLadder:
+            case MovementState.ClimbingLadder:
                 {
                     motor.SetMovementCollisionsSolvingActivation(true);
                     motor.SetGroundSolvingActivation(true);
@@ -513,14 +514,15 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     }
     #endregion
 
-    //public PlayerBaseState currentPlayerState;
-    //public void TransitionToState(PlayerBaseState newState)
-    //{
-    //    PlayerBaseState nowState = currentPlayerState; ;
-    //    currentPlayerState.OnStateExit(currentMovementState, nextState);
-    //    currentPlayerState = newState;
-    //    currentPlayerState.OnStateEnter(nextState, nowState);
-    //}
+    private IMovementState movementState;
+    public IMovementState NowMovementState => movementState;
+    public void ChangeMovementState(IMovementState newState)
+    {
+        var lastState = movementState.State;
+        newState.OnStateExit(newState.State);
+        movementState = newState;
+        newState.OnStateEnter(lastState);
+    }
     #endregion
 
     public void AfterCharacterUpdate(float deltaTime)
@@ -533,37 +535,39 @@ public class CharacterControl : MonoBehaviour, ICharacterController
             if (characterCamPos.localPosition.y == camTargetPos)
                 camPosUpdateRequested = false;
         }
+
+        movementState.AfterCharacterUpdate(deltaTime);
     }
 
-    public void BeforeCharacterUpdate(float deltaTime) { }
+    public void BeforeCharacterUpdate(float deltaTime)
+    {
+        movementState.BeforeCharacterUpdate(deltaTime);
+    }
 
     public bool IsColliderValidForCollisions(Collider coll)
     {
         //处理碰撞：在列表中的物体不计算物体碰撞
         if (IgnoredColliders.Contains(coll))
-        {
             return false;
-        }
+        if (!movementState.IsColliderValidForCollisions(coll))
+            return false;
+
         return true;
     }
 
-    public void OnDiscreteCollisionDetected(Collider hitCollider) { }
-
-    public void OnGroundHit(
-        Collider hitCollider,
-        Vector3 hitNormal,
-        Vector3 hitPoint,
-        ref HitStabilityReport hitStabilityReport
-    )
-    { }
-
-    public void OnMovementHit(
-        Collider hitCollider,
-        Vector3 hitNormal,
-        Vector3 hitPoint,
-        ref HitStabilityReport hitStabilityReport
-    )
+    public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
+        movementState.OnDiscreteCollisionDetected(hitCollider);
+    }
+
+    public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
+    {
+        movementState.OnGroundHit(hitCollider, hitNormal, hitPoint, ref hitStabilityReport);
+    }
+
+    public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
+    {
+        movementState.OnMovementHit(hitCollider, hitNormal, hitPoint, ref hitStabilityReport);
         //Debug.Log("OnMovementHit");
     }
 
@@ -583,7 +587,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     #region 落地和离地回调
     private void OnLanded()
     {
-        TransitionToState(MState.Idle);
+        TransitionToState(MovementState.Idle);
     }
 
     private void OnLeaveStableGround() { }
@@ -597,7 +601,9 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         Quaternion atCharacterRotation,
         ref HitStabilityReport hitStabilityReport
     )
-    { }
+    {
+        
+    }
 
     public void OnCameraUpdate(float deltaTime, Vector3 camForward)
     {
@@ -613,46 +619,11 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     /// <param name="deltaTime">当前KCC刷新时间，默认与fixedUpdate同步为0.02s</param>
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        switch (currentMovementState)
+        if (_faceDirection != Vector3.zero)
         {
-            case MState.Freeze:
-                break;
-            case MState.Idle:
-                {
-                    //角色旋转直接与摄像机看向的方向同步
-                    if (_lookDirection != Vector3.zero)
-                        currentRotation = Quaternion.LookRotation(_lookDirection, motor.CharacterUp);
-
-                    //考虑转向延迟
-                    //Vector3 reorientedDirection = _lookDirection;
-                    //Quaternion targetRotation = Quaternion.LookRotation(reorientedDirection, motor.CharacterUp);
-                    //currentRotation = Quaternion.Lerp(currentRotation, targetRotation, orientationSharpnes);
-                }
-                break;
-            case MState.Running:
-                goto case MState.Idle;
-            case MState.Jumping:
-                goto case MState.Idle;
-            case MState.Crouching:
-                goto case MState.Idle;
-            case MState.Sliding:
-                goto case MState.Idle;
-            case MState.WallRunning:
-                goto case MState.Idle;
-            case MState.InAir:
-                goto case MState.Idle;
-            case MState.Walking:
-                goto case MState.Idle;
-            case MState.Fly:
-                goto case MState.Idle;
-            case MState.Swimming:
-                break;
-            case MState.ClimbingLadder:
-                {
-                    break;
-                }
-            default:
-                break;
+            //Quaternion targetRotation = Quaternion.LookRotation(_faceDirection, motor.CharacterUp);
+            Quaternion retationDifference = Quaternion.FromToRotation(motor.CharacterForward, _faceDirection);
+            currentRotation = retationDifference * currentRotation;
         }
 
         if (_walkOnAnyGround)
@@ -664,7 +635,6 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
             Quaternion retationDifference = Quaternion.FromToRotation(motor.CharacterUp, -using_gravity);
             currentRotation = retationDifference * currentRotation;
-            //currentRotation = Quaternion.FromToRotation((currentRotation * Vector3.up), -gravity) * currentRotation;
         }
     }
 
@@ -680,40 +650,40 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
         switch (currentMovementState)
         {
-            case MState.Freeze:
+            case MovementState.Freeze:
                 {
                     // 停止速度，彻底冻结
                     currentVelocity = motor.CharacterForward * maxSpeed;
                     break;
                 }
-            case MState.Idle:
+            case MovementState.Idle:
                 {
-                    goto case MState.Running;
+                    goto case MovementState.Running;
                 }
-            case MState.Walking:
+            case MovementState.Walking:
                 {
-                    goto case MState.Running;
+                    goto case MovementState.Running;
                 }
-            case MState.Crouching:
+            case MovementState.Crouching:
                 {
-                    goto case MState.Running;
+                    goto case MovementState.Running;
                 }
-            case MState.Sliding:
+            case MovementState.Sliding:
                 {
                     //在滑铲持续时，锁定角色移动方向为滑铲开始时方向
                     _moveDirection = _directionCache;
 
                     // //禁止在上坡时滑铲滑铲
                     // if (currentVelocity.y > 0.1f)
-                    //     TransitionToState(MState.Idle);
+                    //     TransitionToState(MovementState.Idle);
 
                     // 角色与地面法线角度越小则降速越快
                     float angle = Vector3.Angle(motor.CharacterUp, motor.GroundingStatus.GroundNormal);
                     maxSpeed = Mathf.Lerp(slidingSpeed, crouchSpeed, deltaTime * (1 - angle * angle / 180f));
 
-                    goto case MState.Running;
+                    goto case MovementState.Running;
                 }
-            case MState.Running:
+            case MovementState.Running:
                 {
                     //获得上一次的速度的方向，GetDirectionTangentToSurface可以求出玩家移动向量相对于地表法线的切线
                     //motor.GroundingStatus.GroundNormal传出当前角色所在地面法线
@@ -742,11 +712,11 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
                     if (shouldUseGravity)
                     {
-                        TransitionToState(MState.InAir);
+                        TransitionToState(MovementState.InAir);
                     }
                 }
                 break;
-            case MState.Jumping:
+            case MovementState.Jumping:
                 {
                     //设置跳跃方向
                     jumpDirection = motor.CharacterUp;
@@ -773,10 +743,10 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                             _readyToJump = true;
                         }
                     );
-                    TransitionToState(MState.InAir);
+                    TransitionToState(MovementState.InAir);
                 }
                 break;
-            case MState.InAir:
+            case MovementState.InAir:
                 {
                     // 实现摆动时受限运动
                     if (sc.active)
@@ -795,7 +765,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     }
                 }
                 break;
-            case MState.WallRunning:
+            case MovementState.WallRunning:
                 {
                     // 获取在墙上奔跑时前进方向
                     Vector3 wallForward = Vector3.Cross(usingWallNormal, motor.CharacterUp).normalized;
@@ -820,9 +790,9 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                     currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, deltaTime * speedChangeTime);
                 }
                 break;
-            case MState.Swimming:
+            case MovementState.Swimming:
                 break;
-            case MState.Fly:
+            case MovementState.Fly:
                 {
                     targetMovementVelocity = _moveDirection * freeFlyCamSpeed;
                     currentVelocity = Vector3.Lerp(
@@ -833,7 +803,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
                     break;
                 }
-            case MState.ClimbingLadder:
+            case MovementState.ClimbingLadder:
                 {
                     shouldUseGravity = false;
                     currentVelocity = Vector3.zero;
@@ -876,7 +846,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         _moveDirectionInput = new Vector3(inputs.moveDirection.x, 0f, inputs.moveDirection.y);
 
         //玩家当前的视角在水平面投影的方向向量
-        _lookDirection = Vector3.ProjectOnPlane(inputs.lookDirection, motor.CharacterUp).normalized;
+        _faceDirection = Vector3.ProjectOnPlane(inputs.lookDirection, motor.CharacterUp).normalized;
 
         //已经在cam处限制向上看的角度，不会出现垂直
         //if (_lookDirection == Vector3.zero)  //正在向上看
@@ -885,76 +855,76 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         //}
 
         //玩家在自身视角坐标系下的移动向量
-        _moveDirection = Quaternion.LookRotation(_lookDirection) * _moveDirectionInput;
+        _moveDirection = Quaternion.LookRotation(_faceDirection) * _moveDirectionInput;
 
         #endregion
 
         switch (currentMovementState)
         {
-            case MState.Freeze:
+            case MovementState.Freeze:
                 {
                     maxSpeed = 0;
                 }
                 break;
-            case MState.Idle:
+            case MovementState.Idle:
                 {
                     maxSpeed = 0f;
 
                     if (_moveDirection.sqrMagnitude > 0.01f) // Walk
                     {
-                        TransitionToState(MState.Walking);
+                        TransitionToState(MovementState.Walking);
                     }
                     else if (inputs.tryCrouch && IsStableGround && _readyToCrouch) // Crouch
                     {
-                        TransitionToState(MState.Crouching);
+                        TransitionToState(MovementState.Crouching);
                     }
                     else if (inputs.tryJump && _readyToJump && IsAnyGround) // Jump
                     {
-                        TransitionToState(MState.Jumping);
+                        TransitionToState(MovementState.Jumping);
                     }
                     else if (inputs.tryFly)
                     {
-                        TransitionToState(MState.Fly);
+                        TransitionToState(MovementState.Fly);
                     }
                 }
                 break;
-            case MState.Walking:
+            case MovementState.Walking:
                 {
                     maxSpeed = walkSpeed;
 
                     if (_moveDirection == Vector3.zero)
                     {
-                        TransitionToState(MState.Idle);
+                        TransitionToState(MovementState.Idle);
                     }
                     else if (inputs.tryRun && _allowToRun && inputs.moveDirection.y > 0.1f)
                     {
-                        TransitionToState(MState.Running);
+                        TransitionToState(MovementState.Running);
                     }
                     else if (inputs.tryCrouch && IsStableGround && _readyToCrouch)
                     {
-                        TransitionToState(MState.Crouching);
+                        TransitionToState(MovementState.Crouching);
                     }
                     else if (inputs.tryJump && _readyToJump && IsAnyGround)
                     {
-                        TransitionToState(MState.Jumping);
+                        TransitionToState(MovementState.Jumping);
                     }
                     else if (inputs.tryFly)
                     {
-                        TransitionToState(MState.Fly);
+                        TransitionToState(MovementState.Fly);
                     }
                 }
                 break;
-            case MState.Running:
+            case MovementState.Running:
                 {
                     maxSpeed = runSpeed;
 
                     if (_moveDirection == Vector3.zero)
                     {
-                        TransitionToState(MState.Idle);
+                        TransitionToState(MovementState.Idle);
                     }
                     //else if (inputs.moveDirection.y < -0.1f)
                     //{
-                    //    TransitionToState(MState.Walking);
+                    //    TransitionToState(MovementState.Walking);
                     //}
                     else if (inputs.tryCrouch && IsStableGround)
                     {
@@ -962,65 +932,65 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                         {
                             //缓存滑铲开始时方向向量
                             _directionCache = _moveDirection;
-                            TransitionToState(MState.Sliding);
+                            TransitionToState(MovementState.Sliding);
                         }
                         else if (_readyToCrouch)
                         {
-                            TransitionToState(MState.Crouching);
+                            TransitionToState(MovementState.Crouching);
                         }
                     }
                     else if (inputs.tryJump && _readyToJump && IsAnyGround)
                     {
-                        TransitionToState(MState.Jumping);
+                        TransitionToState(MovementState.Jumping);
                     }
                     else if (inputs.tryFly)
                     {
-                        TransitionToState(MState.Fly);
+                        TransitionToState(MovementState.Fly);
                     }
                 }
                 break;
-            case MState.Jumping:
+            case MovementState.Jumping:
                 // 过渡状态
                 break;
-            case MState.Crouching:
+            case MovementState.Crouching:
                 {
                     maxSpeed = crouchSpeed;
 
                     if (!inputs.tryCrouch)
                     {
                         if (_moveDirection == Vector3.zero)
-                            TransitionToState(MState.Idle);
+                            TransitionToState(MovementState.Idle);
                         else
-                            TransitionToState(MState.Walking);
+                            TransitionToState(MovementState.Walking);
                     }
                 }
                 break;
-            case MState.Sliding:
+            case MovementState.Sliding:
                 {
                     if (_moveDirection == Vector3.zero)
                     {
-                        TransitionToState(MState.Idle);
+                        TransitionToState(MovementState.Idle);
                     }
                     // else if (maxSpeed <= crouchSpeed)
                     // {
-                    //     TransitionToState(MState.Crouching);
+                    //     TransitionToState(MovementState.Crouching);
                     // }
                     else if (!inputs.tryCrouch && maxSpeed <= runSpeed)
                     {
                         if (inputs.tryRun)
-                            TransitionToState(MState.Running);
+                            TransitionToState(MovementState.Running);
                         else
-                            TransitionToState(MState.Walking);
+                            TransitionToState(MovementState.Walking);
                     }
                     else if (inputs.tryJump && _readyToJump && IsAnyGround)
                     {
-                        TransitionToState(MState.Jumping);
+                        TransitionToState(MovementState.Jumping);
                     }
                 }
                 break;
-            case MState.Swimming:
+            case MovementState.Swimming:
                 break;
-            case MState.InAir:
+            case MovementState.InAir:
                 {
                     if (_moveDirection.sqrMagnitude > 0.01f && enableWallRun)
                     {
@@ -1030,17 +1000,17 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                             // 当移动方向与检测到的允许墙跑的墙法线反向夹角小于60°时，认为想要墙跑
                             if (Vector3.Angle(_moveDirection, -GetWallNormal(detcetPos)) < 60f)
                             {
-                                TransitionToState(MState.WallRunning);
+                                TransitionToState(MovementState.WallRunning);
                             }
                         }
                     }
                     else if (inputs.tryFly)
                     {
-                        TransitionToState(MState.Fly);
+                        TransitionToState(MovementState.Fly);
                     }
                 }
                 break;
-            case MState.WallRunning:
+            case MovementState.WallRunning:
                 {
                     if (_moveDirection.sqrMagnitude > 0.01f)
                     {
@@ -1049,7 +1019,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                         {
                             // 增加一个相对于墙反向的瞬时速度
                             InternalVelocity = GetWallNormal(detcetPos) * jumpSpeed;
-                            TransitionToState(MState.Jumping);
+                            TransitionToState(MovementState.Jumping);
                         }
                         else if (CheckForWall(detcetPos, motor.CharacterRight)
                             && Vector3.Angle(_moveDirection, -GetWallNormal(detcetPos)) < 60f)
@@ -1058,28 +1028,28 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
                         }
                         // 没有墙壁可供使用
-                        else TransitionToState(MState.InAir);
+                        else TransitionToState(MovementState.InAir);
                     }
-                    else TransitionToState(MState.InAir);
+                    else TransitionToState(MovementState.InAir);
                 }
                 break;
-            case MState.Fly:
+            case MovementState.Fly:
                 {
                     // 移动方向与玩家视角方向相同
                     _moveDirection = inputs.lookDirection + _moveDirectionInput;
                     if (!inputs.tryFly)
                     {
-                        TransitionToState(MState.Walking);
+                        TransitionToState(MovementState.Walking);
                     }
                 }
                 break;
-            case MState.ClimbingLadder:
+            case MovementState.ClimbingLadder:
                 {
                     _moveDirection = new(0f, _moveDirectionInput.x, 0f);
 
                     if (inputs.tryJump && _readyToJump)
                     {
-                        TransitionToState(MState.Jumping);
+                        TransitionToState(MovementState.Jumping);
                     }
                 }
                 break;
@@ -1104,7 +1074,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
                 new(ladderBottomPos.position.x, transform.position.y, ladderBottomPos.position.z)
             );
             _readyToClimb = false;
-            TransitionToState(MState.ClimbingLadder);
+            TransitionToState(MovementState.ClimbingLadder);
             return true;
         }
         return false;

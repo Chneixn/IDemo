@@ -1,5 +1,4 @@
 using System;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Knife : MonoBehaviour
@@ -28,13 +27,13 @@ public class Knife : MonoBehaviour
     private Vector3 centerPoint = new(0.5f, 0.5f, 0f);
     private bool activated = false;
 
-    public void ActivateWeapon(Camera cam, AudioSource audioSource)
+    public void ActivateWeapon(Camera cam)
     {
         if (activated) return;
         activated = true;
         this.cam = cam;
-        weaponAudio = GetComponent<WeaponAudio>();
-        weaponAudio.Init(audioSource);
+        if (weaponAudio != null)
+            weaponAudio = GetComponent<WeaponAudio>();
     }
 
     public void Attack(float damage)
@@ -55,15 +54,6 @@ public class Knife : MonoBehaviour
         }
 
     }
-
-    //public void PlaySound(AudioSource audioSource)
-    //{
-    //    if (attackedSound != null)
-    //    {
-    //        audioSource.clip = attackedSound;
-    //        audioSource.Play();
-    //    }
-    //}
 
     private void SpawnDecal(RaycastHit hit)
     {

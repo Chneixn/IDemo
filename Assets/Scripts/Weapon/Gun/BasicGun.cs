@@ -1,6 +1,5 @@
 using UnityEngine;
 using InventorySystem;
-using UnityEngine.Rendering.UI;
 
 // TODO:已关闭动画系统
 
@@ -13,6 +12,7 @@ public enum GunFireMode
 
 // 子弹扩散
 // 使用库存系统的子弹
+[RequireComponent(typeof(WeaponAnimation), typeof(WeaponAudio))]
 public class BaseGun : MonoBehaviour, IWeapon
 {
     public GunSetting set;
@@ -61,36 +61,32 @@ public class BaseGun : MonoBehaviour, IWeapon
 
 
     /// <summary>
-    /// 首次启用武器
+    /// 武器初始化
     /// </summary>
     /// <param name="cam"></param>
-    /// <param name="audioSource"></param>
-    public void ActivateWeapon(Camera cam, AudioSource audioSource)
+    public void ActivateWeapon(Camera cam)
     {
-        if (set == null)
-        {
-            Debug.LogWarning(gameObject.name + "没有武器设置！");
-            return;
-        }
-
         if (activated) return;
         activated = true;
 
         //初始化枪械状态
         this.cam = cam;
-        weaponAudio = GetComponent<WeaponAudio>();
-        weaponAudio.Init(audioSource);
         hitInfo ??= new RaycastHit[set.maxLockCount];
-
         fireTimer = TimerManager.CreateTimer();
-        //if (gunAnimation == null) Debug.LogError("Missing animation script!");
 
+        // 检查GunSet
+        if (set == null) Debug.LogError("没有武器设置！", gameObject);
         currentFireMod = set.defaultFireMod;
         timeBetweenShoot = set.RPM / 3600f;
-        if (set.isShotgun && set.isTraceableBullet) Debug.LogError("霰弹枪功能不能与追踪子弹共用！");
+        if (set.isShotgun && set.isTraceableBullet) Debug.LogWarning("霰弹枪功能不能与追踪子弹共用！", gameObject);
 
+        // 检查音频组件
+        if (TryGetComponent<WeaponAudio>(out var audio))
+            weaponAudio = audio;
+        else Debug.LogError("Audio not found!");
+
+        // 检查库存组件
         if (GameManager.Instance.PlayerInventory.PrimaryInventorySystem == null) Debug.LogError("Can't find player's inventory!");
-        //Debug.Log("gun active!");
     }
 
     public void EnableWeapon()
@@ -334,7 +330,7 @@ public class BaseGun : MonoBehaviour, IWeapon
         readyToShoot = false;
         bool isEmpty = currentBulletsCount == 0;
 
-        // 换蛋计时器
+        // 换子弹计时器
         if (reloadTimer != null)
             reloadTimer.StartTiming(set.reloadTime, repeateTime: 1, onCompleted: ReloadFinished, onUpdate: OnReloading);
         else

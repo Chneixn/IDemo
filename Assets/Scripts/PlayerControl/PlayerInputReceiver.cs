@@ -12,12 +12,12 @@ public class PlayerInputReceiver : UnityInputReceiver
 
     private CameraController playerCam;
     private CharacterControl characterControl;
+    private Interactor interactor;
     private SkillHolder skillHolder;
     private WeaponHolder weaponHolder;
 
     private PlayerCharacterInput characterInputs;
     private CameraInput cameraInput;
-    private Interactor interactor;
     private InteractionInput interactionInput;
     private SkillInput skillInput;
     private WeaponInput weaponInput;
@@ -27,7 +27,6 @@ public class PlayerInputReceiver : UnityInputReceiver
         // 初始化所有输入接口表，所有受控制的脚本从接口表读取布尔值
         characterInputs = new();
         cameraInput = new();
-        interactor = new();
         interactionInput = new();
         skillInput = new();
         weaponInput = new();
@@ -40,10 +39,9 @@ public class PlayerInputReceiver : UnityInputReceiver
         if (m == null) Debug.LogError("Missing GameManager!");
         playerCam = m.PlayerCam;
         characterControl = m.CharacterControl;
+        interactor = m.Interactor;
         skillHolder = m.SkillHolder;
         weaponHolder = m.WeaponHolder;
-
-        interactor.Init(playerCam);
     }
 
     public override void SetActionMap(SourceInput sourceInput)

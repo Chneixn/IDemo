@@ -37,7 +37,6 @@ public enum WeaponType
 public class WeaponHolder : MonoBehaviour
 {
     [Header("Weapons")]
-    private AudioSource audioSource;
     public List<GameObject> weapons = new();
     public WeaponType CurrentWeaponType { get; private set; }
 
@@ -58,9 +57,7 @@ public class WeaponHolder : MonoBehaviour
     private void Awake()
     {
         mainCam = transform.parent.GetComponent<Camera>();
-        audioSource = GetComponent<AudioSource>();
         if (mainCam == null) Debug.Log("cam missing");
-        if (audioSource == null) Debug.Log("audio missing");
     }
 
     void Start()
@@ -159,7 +156,7 @@ public class WeaponHolder : MonoBehaviour
             CurrentWeaponType = WeaponType.Gun;
             currentGun = gun;
             currentWeapon = gun;
-            currentGun.ActivateWeapon(mainCam, audioSource);
+            currentGun.ActivateWeapon(mainCam);
         }
         else if (weapons[currentWeaponIndex].TryGetComponent(out Knife knife))
         {
