@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using BehaviourTreesSystem;
 using UnityEditor.Callbacks;
 
 // TODO: item 建立分类，添加过滤器，分类显示物品

@@ -12,6 +12,8 @@ public class SettingShowOnInspector : Editor
     {
         // Update the serializedProperty - always do this in the beginning of OnInspectorGUI.
         serializedObject.Update();
+        base.OnInspectorGUI();
+        GUILayout.Space(8);
 
         GunSetting set = ((BaseGun)target).set;
         if (set != null)
@@ -20,12 +22,8 @@ public class SettingShowOnInspector : Editor
             {
                 settingEditor = Editor.CreateEditor(set);
             }
-            
             settingEditor.OnInspectorGUI();
         }
-        GUILayout.Space(8);
-        base.OnInspectorGUI();
-
     }
 }
 

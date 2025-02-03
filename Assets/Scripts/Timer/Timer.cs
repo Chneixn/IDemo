@@ -80,7 +80,7 @@ public class Timer
         get { return isEnd; }
     }
 
-    private float timeNow   //当前系统时刻
+    private float TimeNow   //当前系统时刻
     {
         get { return isIgnoreTimeScale ? Time.realtimeSinceStartup : Time.time; }
     }
@@ -120,7 +120,7 @@ public class Timer
         this.onCompleted = onCompleted;
         this.onUpdate = onUpdate;
 
-        timeStart = timeNow;
+        timeStart = TimeNow;
         isEnd = false;
     }
 
@@ -153,7 +153,7 @@ public class Timer
 
     public void UpdateTimer()
     {
-        now = timeNow - offsetTime - timeStart;
+        now = TimeNow - offsetTime - timeStart;
         downNow = timeTarget - now;
 
         onUpdate?.Invoke(isDownTimer ? downNow : now);
@@ -210,7 +210,7 @@ public class Timer
         if (isTimerActive)
         {
             isTimerActive = false;
-            _pauseTime = timeNow;
+            _pauseTime = TimeNow;
         }
 
         return now;
@@ -223,7 +223,7 @@ public class Timer
     {
         if (!isTimerActive && !isEnd)
         {
-            offsetTime += (timeNow - _pauseTime);
+            offsetTime += (TimeNow - _pauseTime);
             isTimerActive = true;
         }
     }
@@ -233,7 +233,7 @@ public class Timer
     /// </summary>
     public void ReStartTimer()
     {
-        timeStart = timeNow;
+        timeStart = TimeNow;
         offsetTime = 0;
     }
 
@@ -244,6 +244,6 @@ public class Timer
     public void ChangeTargetTime(float newTarget)
     {
         timeTarget = newTarget;
-        timeStart = timeNow;
+        timeStart = TimeNow;
     }
 }

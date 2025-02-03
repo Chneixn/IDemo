@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInput_0",
+    "name": "TestPlayerInput",
     "maps": [
         {
             "name": "CharacterControl",

@@ -23,7 +23,6 @@ public class GameManager : SingleMonoBase<GameManager>
     public CharacterControl CharacterControl;
     public CameraController PlayerCam;
     public Interactor Interactor;
-    public SkillHolder SkillHolder;
     public WeaponHolder WeaponHolder;
     public PlayerInputReceiver PlayerInput;
     public CharacterCustomization CharacterCustomization;
@@ -46,7 +45,7 @@ public class GameManager : SingleMonoBase<GameManager>
         // demo mode
         inputManager.Push(PlayerInput);
         CharacterCustomization.ChangeModelVisibility(PlayerCam.CurrentCamState);
-        PlayerInventory.AddToInventory(ItemDatabase.GetItem(1), 100);
+        PlayerInventory.AddToInventory(ItemDatabase.GetItem(1), 50);
     }
 
     void Update()

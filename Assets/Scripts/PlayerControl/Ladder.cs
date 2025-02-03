@@ -18,11 +18,11 @@ public class Ladder : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        if ((GameManager.Instance.CharacterControl.transform.position - transform.position).magnitude <= allowInteractDistance)
-        {
-            interactSuccessful = GameManager.Instance.PlayerInput.StartClimbLabber(ladderBottomPos, ladderHeight);
-            return;
-        }
+        //if ((GameManager.Instance.CharacterControl.transform.position - transform.position).magnitude <= allowInteractDistance)
+        //{
+
+        //    return false;
+        //}
 
         interactSuccessful = false;
     }

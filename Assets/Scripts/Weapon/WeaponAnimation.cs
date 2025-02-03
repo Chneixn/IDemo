@@ -5,12 +5,19 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class WeaponAnimation : MonoBehaviour
 {
-    private Animator animator;
+    public BaseGun Gun;
+    protected Animator animator;
 
-    
-
-    public void Start()
+    public virtual void Start()
     {
-        animator = GetComponent<Animator>();
+        if (Gun == null)
+        {
+            gameObject.TryGetComponent(out Gun);
+        }
+
+        if (animator == null)
+        {
+            gameObject.GetComponent<Animator>();
+        }
     }
 }

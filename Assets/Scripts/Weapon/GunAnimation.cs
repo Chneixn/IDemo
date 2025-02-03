@@ -1,46 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class GunAnimation : MonoBehaviour, IGunAnimation
+public class GunAnimation : MonoBehaviour
 {
-    private Animator m_Animator;
+    protected Animator animator;
+    protected BaseGun Gun;
 
-    /// <summary>
-    /// 开火动画
-    /// </summary>
-    public void HandleShootingAnimation()
+    public virtual void Start()
     {
-
-    }
-
-    public void AimAnimationStart()
-    {
-        m_Animator.SetBool("Aiming", true);
-        m_Animator.CrossFadeInFixedTime("ADS_Anim", 0.3f);
-    }
-
-    public void AimAnimationEnd()
-    {
-        m_Animator.SetBool("Aiming", false);
-        m_Animator.CrossFadeInFixedTime("Idle_Anim", 0.3f);
-    }
-
-    public void ReloadAnimationEnd()
-    {
-
-    }
-
-    public void ReloadAnimationStart(bool isEmpty)
-    {
-        if (!isEmpty)
+        if (Gun == null)
         {
-            m_Animator.CrossFadeInFixedTime("Reload_Anim", 0.01f);
+            if (gameObject.TryGetComponent(out BaseGun Gun))
+            {
+                this.Gun = Gun;
+            }
         }
-        else
+
+        if (animator == null)
         {
-            m_Animator.CrossFadeInFixedTime("Reload_Empty_Anim", 0.01f);
+            if (gameObject.TryGetComponent(out Animator animator))
+            {
+                this.animator = animator;
+            }
         }
     }
 
@@ -59,21 +41,4 @@ public class GunAnimation : MonoBehaviour, IGunAnimation
     //    }
     //    else animator.SetFloat("Reload_Mult", 1f);
     //}
-
-    public void ShootingAnimationEnd()
-    {
-
-    }
-
-    public void ShootingAnimationStart(bool aimState)
-    {
-        if (aimState)
-        {
-            m_Animator.CrossFadeInFixedTime("ADS_Fire_Anim", 0.01f);
-        }
-        else
-        {
-            m_Animator.CrossFadeInFixedTime("Fire_Anim", 0.01f);
-        }
-    }
 }

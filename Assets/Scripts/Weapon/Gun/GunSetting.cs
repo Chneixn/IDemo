@@ -8,18 +8,8 @@ using InventorySystem;
 [CreateAssetMenu(menuName = "Weapon/Create new GunSetting", fileName = "New_GunSetting")]
 public class GunSetting : ScriptableObject
 {
-    [Header("Gun Setting")]
-    [Header("锁定模式")]
-    public bool lockMode;
-    public float lockRange;
-    public float lockRadius;
-    public bool multilock;
-    public int maxLockCount;
-    public LayerMask lockableLayer;
-
     [Header("Gun Parameter枪械参数")]
     public float weaponDamage;          //枪械伤害
-
     public bool isShotgun;
 
     [Tooltip("每分钟射速Revolutions per minute")]
@@ -31,6 +21,7 @@ public class GunSetting : ScriptableObject
     public float spreadMult;            // 扩散系数
     public float spreadMultWithAim;     // 瞄准时扩散系数
 
+    public bool autoReloadWhenEmpty;
     public float reloadTime;            // 弹匣填装时间
     public float reloadEmptyTime;       // 空仓后弹匣填装时间
     public int defaultMagazineSize;     // 弹匣容量
@@ -58,11 +49,4 @@ public class GunSetting : ScriptableObject
 
     [Tooltip("是否为追踪子弹(不可与霰弹枪功能同用)")]
     public bool isTraceableBullet;
-
-    [Header("GunVFX视觉效果")]
-    public ParticleSystem muzzleFlash;      //枪口火焰 （粒子效果）
-    public Light muzzleFlashLight;          //枪口火焰灯光
-    public ParticleSystem casingParticle;   //弹壳抛出 （粒子效果）
-    public GameObject bulletHole;           // 弹痕
-
 }

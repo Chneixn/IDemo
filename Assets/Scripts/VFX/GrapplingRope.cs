@@ -5,7 +5,7 @@ using UnityEngine;
 public class GrapplingRope
 {
     [Header("Setting")]
-    private GrabbingAbility grabber;
+    private Grabbing grabber;
     public int quality = 500;
     public float damper = 14f;
     public float strength = 800f;
@@ -19,7 +19,7 @@ public class GrapplingRope
     private readonly LineRenderer swing_lr;
     private Vector3 currentGrapplePosition;
 
-    public GrapplingRope(GrabbingAbility grabber, LineRenderer rope_lr, LineRenderer swing_lr, AnimationCurve affectCurve)
+    public GrapplingRope(Grabbing grabber, LineRenderer rope_lr, LineRenderer swing_lr, AnimationCurve affectCurve)
     {
         spring.SetTarget(0);
         this.rope_lr = rope_lr;

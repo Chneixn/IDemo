@@ -4,10 +4,10 @@ using UnityEngine;
 
 public interface IGunAnimation
 {
-    void AimAnimationStart();
-    void AimAnimationEnd();
-    void ShootingAnimationStart(bool aimState);
-    void ShootingAnimationEnd();
-    void ReloadAnimationStart(bool isEmpty);
-    void ReloadAnimationEnd();
+    void AimStart();
+    void AimEnd();
+    void ShotStart(bool aimState);
+    void ShotEnd(bool isEmpty);
+    void ReloadStart(bool isEmpty);
+    void ReloadEnd();
 }

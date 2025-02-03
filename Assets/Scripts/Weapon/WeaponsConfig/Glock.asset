@@ -12,14 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be35c2c3657f2849a1696d2924fda4d, type: 3}
   m_Name: Glock
   m_EditorClassIdentifier: 
-  lockMode: 0
-  lockRange: 0
-  lockRadius: 0
-  multilock: 0
-  maxLockCount: 0
-  lockableLayer:
-    serializedVersion: 2
-    m_Bits: 0
   weaponDamage: 22
   isShotgun: 0
   RPM: 462
@@ -27,6 +19,7 @@ MonoBehaviour:
   spread: 0
   spreadMult: 0
   spreadMultWithAim: 0
+  autoReloadWhenEmpty: 1
   reloadTime: 3
   reloadEmptyTime: 3
   defaultMagazineSize: 30
@@ -41,7 +34,3 @@ MonoBehaviour:
   needInstantiate: 0
   shootVelocity: 400
   isTraceableBullet: 0
-  muzzleFlash: {fileID: 1549025601735044338, guid: c0c07d70f94cff243a21e67fca22a615, type: 3}
-  muzzleFlashLight: {fileID: 0}
-  casingParticle: {fileID: 0}
-  bulletHole: {fileID: 0}

@@ -27,7 +27,7 @@ public class PlayerFootstepLisener : MonoBehaviour
     {
         float audioDelay = 0f;
 
-        var state = characterControl.CurrentMovementState;
+        //var state = characterControl.CurrentMovementState;
 
 
         if (!enableFootstep) return;

@@ -10,16 +10,18 @@ public class PlayerInputReceiver : UnityInputReceiver
     [SerializeField] private bool holdToRun = false;
     [SerializeField] private bool allowFly = false;
 
+    [Header("武器控制")]
+    [SerializeField] private bool holdToAim = false;
+
     private CameraController playerCam;
     private CharacterControl characterControl;
     private Interactor interactor;
-    private SkillHolder skillHolder;
     private WeaponHolder weaponHolder;
 
+    [SerializeField]
     private PlayerCharacterInput characterInputs;
     private CameraInput cameraInput;
     private InteractionInput interactionInput;
-    private SkillInput skillInput;
     private WeaponInput weaponInput;
 
     private void Awake()
@@ -28,7 +30,6 @@ public class PlayerInputReceiver : UnityInputReceiver
         characterInputs = new();
         cameraInput = new();
         interactionInput = new();
-        skillInput = new();
         weaponInput = new();
     }
 
@@ -40,7 +41,6 @@ public class PlayerInputReceiver : UnityInputReceiver
         playerCam = m.PlayerCam;
         characterControl = m.CharacterControl;
         interactor = m.Interactor;
-        skillHolder = m.SkillHolder;
         weaponHolder = m.WeaponHolder;
     }
 
@@ -66,7 +66,6 @@ public class PlayerInputReceiver : UnityInputReceiver
         PrassThroughChararcterInput();
         PrassThroughWeaponInput();
         PrassThroughInteractionInput();
-        PrassThroughSkillInput();
     }
 
     public override void OnLateUpdate()
@@ -94,7 +93,6 @@ public class PlayerInputReceiver : UnityInputReceiver
         characterInputs.moveDirection = input.Movement.ReadValue<Vector2>();
         characterInputs.lookDirection = playerCam.transform.forward;
 
-        #region Jump
         if (holdToJump)
         {
             characterInputs.tryJump = input.Jump.IsPressed();
@@ -103,9 +101,7 @@ public class PlayerInputReceiver : UnityInputReceiver
         {
             characterInputs.tryJump = input.Jump.triggered;
         }
-        #endregion
 
-        #region Run
         if (holdToRun)
         {
             characterInputs.tryRun = input.Run.IsPressed();
@@ -114,9 +110,7 @@ public class PlayerInputReceiver : UnityInputReceiver
         {
             characterInputs.tryRun = !characterInputs.tryRun;
         }
-        #endregion
 
-        #region Crouch
         if (holdToCrouch)
         {
             characterInputs.tryCrouch = input.Crouch.IsPressed();
@@ -125,18 +119,14 @@ public class PlayerInputReceiver : UnityInputReceiver
         {
             characterInputs.tryCrouch = !characterInputs.tryCrouch;
         }
-        #endregion
 
-        if (allowFly)
-        {
-            if (input.Fly.triggered)
-                characterInputs.tryFly = !characterInputs.tryFly;
-        }
+        if (input.Fly.triggered)
+            characterInputs.tryFly = !characterInputs.tryFly;
 
         //闪避
         characterInputs.tryDodge = input.Dodge.triggered;
 
-        characterControl.ApplyInput(ref characterInputs);
+        characterControl.HandleInput(ref characterInputs);
     }
 
     /// <summary>
@@ -170,16 +160,6 @@ public class PlayerInputReceiver : UnityInputReceiver
         interactor.ApplyInput(ref interactionInput);
     }
 
-    /// <summary>
-    /// 传入技能控制
-    /// </summary>
-    private void PrassThroughSkillInput()
-    {
-        skillInput.tryUseAbility = userInput.GetKey("UseAbility");
-        skillInput.tryEndAbliity = userInput.GetKeyUp("UseAbility");
-        skillHolder.ApplyInput(ref skillInput);
-    }
-
     private void PrassThroughWeaponInput()
     {
         var input = userInput.SourceInput.WeaponInput;
@@ -190,15 +170,15 @@ public class PlayerInputReceiver : UnityInputReceiver
         weaponInput.quick4 = input.QuickUse_4.triggered;
         weaponInput.switchWeapon = input.SwitchLastWeapon.triggered;
         weaponInput.fire = input.Fire.triggered;
-        weaponInput.aim = input.Aim.triggered;
+
+        if (holdToAim)
+            weaponInput.aim = input.Aim.IsPressed();
+        else if (input.Aim.triggered)
+            weaponInput.aim = !weaponInput.aim;
+
         weaponInput.reload = input.Reload.triggered;
         weaponInput.switchFireMod = input.FireModeSwitch.triggered;
         weaponHolder.ApplyInput(ref weaponInput);
     }
     #endregion
-
-    public bool StartClimbLabber(Transform pos, float height)
-    {
-        return characterControl.StartClimbLabber(pos, height);
-    }
 }
