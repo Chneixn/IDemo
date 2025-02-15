@@ -318,7 +318,7 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ff6675dd-f5f5-4499-b1e7-2f674660afc9"",
-                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",

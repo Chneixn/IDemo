@@ -90,41 +90,42 @@ public class PlayerInputReceiver : UnityInputReceiver
     private void PrassThroughChararcterInput()
     {
         var input = userInput.SourceInput.PlayerInput;
-        characterInputs.moveDirection = input.Movement.ReadValue<Vector2>();
-        characterInputs.lookDirection = playerCam.transform.forward;
+        characterInputs.MoveDirection = input.Movement.ReadValue<Vector2>();
+        characterInputs.LookDirection = playerCam.transform.forward;
+        characterInputs.CamRotation = playerCam.transform.rotation;
 
         if (holdToJump)
         {
-            characterInputs.tryJump = input.Jump.IsPressed();
+            characterInputs.TryJump = input.Jump.inProgress;
         }
         else
         {
-            characterInputs.tryJump = input.Jump.triggered;
+            characterInputs.TryJump = input.Jump.triggered;
         }
 
         if (holdToRun)
         {
-            characterInputs.tryRun = input.Run.IsPressed();
+            characterInputs.TryRun = input.Run.inProgress;
         }
         else if (input.Run.triggered)
         {
-            characterInputs.tryRun = !characterInputs.tryRun;
+            characterInputs.TryRun = !characterInputs.TryRun;
         }
 
         if (holdToCrouch)
         {
-            characterInputs.tryCrouch = input.Crouch.IsPressed();
+            characterInputs.TryCrouch = input.Crouch.inProgress;
         }
         else if (input.Crouch.triggered)
         {
-            characterInputs.tryCrouch = !characterInputs.tryCrouch;
+            characterInputs.TryCrouch = !characterInputs.TryCrouch;
         }
 
         if (input.Fly.triggered)
-            characterInputs.tryFly = !characterInputs.tryFly;
+            characterInputs.TryFly = !characterInputs.TryFly;
 
         //闪避
-        characterInputs.tryDodge = input.Dodge.triggered;
+        characterInputs.TryDodge = input.Dodge.triggered;
 
         characterControl.HandleInput(ref characterInputs);
     }
@@ -139,14 +140,9 @@ public class PlayerInputReceiver : UnityInputReceiver
         cameraInput.mouseX = input.Look.ReadValue<Vector2>().x;
         cameraInput.mouseY = input.Look.ReadValue<Vector2>().y;
         cameraInput.zoomValue = input.Zoom.ReadValue<float>();
-
-        if (input.SwitchCamState.triggered)
-        {
-            cameraInput.activeCamState = cameraInput.activeCamState == CamState.FPS ? CamState.TPS : CamState.FPS;
-        }
+        cameraInput.switchCamState = input.SwitchCamState.triggered;
 
         playerCam.ApplyInput(ref cameraInput);
-        //characterControl.OnCameraUpdate(Time.deltaTime, playerCam.transform.forward);
     }
 
     /// <summary>

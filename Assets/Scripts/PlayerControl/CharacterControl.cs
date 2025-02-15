@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using KinematicCharacterController;
 using UnityEngine;
 
+public enum ForwardModes { Camera, Player, World };
+
 public struct PlayerCharacterInput
 {
-    public Vector2 moveDirection;
-    public Vector3 lookDirection;
-    public bool tryRun;
-    public bool tryDodge;
-    public bool tryJump;
-    public bool tryCrouch;
-    public bool tryFly;
+    public Vector2 MoveDirection;
+    public Quaternion CamRotation;
+    public Vector3 LookDirection;
+    public ForwardModes inputForward;
+    public bool TryRun;
+    public bool TryDodge;
+    public bool TryJump;
+    public bool TryCrouch;
+    public bool TryFly;
 }
 
 public class CharacterControl : MonoBehaviour, ICharacterController
@@ -39,6 +43,17 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     [ReadOnly] public Vector3 MoveDirection;
     [ReadOnly] public Vector3 FaceDirection;
     [ReadOnly] public Vector3 MoveDirectionInput;
+
+    // These are part of a strategy to combat input gimbal lock when controlling a player
+    // that can move freely on surfaces that go upside-down relative to the camera.
+    // This is only used in the specific situation where the character is upside-down relative to the input frame,
+    // and the input directives become ambiguous.
+    // If the camera and input frame are travelling along with the player, then these are not used.
+    private ForwardModes inputForward;
+    bool m_InTopHemisphere = true;
+    float m_TimeInHemisphere = 100;
+    Vector3 m_LastRawInput;
+    Quaternion m_Upsidedown = Quaternion.AngleAxis(180, Vector3.left);
 
     #region Setting
     private IMovementState CurrentMovementState;
@@ -274,26 +289,115 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     {
         /// 处理移动向量与视角向量处理
         // 玩家输入的世界坐标下移动向量
-        MoveDirectionInput = new Vector3(inputs.moveDirection.x, 0f, inputs.moveDirection.y);
+        MoveDirectionInput = new Vector3(inputs.MoveDirection.x, 0f, inputs.MoveDirection.y);
 
         // 玩家当前的视角在水平面投影的方向向量
-        FaceDirection = Vector3.ProjectOnPlane(inputs.lookDirection, Motor.CharacterUp);
+        FaceDirection = Vector3.ProjectOnPlane(inputs.LookDirection, Motor.CharacterUp);
 
         // 已经在cam处限制向上看的角度，不会出现垂直
         if (FaceDirection == Vector3.zero)  //正在向上看
         {
-            FaceDirection = new Vector3(inputs.lookDirection.x, inputs.lookDirection.z, -inputs.lookDirection.y).normalized;
+            FaceDirection = new Vector3(inputs.LookDirection.x, inputs.LookDirection.z, -inputs.LookDirection.y).normalized;
         }
+
+        CamRotation = inputs.CamRotation;
 
         //玩家在自身视角坐标系下的移动向量
         MoveDirection = Quaternion.LookRotation(FaceDirection) * MoveDirectionInput;
 
-        if (inputs.tryFly && fly.allowFly)
+        if (inputs.TryFly && fly.allowFly)
         {
             ChangeMovementState(fly);
         }
 
         CurrentMovementState.HandleStateChange(ref inputs);
+    }
+
+    // Get the reference frame for the input.  The idea is to map camera fwd/right
+    // to the player's XZ plane.  There is some complexity here to avoid
+    // gimbal lock when the player is tilted 180 degrees relative to the input frame.
+    Quaternion GetInputFrame(bool inputDirectionChanged)
+    {
+        // Get the raw input frame, depending of forward mode setting
+        var frame = Quaternion.identity;
+        switch (inputForward)
+        {
+            case ForwardModes.Camera: frame = CamRotation; break;
+            case ForwardModes.Player: return transform.rotation;
+            case ForwardModes.World: break;
+        }
+
+        // Map the raw input frame to something that makes sense as a direction for the player
+        var playerUp = Motor.CharacterUp;
+        var up = frame * Vector3.up;
+
+        // Is the player in the top or bottom hemisphere?  This is needed to avoid gimbal lock,
+        // but only when the player is upside-down relative to the input frame.
+        const float BlendTime = 2f;
+        m_TimeInHemisphere += Time.deltaTime;
+        bool inTopHemisphere = Vector3.Dot(up, playerUp) >= 0;
+        if (inTopHemisphere != m_InTopHemisphere)
+        {
+            m_InTopHemisphere = inTopHemisphere;
+            m_TimeInHemisphere = Mathf.Max(0, BlendTime - m_TimeInHemisphere);
+        }
+
+        // If the player is untilted relative to the input frmae, then early-out with a simple LookRotation
+        var axis = Vector3.Cross(up, playerUp);
+        if (axis.sqrMagnitude < 0.001f && inTopHemisphere)
+            return frame;
+
+        // Player is tilted relative to input frame: tilt the input frame to match
+        var angle = SignedAngle(up, playerUp, axis);
+        var frameA = Quaternion.AngleAxis(angle, axis) * frame;
+
+        // If the player is tilted, then we need to get tricky to avoid gimbal-lock
+        // when player is tilted 180 degrees.  There is no perfect solution for this,
+        // we need to cheat it :/
+        Quaternion frameB = frameA;
+        if (!inTopHemisphere || m_TimeInHemisphere < BlendTime)
+        {
+            // Compute an alternative reference frame for the bottom hemisphere.
+            // The two reference frames are incompatible where they meet, especially
+            // when player up is pointing along the X axis of camera frame. 
+            // There is no one reference frame that works for all player directions.
+            frameB = frame * m_Upsidedown;
+            var axisB = Vector3.Cross(frameB * Vector3.up, playerUp);
+            if (axisB.sqrMagnitude > 0.001f)
+                frameB = Quaternion.AngleAxis(180f - angle, axisB) * frameB;
+        }
+        // Blend timer force-expires when user changes input direction
+        if (inputDirectionChanged)
+            m_TimeInHemisphere = BlendTime;
+
+        // If we have been long enough in one hemisphere, then we can just use its reference frame
+        if (m_TimeInHemisphere >= BlendTime)
+            return inTopHemisphere ? frameA : frameB;
+
+        // Because frameA and frameB do not join seamlessly when player Up is along X axis,
+        // we blend them over a time in order to avoid degenerate spinning.
+        // This will produce weird movements occasionally, but it's the lesser of the evils.
+        if (inTopHemisphere)
+            return Quaternion.Slerp(frameB, frameA, m_TimeInHemisphere / BlendTime);
+        return Quaternion.Slerp(frameA, frameB, m_TimeInHemisphere / BlendTime);
+    }
+
+    public static float SignedAngle(Vector3 v1, Vector3 v2, Vector3 up)
+    {
+        float num = Angle(v1, v2);
+        if (Mathf.Sign(Vector3.Dot(up, Vector3.Cross(v1, v2))) < 0f)
+        {
+            return 0f - num;
+        }
+
+        return num;
+    }
+
+    public static float Angle(Vector3 v1, Vector3 v2)
+    {
+        v1.Normalize();
+        v2.Normalize();
+        return Mathf.Atan2((v1 - v2).magnitude, (v1 + v2).magnitude) * 57.29578f * 2f;
     }
 
     #endregion

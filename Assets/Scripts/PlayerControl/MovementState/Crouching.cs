@@ -27,7 +27,7 @@ public class Crouching : IMovementState
 
     public override void HandleStateChange(ref PlayerCharacterInput inputs)
     {
-        if (!inputs.tryCrouch)
+        if (!inputs.TryCrouch)
         {
             if (DebugCrouch) Debug.Log("尝试取消下蹲");
             // 恢复为初始胶囊体,检测是否有碰撞体重叠,若有则不结束下蹲

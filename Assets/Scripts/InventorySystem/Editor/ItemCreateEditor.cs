@@ -71,8 +71,9 @@ public class ItemCreateEditor : EditorWindow
 
         if (autoID.value == true) database.SetItemIDs();
 
-        itemData.name = $"[{itemData.ID}]";
+        itemData.name = $"[{itemData.ID}]{itemData.displayName}";
 
+        EditorUtility.SetDirty(database);
         AssetDatabase.SaveAssets();
         editor.OnRefresh();
 

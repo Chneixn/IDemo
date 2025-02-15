@@ -1,0 +1,5065 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00668fd727de9bb4081a8a202ce24c3b, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier: 
+  globalData:
+    showActiveToggles: 1
+    activeSwiping: 1
+    swipeSameState: 1
+    swipeSelectionOnly: 1
+    depthMode: 0
+    tagLayerLayout: 0
+    showTags: 0
+    showLayers: 1
+    applyChildLayers: 1
+    showAllComponents: 1
+    showBreadcrumbs: 1
+    instanceBreadcrumbs:
+      show: 1
+      color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      style: 0
+      displayHorizontal: 1
+    fullDepthBreadcrumbs:
+      show: 1
+      color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      style: 0
+      displayHorizontal: 0
+  styleData:
+    displayTags: 1
+    displayLayers: 1
+    displayIcons: 1
+    styles:
+    - prefix: =
+      noSpaceAfterPrefix: 0
+      name: Header (Centered)
+      font: {fileID: 0}
+      fontSize: 11
+      fontAlignment: 4
+      fontStyle: 1
+      textFormatting: 0
+      modes:
+      - fontColour: {r: 0.1764706, g: 0.1764706, b: 0.1764706, a: 1}
+        backgroundColour: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+      - fontColour: {r: 1, g: 1, b: 1, a: 1}
+        backgroundColour: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
+      style:
+        m_Name: Header (Centered)
+        m_Normal:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+        m_Hover:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Active:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Focused:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnNormal:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnHover:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnActive:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnFocused:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Border:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Margin:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Padding:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Overflow:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Font: {fileID: 0}
+        m_FontSize: 11
+        m_FontStyle: 1
+        m_Alignment: 4
+        m_WordWrap: 0
+        m_RichText: 1
+        m_TextClipping: 0
+        m_ImagePosition: 0
+        m_ContentOffset: {x: 0, y: 0}
+        m_FixedWidth: 0
+        m_FixedHeight: 0
+        m_StretchWidth: 1
+        m_StretchHeight: 0
+    - prefix: '-'
+      noSpaceAfterPrefix: 0
+      name: Subheader
+      font: {fileID: 0}
+      fontSize: 10
+      fontAlignment: 3
+      fontStyle: 1
+      textFormatting: 0
+      modes:
+      - fontColour: {r: 0.245283, g: 0.245283, b: 0.245283, a: 1}
+        backgroundColour: {r: 0.7960785, g: 0.7960785, b: 0.7960785, a: 1}
+      - fontColour: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
+        backgroundColour: {r: 0.2352941, g: 0.2352941, b: 0.2352941, a: 1}
+      style:
+        m_Name: Subheader
+        m_Normal:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
+        m_Hover:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Active:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Focused:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnNormal:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnHover:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnActive:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnFocused:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Border:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Margin:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Padding:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Overflow:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Font: {fileID: 0}
+        m_FontSize: 10
+        m_FontStyle: 1
+        m_Alignment: 3
+        m_WordWrap: 0
+        m_RichText: 1
+        m_TextClipping: 0
+        m_ImagePosition: 0
+        m_ContentOffset: {x: 0, y: 0}
+        m_FixedWidth: 0
+        m_FixedHeight: 0
+        m_StretchWidth: 1
+        m_StretchHeight: 0
+    - prefix: +
+      noSpaceAfterPrefix: 0
+      name: Mini Header (Centered)
+      font: {fileID: 0}
+      fontSize: 10
+      fontAlignment: 4
+      fontStyle: 1
+      textFormatting: 0
+      modes:
+      - fontColour: {r: 1, g: 1, b: 1, a: 1}
+        backgroundColour: {r: 0.38568, g: 0.6335747, b: 0.764151, a: 1}
+      - fontColour: {r: 1, g: 1, b: 1, a: 1}
+        backgroundColour: {r: 0.2671325, g: 0.4473481, b: 0.6509434, a: 1}
+      style:
+        m_Name: Mini Header (Centered)
+        m_Normal:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+        m_Hover:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Active:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Focused:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnNormal:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnHover:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnActive:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_OnFocused:
+          m_Background: {fileID: 0}
+          m_ScaledBackgrounds: []
+          m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+        m_Border:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Margin:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Padding:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Overflow:
+          m_Left: 0
+          m_Right: 0
+          m_Top: 0
+          m_Bottom: 0
+        m_Font: {fileID: 0}
+        m_FontSize: 10
+        m_FontStyle: 1
+        m_Alignment: 4
+        m_WordWrap: 0
+        m_RichText: 1
+        m_TextClipping: 0
+        m_ImagePosition: 0
+        m_ContentOffset: {x: 0, y: 0}
+        m_FixedWidth: 0
+        m_FixedHeight: 0
+        m_StretchWidth: 1
+        m_StretchHeight: 0
+    twoToneBackground: 1
+    lightMode:
+      colorOne: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+      colorTwo: {r: 0.765, g: 0.765, b: 0.765, a: 1}
+    darkMode:
+      colorOne: {r: 0.245, g: 0.245, b: 0.245, a: 1}
+      colorTwo: {r: 0.225, g: 0.225, b: 0.225, a: 1}
+  components:
+    enableIcons: 1
+    showMissingScriptWarning: 1
+    showAll: 3
+    stackDuplicateIcons: 1
+    unityGroups:
+    - name: General
+      components:
+      - displayName: AddExceptionHandler
+        name: AddressableAssets.DocExampleCode.AddExceptionHandler, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AddExceptionHandler
+          m_Image: {fileID: 0}
+          m_Tooltip: AddExceptionHandler
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ArticulationBody
+        name: UnityEngine.ArticulationBody, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ArticulationBody
+          m_Image: {fileID: 4173395557176138114, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ArticulationBody
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AsynchronousLoading
+        name: AddressableAssets.DocExampleCode.AsynchronousLoading, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AsynchronousLoading
+          m_Image: {fileID: 0}
+          m_Tooltip: AsynchronousLoading
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Camera
+        name: UnityEngine.Camera, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Camera
+          m_Image: {fileID: 7226769568068977144, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Camera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CameraSwitcher
+        name: UnityEngine.Rendering.CameraSwitcher, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CameraSwitcher
+          m_Image: {fileID: 0}
+          m_Tooltip: CameraSwitcher
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CharacterController
+        name: UnityEngine.CharacterController, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CharacterController
+          m_Image: {fileID: 1265989506976873869, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CharacterController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Cinemachine3rdPersonFollow
+        name: Unity.Cinemachine.Cinemachine3rdPersonFollow, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Cinemachine3rdPersonFollow
+          m_Image: {fileID: 0}
+          m_Tooltip: Cinemachine3rdPersonFollow
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineAutoFocus
+        name: Unity.Cinemachine.CinemachineAutoFocus, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineAutoFocus
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineAutoFocus
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineBasicMultiChannelPerlin
+        name: Unity.Cinemachine.CinemachineBasicMultiChannelPerlin, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineBasicMultiChannelPerlin
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineBasicMultiChannelPerlin
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineBrain
+        name: Unity.Cinemachine.CinemachineBrain, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineBrain
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineBrain
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineBrainEvents
+        name: Unity.Cinemachine.CinemachineBrainEvents, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineBrainEvents
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineBrainEvents
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineCamera
+        name: Unity.Cinemachine.CinemachineCamera, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineCamera
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineCameraEvents
+        name: Unity.Cinemachine.CinemachineCameraEvents, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineCameraEvents
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineCameraEvents
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineCameraManagerEvents
+        name: Unity.Cinemachine.CinemachineCameraManagerEvents, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineCameraManagerEvents
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineCameraManagerEvents
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineCameraOffset
+        name: Unity.Cinemachine.CinemachineCameraOffset, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineCameraOffset
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineCameraOffset
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineClearShot
+        name: Unity.Cinemachine.CinemachineClearShot, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineClearShot
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineClearShot
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineCollisionImpulseSource
+        name: Unity.Cinemachine.CinemachineCollisionImpulseSource, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineCollisionImpulseSource
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineCollisionImpulseSource
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineComposer
+        name: Unity.Cinemachine.CinemachineComposer, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineComposer
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineComposer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineConfiner
+        name: Unity.Cinemachine.CinemachineConfiner, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineConfiner
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineConfiner
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineConfiner3D
+        name: Unity.Cinemachine.CinemachineConfiner3D, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineConfiner3D
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineConfiner3D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineDecollider
+        name: Unity.Cinemachine.CinemachineDecollider, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineDecollider
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineDecollider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineDeoccluder
+        name: Unity.Cinemachine.CinemachineDeoccluder, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineDeoccluder
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineDeoccluder
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineDollyCart
+        name: Unity.Cinemachine.CinemachineDollyCart, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineDollyCart
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineDollyCart
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineDoNotUpgrade
+        name: Unity.Cinemachine.CinemachineDoNotUpgrade, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineDoNotUpgrade
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineDoNotUpgrade
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineExternalCamera
+        name: Unity.Cinemachine.CinemachineExternalCamera, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineExternalCamera
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineExternalCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineExternalImpulseListener
+        name: Unity.Cinemachine.CinemachineExternalImpulseListener, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineExternalImpulseListener
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineExternalImpulseListener
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineFollow
+        name: Unity.Cinemachine.CinemachineFollow, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineFollow
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineFollow
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineFollowZoom
+        name: Unity.Cinemachine.CinemachineFollowZoom, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineFollowZoom
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineFollowZoom
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineFramingTransposer
+        name: Unity.Cinemachine.CinemachineFramingTransposer, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineFramingTransposer
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineFramingTransposer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineFreeLook
+        name: Unity.Cinemachine.CinemachineFreeLook, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineFreeLook
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineFreeLook
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineFreeLookModifier
+        name: Unity.Cinemachine.CinemachineFreeLookModifier, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineFreeLookModifier
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineFreeLookModifier
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineGroupComposer
+        name: Unity.Cinemachine.CinemachineGroupComposer, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineGroupComposer
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineGroupComposer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineGroupFraming
+        name: Unity.Cinemachine.CinemachineGroupFraming, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineGroupFraming
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineGroupFraming
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineHardLockToTarget
+        name: Unity.Cinemachine.CinemachineHardLockToTarget, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineHardLockToTarget
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineHardLockToTarget
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineHardLookAt
+        name: Unity.Cinemachine.CinemachineHardLookAt, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineHardLookAt
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineHardLookAt
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineImpulseListener
+        name: Unity.Cinemachine.CinemachineImpulseListener, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineImpulseListener
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineImpulseListener
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineImpulseSource
+        name: Unity.Cinemachine.CinemachineImpulseSource, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineImpulseSource
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineImpulseSource
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineInputAxisController
+        name: Unity.Cinemachine.CinemachineInputAxisController, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineInputAxisController
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineInputAxisController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineInputProvider
+        name: Unity.Cinemachine.CinemachineInputProvider, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineInputProvider
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineInputProvider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineLegacyCameraEvents
+        name: Unity.Cinemachine.CinemachineLegacyCameraEvents, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineLegacyCameraEvents
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineLegacyCameraEvents
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineMixingCamera
+        name: Unity.Cinemachine.CinemachineMixingCamera, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineMixingCamera
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineMixingCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineOrbitalFollow
+        name: Unity.Cinemachine.CinemachineOrbitalFollow, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineOrbitalFollow
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineOrbitalFollow
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineOrbitalTransposer
+        name: Unity.Cinemachine.CinemachineOrbitalTransposer, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineOrbitalTransposer
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineOrbitalTransposer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachinePanTilt
+        name: Unity.Cinemachine.CinemachinePanTilt, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachinePanTilt
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachinePanTilt
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachinePath
+        name: Unity.Cinemachine.CinemachinePath, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachinePath
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachinePath
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachinePipeline
+        name: Unity.Cinemachine.CinemachinePipeline, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachinePipeline
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachinePipeline
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachinePixelPerfect
+        name: Unity.Cinemachine.CinemachinePixelPerfect, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachinePixelPerfect
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachinePixelPerfect
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachinePositionComposer
+        name: Unity.Cinemachine.CinemachinePositionComposer, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachinePositionComposer
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachinePositionComposer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachinePostProcessing
+        name: Unity.Cinemachine.CinemachinePostProcessing, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachinePostProcessing
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachinePostProcessing
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachinePOV
+        name: Unity.Cinemachine.CinemachinePOV, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachinePOV
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachinePOV
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineRecomposer
+        name: Unity.Cinemachine.CinemachineRecomposer, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineRecomposer
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineRecomposer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineRotateWithFollowTarget
+        name: Unity.Cinemachine.CinemachineRotateWithFollowTarget, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineRotateWithFollowTarget
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineRotateWithFollowTarget
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineRotationComposer
+        name: Unity.Cinemachine.CinemachineRotationComposer, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineRotationComposer
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineRotationComposer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineSameAsFollowTarget
+        name: Unity.Cinemachine.CinemachineSameAsFollowTarget, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineSameAsFollowTarget
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineSameAsFollowTarget
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineSequencerCamera
+        name: Unity.Cinemachine.CinemachineSequencerCamera, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineSequencerCamera
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineSequencerCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineShotQualityEvaluator
+        name: Unity.Cinemachine.CinemachineShotQualityEvaluator, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineShotQualityEvaluator
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineShotQualityEvaluator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineSmoothPath
+        name: Unity.Cinemachine.CinemachineSmoothPath, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineSmoothPath
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineSmoothPath
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineSplineCart
+        name: Unity.Cinemachine.CinemachineSplineCart, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineSplineCart
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineSplineCart
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineSplineDolly
+        name: Unity.Cinemachine.CinemachineSplineDolly, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineSplineDolly
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineSplineDolly
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineSplineDollyLookAtTargets
+        name: Unity.Cinemachine.CinemachineSplineDollyLookAtTargets, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineSplineDollyLookAtTargets
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineSplineDollyLookAtTargets
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineSplineRoll
+        name: Unity.Cinemachine.CinemachineSplineRoll, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineSplineRoll
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineSplineRoll
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineSplineSmoother
+        name: Unity.Cinemachine.CinemachineSplineSmoother, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineSplineSmoother
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineSplineSmoother
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineStateDrivenCamera
+        name: Unity.Cinemachine.CinemachineStateDrivenCamera, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineStateDrivenCamera
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineStateDrivenCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineStoryboard
+        name: Unity.Cinemachine.CinemachineStoryboard, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineStoryboard
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineStoryboard
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineTargetGroup
+        name: Unity.Cinemachine.CinemachineTargetGroup, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineTargetGroup
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineTargetGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineThirdPersonAim
+        name: Unity.Cinemachine.CinemachineThirdPersonAim, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineThirdPersonAim
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineThirdPersonAim
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineThirdPersonFollow
+        name: Unity.Cinemachine.CinemachineThirdPersonFollow, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineThirdPersonFollow
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineThirdPersonFollow
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineTouchInputMapper
+        name: Unity.Cinemachine.CinemachineTouchInputMapper, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineTouchInputMapper
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineTouchInputMapper
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineTrackedDolly
+        name: Unity.Cinemachine.CinemachineTrackedDolly, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineTrackedDolly
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineTrackedDolly
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineTransposer
+        name: Unity.Cinemachine.CinemachineTransposer, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineTransposer
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineTransposer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineTriggerAction
+        name: Unity.Cinemachine.CinemachineTriggerAction, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineTriggerAction
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineTriggerAction
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineUniversalPixelPerfect
+        name: UnityEngine.Rendering.Universal.CinemachineUniversalPixelPerfect, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineUniversalPixelPerfect
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineUniversalPixelPerfect
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineVirtualCamera
+        name: Unity.Cinemachine.CinemachineVirtualCamera, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineVirtualCamera
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineVirtualCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineVolumeSettings
+        name: Unity.Cinemachine.CinemachineVolumeSettings, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineVolumeSettings
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineVolumeSettings
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Cloth
+        name: UnityEngine.Cloth, UnityEngine.ClothModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Cloth
+          m_Image: {fileID: -4589857841803046298, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Cloth
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ConstantForce
+        name: UnityEngine.ConstantForce, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ConstantForce
+          m_Image: {fileID: -3622910732158155974, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ConstantForce
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CustomPlayableGraphEvaluator
+        name: DocCodeExamples.CustomPlayableGraphEvaluator, Unity.Animation.Rigging.DocCodeExamples,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CustomPlayableGraphEvaluator
+          m_Image: {fileID: 0}
+          m_Tooltip: CustomPlayableGraphEvaluator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CustomRigBuilderEvaluator
+        name: DocCodeExamples.CustomRigBuilderEvaluator, Unity.Animation.Rigging.DocCodeExamples,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CustomRigBuilderEvaluator
+          m_Image: {fileID: 0}
+          m_Tooltip: CustomRigBuilderEvaluator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerBitField
+        name: UnityEngine.Rendering.UI.DebugUIHandlerBitField, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerBitField
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerBitField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerButton
+        name: UnityEngine.Rendering.UI.DebugUIHandlerButton, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerButton
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerButton
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerColor
+        name: UnityEngine.Rendering.UI.DebugUIHandlerColor, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerColor
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerColor
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerContainer
+        name: UnityEngine.Rendering.UI.DebugUIHandlerContainer, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerContainer
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerContainer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerEnumField
+        name: UnityEngine.Rendering.UI.DebugUIHandlerEnumField, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerEnumField
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerEnumField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerEnumHistory
+        name: UnityEngine.Rendering.UI.DebugUIHandlerEnumHistory, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerEnumHistory
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerEnumHistory
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerFloatField
+        name: UnityEngine.Rendering.UI.DebugUIHandlerFloatField, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerFloatField
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerFloatField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerFoldout
+        name: UnityEngine.Rendering.UI.DebugUIHandlerFoldout, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerFoldout
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerFoldout
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerGroup
+        name: UnityEngine.Rendering.UI.DebugUIHandlerGroup, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerGroup
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerHBox
+        name: UnityEngine.Rendering.UI.DebugUIHandlerHBox, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerHBox
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerHBox
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerIndirectFloatField
+        name: UnityEngine.Rendering.UI.DebugUIHandlerIndirectFloatField, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerIndirectFloatField
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerIndirectFloatField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerIndirectToggle
+        name: UnityEngine.Rendering.UI.DebugUIHandlerIndirectToggle, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerIndirectToggle
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerIndirectToggle
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerIntField
+        name: UnityEngine.Rendering.UI.DebugUIHandlerIntField, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerIntField
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerIntField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerMessageBox
+        name: UnityEngine.Rendering.UI.DebugUIHandlerMessageBox, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerMessageBox
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerMessageBox
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerObject
+        name: UnityEngine.Rendering.UI.DebugUIHandlerObject, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerObject
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerObject
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerObjectList
+        name: UnityEngine.Rendering.UI.DebugUIHandlerObjectList, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerObjectList
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerObjectList
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerObjectPopupField
+        name: UnityEngine.Rendering.UI.DebugUIHandlerObjectPopupField, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerObjectPopupField
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerObjectPopupField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerPanel
+        name: UnityEngine.Rendering.UI.DebugUIHandlerPanel, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerPanel
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerPanel
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerProgressBar
+        name: UnityEngine.Rendering.UI.DebugUIHandlerProgressBar, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerProgressBar
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerProgressBar
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerRow
+        name: UnityEngine.Rendering.UI.DebugUIHandlerRow, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerRow
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerRow
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerToggle
+        name: UnityEngine.Rendering.UI.DebugUIHandlerToggle, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerToggle
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerToggle
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerToggleHistory
+        name: UnityEngine.Rendering.UI.DebugUIHandlerToggleHistory, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerToggleHistory
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerToggleHistory
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerUIntField
+        name: UnityEngine.Rendering.UI.DebugUIHandlerUIntField, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerUIntField
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerUIntField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerValue
+        name: UnityEngine.Rendering.UI.DebugUIHandlerValue, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerValue
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerValue
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerValueTuple
+        name: UnityEngine.Rendering.UI.DebugUIHandlerValueTuple, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerValueTuple
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerValueTuple
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerVBox
+        name: UnityEngine.Rendering.UI.DebugUIHandlerVBox, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerVBox
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerVBox
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerVector2
+        name: UnityEngine.Rendering.UI.DebugUIHandlerVector2, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerVector2
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerVector2
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerVector3
+        name: UnityEngine.Rendering.UI.DebugUIHandlerVector3, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerVector3
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerVector3
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerVector4
+        name: UnityEngine.Rendering.UI.DebugUIHandlerVector4, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerVector4
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerVector4
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerWidget
+        name: UnityEngine.Rendering.UI.DebugUIHandlerWidget, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerWidget
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerWidget
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUpdater
+        name: UnityEngine.Rendering.DebugUpdater, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUpdater
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUpdater
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DecalProjector
+        name: UnityEngine.Rendering.Universal.DecalProjector, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DecalProjector
+          m_Image: {fileID: 0}
+          m_Tooltip: DecalProjector
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DeclaringReferences
+        name: AddressableAssets.DocExampleCode.DeclaringReferences, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DeclaringReferences
+          m_Image: {fileID: 0}
+          m_Tooltip: DeclaringReferences
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DelayedActionManager
+        name: UnityEngine.ResourceManagement.Util.DelayedActionManager, Unity.ResourceManager,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DelayedActionManager
+          m_Image: {fileID: 0}
+          m_Tooltip: DelayedActionManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DiagnosticEventCollector
+        name: UnityEngine.ResourceManagement.Diagnostics.DiagnosticEventCollector,
+          Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DiagnosticEventCollector
+          m_Image: {fileID: 0}
+          m_Tooltip: DiagnosticEventCollector
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DiagnosticEventCollectorSingleton
+        name: UnityEngine.ResourceManagement.Diagnostics.DiagnosticEventCollectorSingleton,
+          Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DiagnosticEventCollectorSingleton
+          m_Image: {fileID: 0}
+          m_Tooltip: DiagnosticEventCollectorSingleton
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DropdownItem
+        name: UnityEngine.UI.Dropdown+DropdownItem, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DropdownItem
+          m_Image: {fileID: 0}
+          m_Tooltip: DropdownItem
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DropdownItem
+        name: TMPro.TMP_Dropdown+DropdownItem, Unity.TextMeshPro, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DropdownItem
+          m_Image: {fileID: 0}
+          m_Tooltip: DropdownItem
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: EventTrigger
+        name: UnityEngine.EventSystems.EventTrigger, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: EventTrigger
+          m_Image: {fileID: 4845907150990230842, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: EventTrigger
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: FlareLayer
+        name: UnityEngine.FlareLayer, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: FlareLayer
+          m_Image: {fileID: 553123917656048335, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: FlareLayer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: FreeCamera
+        name: UnityEngine.Rendering.FreeCamera, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: FreeCamera
+          m_Image: {fileID: 0}
+          m_Tooltip: FreeCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: GameViewEventCatcher
+        name: UnityEngine.Rendering.MousePositionDebug+GameViewEventCatcher, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: GameViewEventCatcher
+          m_Image: {fileID: 0}
+          m_Tooltip: GameViewEventCatcher
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Grid
+        name: UnityEngine.Grid, UnityEngine.GridModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Grid
+          m_Image: {fileID: 2925954276054455316, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Grid
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: GridLayout
+        name: UnityEngine.GridLayout, UnityEngine.GridModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: GridLayout
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: GridLayout
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: GroupWeightManipulator
+        name: Unity.Cinemachine.GroupWeightManipulator, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: GroupWeightManipulator
+          m_Image: {fileID: 0}
+          m_Tooltip: GroupWeightManipulator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Halo
+        name: UnityEngine.Halo, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Halo
+          m_Image: {fileID: -8865706849611605747, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Halo
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: HandleDownloadError
+        name: AddressableAssets.DocExampleCode.HandleDownloadError, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: HandleDownloadError
+          m_Image: {fileID: 0}
+          m_Tooltip: HandleDownloadError
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: InstantiateFromKey
+        name: AddressableAssets.DocExampleCode.InstantiateFromKey, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: InstantiateFromKey
+          m_Image: {fileID: 0}
+          m_Tooltip: InstantiateFromKey
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: InstantiateReference
+        name: AddressableAssets.DocExampleCode.InstantiateReference, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: InstantiateReference
+          m_Image: {fileID: 0}
+          m_Tooltip: InstantiateReference
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LensFlare
+        name: UnityEngine.LensFlare, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: LensFlare
+          m_Image: {fileID: 7794051059240042548, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: LensFlare
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LensFlareComponentSRP
+        name: UnityEngine.Rendering.LensFlareComponentSRP, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LensFlareComponentSRP
+          m_Image: {fileID: 0}
+          m_Tooltip: LensFlareComponentSRP
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Light
+        name: UnityEngine.Light, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Light
+          m_Image: {fileID: 1992151432481503067, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Light
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LightAnchor
+        name: UnityEngine.LightAnchor, Unity.RenderPipelines.Core.Runtime, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LightAnchor
+          m_Image: {fileID: 0}
+          m_Tooltip: LightAnchor
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LightProbeGroup
+        name: UnityEngine.LightProbeGroup, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LightProbeGroup
+          m_Image: {fileID: 5291011532517828589, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: LightProbeGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LightProbeProxyVolume
+        name: UnityEngine.LightProbeProxyVolume, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LightProbeProxyVolume
+          m_Image: {fileID: 2525626458380159087, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: LightProbeProxyVolume
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadAddress
+        name: AddressableAssets.DocExampleCode.LoadAddress, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadAddress
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadAddress
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadFromReference
+        name: AddressableAssets.DocExampleCode.LoadFromReference, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadFromReference
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadFromReference
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadMultiple
+        name: AddressableAssets.DocExampleCode.LoadMultiple, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadMultiple
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadMultiple
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadSceneByAddress
+        name: AddressableAssets.DocExampleCode.LoadSceneByAddress, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadSceneByAddress
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadSceneByAddress
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadSynchronously
+        name: AddressableAssets.DocExampleCode.LoadSynchronously, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadSynchronously
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadSynchronously
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadWithAddress
+        name: AddressableAssets.DocExampleCode.LoadWithAddress, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadWithAddress
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadWithAddress
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadWithEvent
+        name: AddressableAssets.DocExampleCode.LoadWithEvent, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadWithEvent
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadWithEvent
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadWithIEnumerator
+        name: AddressableAssets.DocExampleCode.LoadWithIEnumerator, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadWithIEnumerator
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadWithIEnumerator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadWithLabels
+        name: AddressableAssets.DocExampleCode.LoadWithLabels, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadWithLabels
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadWithLabels
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadWithLocation
+        name: AddressableAssets.DocExampleCode.LoadWithLocation, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadWithLocation
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadWithLocation
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadWithReference
+        name: AddressableAssets.DocExampleCode.LoadWithReference, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadWithReference
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadWithReference
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LoadWithTask
+        name: AddressableAssets.DocExampleCode.LoadWithTask, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadWithTask
+          m_Image: {fileID: 0}
+          m_Tooltip: LoadWithTask
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LODGroup
+        name: UnityEngine.LODGroup, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: LODGroup
+          m_Image: {fileID: 1135309718888394834, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: LODGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MiscellaneousTopics
+        name: AddressableAssets.DocExampleCode.MiscellaneousTopics, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MiscellaneousTopics
+          m_Image: {fileID: 0}
+          m_Tooltip: MiscellaneousTopics
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MonoBehaviourCallbackHooks
+        name: MonoBehaviourCallbackHooks, Unity.ResourceManager, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MonoBehaviourCallbackHooks
+          m_Image: {fileID: 0}
+          m_Tooltip: MonoBehaviourCallbackHooks
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: OcclusionArea
+        name: UnityEngine.OcclusionArea, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: OcclusionArea
+          m_Image: {fileID: -3461654150298456965, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: OcclusionArea
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: OcclusionPortal
+        name: UnityEngine.OcclusionPortal, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: OcclusionPortal
+          m_Image: {fileID: 3019109544264522428, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: OcclusionPortal
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: OnScreenButton
+        name: UnityEngine.InputSystem.OnScreen.OnScreenButton, Unity.InputSystem,
+          Version=1.11.2.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: OnScreenButton
+          m_Image: {fileID: 0}
+          m_Tooltip: OnScreenButton
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: OnScreenStick
+        name: UnityEngine.InputSystem.OnScreen.OnScreenStick, Unity.InputSystem,
+          Version=1.11.2.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: OnScreenStick
+          m_Image: {fileID: 0}
+          m_Tooltip: OnScreenStick
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ParticleSystem
+        name: UnityEngine.ParticleSystem, UnityEngine.ParticleSystemModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ParticleSystem
+          m_Image: {fileID: 5776347336122012858, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ParticleSystem
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: ParticleSystemForceField
+        name: UnityEngine.ParticleSystemForceField, UnityEngine.ParticleSystemModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ParticleSystemForceField
+          m_Image: {fileID: -1815927437859194943, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ParticleSystemForceField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PixelPerfectCamera
+        name: UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PixelPerfectCamera
+          m_Image: {fileID: 0}
+          m_Tooltip: PixelPerfectCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PlayableDirector
+        name: UnityEngine.Playables.PlayableDirector, UnityEngine.DirectorModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlayableDirector
+          m_Image: {fileID: -803061714574223827, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PlayableDirector
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PlayerInput
+        name: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem, Version=1.11.2.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlayerInput
+          m_Image: {fileID: 0}
+          m_Tooltip: PlayerInput
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PlayerInputManager
+        name: UnityEngine.InputSystem.PlayerInputManager, Unity.InputSystem, Version=1.11.2.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlayerInputManager
+          m_Image: {fileID: 0}
+          m_Tooltip: PlayerInputManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PlayerQuitHandler
+        name: UnityEngine.TestTools.TestRunner.Callbacks.PlayerQuitHandler, UnityEngine.TestRunner,
+          Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlayerQuitHandler
+          m_Image: {fileID: 0}
+          m_Tooltip: PlayerQuitHandler
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PlayModeRunnerCallback
+        name: UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback,
+          UnityEngine.TestRunner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlayModeRunnerCallback
+          m_Image: {fileID: 0}
+          m_Tooltip: PlayModeRunnerCallback
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PlaymodeTestsController
+        name: UnityEngine.TestTools.TestRunner.PlaymodeTestsController, UnityEngine.TestRunner,
+          Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlaymodeTestsController
+          m_Image: {fileID: 0}
+          m_Tooltip: PlaymodeTestsController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PostProcessDebug
+        name: UnityEngine.Rendering.PostProcessing.PostProcessDebug, Unity.Postprocessing.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PostProcessDebug
+          m_Image: {fileID: 0}
+          m_Tooltip: PostProcessDebug
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PostProcessLayer
+        name: UnityEngine.Rendering.PostProcessing.PostProcessLayer, Unity.Postprocessing.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PostProcessLayer
+          m_Image: {fileID: 0}
+          m_Tooltip: PostProcessLayer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PostProcessVolume
+        name: UnityEngine.Rendering.PostProcessing.PostProcessVolume, Unity.Postprocessing.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PostProcessVolume
+          m_Image: {fileID: 0}
+          m_Tooltip: PostProcessVolume
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Preload
+        name: AddressableAssets.DocExampleCode.Preload, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Preload
+          m_Image: {fileID: 0}
+          m_Tooltip: Preload
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PreloadWithProgress
+        name: AddressableAssets.DocExampleCode.PreloadWithProgress, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PreloadWithProgress
+          m_Image: {fileID: 0}
+          m_Tooltip: PreloadWithProgress
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PrivateWebRequestOverride
+        name: AddressableAssets.DocExampleCode.PrivateWebRequestOverride, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PrivateWebRequestOverride
+          m_Image: {fileID: 0}
+          m_Tooltip: PrivateWebRequestOverride
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ProbeTouchupVolume
+        name: UnityEngine.Rendering.ProbeTouchupVolume, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ProbeTouchupVolume
+          m_Image: {fileID: 0}
+          m_Tooltip: ProbeTouchupVolume
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ProbeVolume
+        name: UnityEngine.Rendering.ProbeVolume, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ProbeVolume
+          m_Image: {fileID: 0}
+          m_Tooltip: ProbeVolume
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ProbeVolumePerSceneData
+        name: UnityEngine.Rendering.ProbeVolumePerSceneData, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ProbeVolumePerSceneData
+          m_Image: {fileID: 0}
+          m_Tooltip: ProbeVolumePerSceneData
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Projector
+        name: UnityEngine.Projector, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Projector
+          m_Image: {fileID: 7136189600330326936, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Projector
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RecorderBindings
+        name: UnityEngine.Recorder.RecorderBindings, Unity.Recorder, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RecorderBindings
+          m_Image: {fileID: 0}
+          m_Tooltip: RecorderBindings
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RecorderComponent
+        name: UnityEditor.Recorder.RecorderComponent, Unity.Recorder.Editor, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RecorderComponent
+          m_Image: {fileID: 0}
+          m_Tooltip: RecorderComponent
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RectTransform
+        name: UnityEngine.RectTransform, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RectTransform
+          m_Image: {fileID: -1575620288787673585, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: RectTransform
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: ReflectionProbe
+        name: UnityEngine.ReflectionProbe, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ReflectionProbe
+          m_Image: {fileID: -1426863774865177168, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ReflectionProbe
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RemoteTestResultSender
+        name: UnityEngine.TestTools.TestRunner.Callbacks.RemoteTestResultSender,
+          UnityEngine.TestRunner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RemoteTestResultSender
+          m_Image: {fileID: 0}
+          m_Tooltip: RemoteTestResultSender
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SceneRenderPipeline
+        name: UnityEngine.Rendering.SceneRenderPipeline, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SceneRenderPipeline
+          m_Image: {fileID: 0}
+          m_Tooltip: SceneRenderPipeline
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SelfCleanup
+        name: AddressableAssets.DocExampleCode.SelfCleanup, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SelfCleanup
+          m_Image: {fileID: 0}
+          m_Tooltip: SelfCleanup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SignalReceiver
+        name: UnityEngine.Timeline.SignalReceiver, Unity.Timeline, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SignalReceiver
+          m_Image: {fileID: -7098612008054524421, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SignalReceiver
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Skybox
+        name: UnityEngine.Skybox, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Skybox
+          m_Image: {fileID: 3993571464490012678, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Skybox
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SortingGroup
+        name: UnityEngine.Rendering.SortingGroup, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SortingGroup
+          m_Image: {fileID: 943103792077196548, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SortingGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SplineContainer
+        name: UnityEngine.Splines.SplineContainer, Unity.Splines, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SplineContainer
+          m_Image: {fileID: 0}
+          m_Tooltip: SplineContainer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SplineExtrude
+        name: UnityEngine.Splines.SplineExtrude, Unity.Splines, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SplineExtrude
+          m_Image: {fileID: 0}
+          m_Tooltip: SplineExtrude
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SplineInstantiate
+        name: UnityEngine.Splines.SplineInstantiate, Unity.Splines, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SplineInstantiate
+          m_Image: {fileID: 0}
+          m_Tooltip: SplineInstantiate
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SpriteMask
+        name: UnityEngine.SpriteMask, UnityEngine.SpriteMaskModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SpriteMask
+          m_Image: {fileID: 8245622534036519826, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SpriteMask
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: StreamingController
+        name: UnityEngine.StreamingController, UnityEngine.StreamingModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: StreamingController
+          m_Image: {fileID: 415356531041165513, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: StreamingController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Terrain
+        name: UnityEngine.Terrain, UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Terrain
+          m_Image: {fileID: -4247661333715606840, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Terrain
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Tilemap
+        name: UnityEngine.Tilemaps.Tilemap, UnityEngine.TilemapModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Tilemap
+          m_Image: {fileID: 2338214685650053188, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Tilemap
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TMP_ScrollbarEventHandler
+        name: TMPro.TMP_ScrollbarEventHandler, Unity.TextMeshPro, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TMP_ScrollbarEventHandler
+          m_Image: {fileID: 0}
+          m_Tooltip: TMP_ScrollbarEventHandler
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TouchSimulation
+        name: UnityEngine.InputSystem.EnhancedTouch.TouchSimulation, Unity.InputSystem,
+          Version=1.11.2.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TouchSimulation
+          m_Image: {fileID: 0}
+          m_Tooltip: TouchSimulation
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TrackedPoseDriver
+        name: UnityEngine.InputSystem.XR.TrackedPoseDriver, Unity.InputSystem, Version=1.11.2.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TrackedPoseDriver
+          m_Image: {fileID: 0}
+          m_Tooltip: TrackedPoseDriver
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Transform
+        name: UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Transform
+          m_Image: {fileID: 148978298399363526, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Transform
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: Tree
+        name: UnityEngine.Tree, UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Tree
+          m_Image: {fileID: 349475642118232294, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Tree
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: UIDocument
+        name: UnityEngine.UIElements.UIDocument, UnityEngine.UIElementsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UIDocument
+          m_Image: {fileID: 261565190497387942, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: UIDocument
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: UniversalAdditionalCameraData
+        name: UnityEngine.Rendering.Universal.UniversalAdditionalCameraData, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UniversalAdditionalCameraData
+          m_Image: {fileID: 0}
+          m_Tooltip: UniversalAdditionalCameraData
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: UniversalAdditionalLightData
+        name: UnityEngine.Rendering.Universal.UniversalAdditionalLightData, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UniversalAdditionalLightData
+          m_Image: {fileID: 0}
+          m_Tooltip: UniversalAdditionalLightData
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: VideoPlayer
+        name: UnityEngine.Video.VideoPlayer, UnityEngine.VideoModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: VideoPlayer
+          m_Image: {fileID: -6566028036854811640, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: VideoPlayer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: VirtualMouseInput
+        name: UnityEngine.InputSystem.UI.VirtualMouseInput, Unity.InputSystem, Version=1.11.2.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: VirtualMouseInput
+          m_Image: {fileID: 0}
+          m_Tooltip: VirtualMouseInput
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: VisualEffect
+        name: UnityEngine.VFX.VisualEffect, UnityEngine.VFXModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: VisualEffect
+          m_Image: {fileID: -3348444960227508024, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: VisualEffect
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Volume
+        name: UnityEngine.Rendering.Volume, Unity.RenderPipelines.Core.Runtime, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Volume
+          m_Image: {fileID: 0}
+          m_Tooltip: Volume
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: WebRequestOverride
+        name: AddressableAssets.DocExampleCode.WebRequestOverride, Unity.Addressables.Editor.Tests.DocExampleCode,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: WebRequestOverride
+          m_Image: {fileID: 0}
+          m_Tooltip: WebRequestOverride
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: WindZone
+        name: UnityEngine.WindZone, UnityEngine.WindModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: WindZone
+          m_Image: {fileID: -4233099713785801186, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: WindZone
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+    - name: Animation
+      components:
+      - displayName: AimConstraint
+        name: UnityEngine.Animations.AimConstraint, UnityEngine.AnimationModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AimConstraint
+          m_Image: {fileID: 1499262648515748108, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AimConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Animation
+        name: UnityEngine.Animation, UnityEngine.AnimationModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Animation
+          m_Image: {fileID: -6866312847677126049, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Animation
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Animator
+        name: UnityEngine.Animator, UnityEngine.AnimationModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Animator
+          m_Image: {fileID: 6921884248723262640, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Animator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: BlendConstraint
+        name: UnityEngine.Animations.Rigging.BlendConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BlendConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: BlendConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: BoneRenderer
+        name: UnityEngine.Animations.Rigging.BoneRenderer, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BoneRenderer
+          m_Image: {fileID: 0}
+          m_Tooltip: BoneRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ChainIKConstraint
+        name: UnityEngine.Animations.Rigging.ChainIKConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ChainIKConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: ChainIKConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DampedTransform
+        name: UnityEngine.Animations.Rigging.DampedTransform, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DampedTransform
+          m_Image: {fileID: 0}
+          m_Tooltip: DampedTransform
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LookAtConstraint
+        name: UnityEngine.Animations.LookAtConstraint, UnityEngine.AnimationModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LookAtConstraint
+          m_Image: {fileID: 369954582749368496, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: LookAtConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MultiAimConstraint
+        name: UnityEngine.Animations.Rigging.MultiAimConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MultiAimConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: MultiAimConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MultiParentConstraint
+        name: UnityEngine.Animations.Rigging.MultiParentConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MultiParentConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: MultiParentConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MultiPositionConstraint
+        name: UnityEngine.Animations.Rigging.MultiPositionConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MultiPositionConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: MultiPositionConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MultiReferentialConstraint
+        name: UnityEngine.Animations.Rigging.MultiReferentialConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MultiReferentialConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: MultiReferentialConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MultiRotationConstraint
+        name: UnityEngine.Animations.Rigging.MultiRotationConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MultiRotationConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: MultiRotationConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: OverrideTransform
+        name: UnityEngine.Animations.Rigging.OverrideTransform, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: OverrideTransform
+          m_Image: {fileID: 0}
+          m_Tooltip: OverrideTransform
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ParentConstraint
+        name: UnityEngine.Animations.ParentConstraint, UnityEngine.AnimationModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ParentConstraint
+          m_Image: {fileID: 581906182735090199, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ParentConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PositionConstraint
+        name: UnityEngine.Animations.PositionConstraint, UnityEngine.AnimationModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PositionConstraint
+          m_Image: {fileID: -7343420614739014117, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PositionConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Rig
+        name: UnityEngine.Animations.Rigging.Rig, Unity.Animation.Rigging, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Rig
+          m_Image: {fileID: 0}
+          m_Tooltip: Rig
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RigBuilder
+        name: UnityEngine.Animations.Rigging.RigBuilder, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RigBuilder
+          m_Image: {fileID: 0}
+          m_Tooltip: RigBuilder
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RigConstraint`3
+        name: UnityEngine.Animations.Rigging.RigConstraint`3, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RigConstraint`3
+          m_Image: {fileID: 0}
+          m_Tooltip: RigConstraint`3
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RigTransform
+        name: UnityEngine.Animations.Rigging.RigTransform, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RigTransform
+          m_Image: {fileID: 0}
+          m_Tooltip: RigTransform
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RotationConstraint
+        name: UnityEngine.Animations.RotationConstraint, UnityEngine.AnimationModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RotationConstraint
+          m_Image: {fileID: -7485488908267385562, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: RotationConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ScaleConstraint
+        name: UnityEngine.Animations.ScaleConstraint, UnityEngine.AnimationModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ScaleConstraint
+          m_Image: {fileID: 5163284692623341358, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ScaleConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SplineAnimate
+        name: UnityEngine.Splines.SplineAnimate, Unity.Splines, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SplineAnimate
+          m_Image: {fileID: 0}
+          m_Tooltip: SplineAnimate
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TMP_SpriteAnimator
+        name: TMPro.TMP_SpriteAnimator, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TMP_SpriteAnimator
+          m_Image: {fileID: 0}
+          m_Tooltip: TMP_SpriteAnimator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TwistChainConstraint
+        name: UnityEngine.Animations.Rigging.TwistChainConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TwistChainConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: TwistChainConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TwistCorrection
+        name: UnityEngine.Animations.Rigging.TwistCorrection, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TwistCorrection
+          m_Image: {fileID: 0}
+          m_Tooltip: TwistCorrection
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TwoBoneIKConstraint
+        name: UnityEngine.Animations.Rigging.TwoBoneIKConstraint, Unity.Animation.Rigging,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TwoBoneIKConstraint
+          m_Image: {fileID: 0}
+          m_Tooltip: TwoBoneIKConstraint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+    - name: 2D
+      components:
+      - displayName: AnchoredJoint2D
+        name: UnityEngine.AnchoredJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AnchoredJoint2D
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AnchoredJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AreaEffector2D
+        name: UnityEngine.AreaEffector2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AreaEffector2D
+          m_Image: {fileID: -65116092203058140, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AreaEffector2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: BoxCollider2D
+        name: UnityEngine.BoxCollider2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BoxCollider2D
+          m_Image: {fileID: 2230726447646993015, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: BoxCollider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: BuoyancyEffector2D
+        name: UnityEngine.BuoyancyEffector2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BuoyancyEffector2D
+          m_Image: {fileID: 3491322054811378011, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: BuoyancyEffector2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CapsuleCollider2D
+        name: UnityEngine.CapsuleCollider2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CapsuleCollider2D
+          m_Image: {fileID: -2692084220489661059, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CapsuleCollider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CinemachineConfiner2D
+        name: Unity.Cinemachine.CinemachineConfiner2D, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineConfiner2D
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineConfiner2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CircleCollider2D
+        name: UnityEngine.CircleCollider2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CircleCollider2D
+          m_Image: {fileID: 7882515739285264159, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CircleCollider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Collider2D
+        name: UnityEngine.Collider2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Collider2D
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Collider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CompositeCollider2D
+        name: UnityEngine.CompositeCollider2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CompositeCollider2D
+          m_Image: {fileID: -2004682403923740574, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CompositeCollider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CompositeShadowCaster2D
+        name: UnityEngine.Rendering.Universal.CompositeShadowCaster2D, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CompositeShadowCaster2D
+          m_Image: {fileID: 0}
+          m_Tooltip: CompositeShadowCaster2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ConstantForce2D
+        name: UnityEngine.ConstantForce2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ConstantForce2D
+          m_Image: {fileID: -5712622568368013079, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ConstantForce2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CustomCollider2D
+        name: UnityEngine.CustomCollider2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CustomCollider2D
+          m_Image: {fileID: 839877395022437811, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CustomCollider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DistanceJoint2D
+        name: UnityEngine.DistanceJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DistanceJoint2D
+          m_Image: {fileID: 6664071900287422854, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: DistanceJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: EdgeCollider2D
+        name: UnityEngine.EdgeCollider2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: EdgeCollider2D
+          m_Image: {fileID: -4574213285256128959, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: EdgeCollider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Effector2D
+        name: UnityEngine.Effector2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Effector2D
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Effector2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: FixedJoint2D
+        name: UnityEngine.FixedJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: FixedJoint2D
+          m_Image: {fileID: 8963634120372581356, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: FixedJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: FrictionJoint2D
+        name: UnityEngine.FrictionJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: FrictionJoint2D
+          m_Image: {fileID: 4037354640048256451, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: FrictionJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: HingeJoint2D
+        name: UnityEngine.HingeJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: HingeJoint2D
+          m_Image: {fileID: 4952710011494502320, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: HingeJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Joint2D
+        name: UnityEngine.Joint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Joint2D
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Joint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Light2D
+        name: UnityEngine.Rendering.Universal.Light2D, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Light2D
+          m_Image: {fileID: 0}
+          m_Tooltip: Light2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Physics2DRaycaster
+        name: UnityEngine.EventSystems.Physics2DRaycaster, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Physics2DRaycaster
+          m_Image: {fileID: 8958925463535290616, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Physics2DRaycaster
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PhysicsUpdateBehaviour2D
+        name: UnityEngine.PhysicsUpdateBehaviour2D, UnityEngine.Physics2DModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PhysicsUpdateBehaviour2D
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PhysicsUpdateBehaviour2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PlatformEffector2D
+        name: UnityEngine.PlatformEffector2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlatformEffector2D
+          m_Image: {fileID: -4280463815080762487, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PlatformEffector2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PointEffector2D
+        name: UnityEngine.PointEffector2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PointEffector2D
+          m_Image: {fileID: 1754417221992040693, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PointEffector2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PolygonCollider2D
+        name: UnityEngine.PolygonCollider2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PolygonCollider2D
+          m_Image: {fileID: -6584174250388574261, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PolygonCollider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RectMask2D
+        name: UnityEngine.UI.RectMask2D, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: RectMask2D
+          m_Image: {fileID: 5601005728230766229, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: RectMask2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RelativeJoint2D
+        name: UnityEngine.RelativeJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: RelativeJoint2D
+          m_Image: {fileID: -757332629082491613, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: RelativeJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Rigidbody2D
+        name: UnityEngine.Rigidbody2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Rigidbody2D
+          m_Image: {fileID: 8723023343561652918, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Rigidbody2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: ShadowCaster2D
+        name: UnityEngine.Rendering.Universal.ShadowCaster2D, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ShadowCaster2D
+          m_Image: {fileID: 0}
+          m_Tooltip: ShadowCaster2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SliderJoint2D
+        name: UnityEngine.SliderJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SliderJoint2D
+          m_Image: {fileID: -6545432660917278511, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SliderJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SpringJoint2D
+        name: UnityEngine.SpringJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SpringJoint2D
+          m_Image: {fileID: 8675268643918541391, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SpringJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SpriteShapeRenderer
+        name: UnityEngine.U2D.SpriteShapeRenderer, UnityEngine.SpriteShapeModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SpriteShapeRenderer
+          m_Image: {fileID: 8268226678086403780, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SpriteShapeRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SurfaceEffector2D
+        name: UnityEngine.SurfaceEffector2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SurfaceEffector2D
+          m_Image: {fileID: -8048572862003724531, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SurfaceEffector2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TargetJoint2D
+        name: UnityEngine.TargetJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TargetJoint2D
+          m_Image: {fileID: 4215790347392998379, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TargetJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TilemapCollider2D
+        name: UnityEngine.Tilemaps.TilemapCollider2D, UnityEngine.TilemapModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TilemapCollider2D
+          m_Image: {fileID: 2301944674211680541, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TilemapCollider2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: WheelJoint2D
+        name: UnityEngine.WheelJoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: WheelJoint2D
+          m_Image: {fileID: 6192141092834927191, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: WheelJoint2D
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+    - name: UI
+      components:
+      - displayName: AspectRatioFitter
+        name: UnityEngine.UI.AspectRatioFitter, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AspectRatioFitter
+          m_Image: {fileID: 7654256260859955071, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AspectRatioFitter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: BaseInput
+        name: UnityEngine.EventSystems.BaseInput, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BaseInput
+          m_Image: {fileID: 0}
+          m_Tooltip: BaseInput
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: BaseInputOverride
+        name: UnityEngine.InputSystem.UI.BaseInputOverride, Unity.InputSystem, Version=1.11.2.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BaseInputOverride
+          m_Image: {fileID: 0}
+          m_Tooltip: BaseInputOverride
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Behaviour
+        name: UnityEngine.Behaviour, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Behaviour
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Behaviour
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Button
+        name: UnityEngine.UI.Button, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Button
+          m_Image: {fileID: -2246836292574321313, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Button
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Canvas
+        name: UnityEngine.Canvas, UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Canvas
+          m_Image: {fileID: 6918890264710435130, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Canvas
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CanvasGroup
+        name: UnityEngine.CanvasGroup, UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: CanvasGroup
+          m_Image: {fileID: 5779557562189929939, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CanvasGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CanvasScaler
+        name: UnityEngine.UI.CanvasScaler, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: CanvasScaler
+          m_Image: {fileID: -887349828233423966, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CanvasScaler
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ContentSizeFitter
+        name: UnityEngine.UI.ContentSizeFitter, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ContentSizeFitter
+          m_Image: {fileID: 4969335261883791727, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ContentSizeFitter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerCanvas
+        name: UnityEngine.Rendering.UI.DebugUIHandlerCanvas, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerCanvas
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerCanvas
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: DebugUIHandlerPersistentCanvas
+        name: UnityEngine.Rendering.UI.DebugUIHandlerPersistentCanvas, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugUIHandlerPersistentCanvas
+          m_Image: {fileID: 0}
+          m_Tooltip: DebugUIHandlerPersistentCanvas
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Dropdown
+        name: UnityEngine.UI.Dropdown, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Dropdown
+          m_Image: {fileID: -6461178775694354662, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Dropdown
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: EventSystem
+        name: UnityEngine.EventSystems.EventSystem, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: EventSystem
+          m_Image: {fileID: -4387529911086606607, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: EventSystem
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: GraphicRaycaster
+        name: UnityEngine.UI.GraphicRaycaster, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: GraphicRaycaster
+          m_Image: {fileID: 9024548081079956670, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: GraphicRaycaster
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: GridLayoutGroup
+        name: UnityEngine.UI.GridLayoutGroup, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: GridLayoutGroup
+          m_Image: {fileID: 485006632639120110, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: GridLayoutGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: HorizontalLayoutGroup
+        name: UnityEngine.UI.HorizontalLayoutGroup, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: HorizontalLayoutGroup
+          m_Image: {fileID: 7334568976493443608, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: HorizontalLayoutGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Image
+        name: UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Image
+          m_Image: {fileID: -7820287865973605492, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Image
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: InputField
+        name: UnityEngine.UI.InputField, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: InputField
+          m_Image: {fileID: 3200498630532453672, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: InputField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: InputSystemUIInputModule
+        name: UnityEngine.InputSystem.UI.InputSystemUIInputModule, Unity.InputSystem,
+          Version=1.11.2.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: InputSystemUIInputModule
+          m_Image: {fileID: 0}
+          m_Tooltip: InputSystemUIInputModule
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: LayoutElement
+        name: UnityEngine.UI.LayoutElement, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: LayoutElement
+          m_Image: {fileID: -7943610116366264489, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: LayoutElement
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Mask
+        name: UnityEngine.UI.Mask, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Mask
+          m_Image: {fileID: -8771417457546892725, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Mask
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MonoBehaviour
+        name: UnityEngine.MonoBehaviour, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MonoBehaviour
+          m_Image: {fileID: 0}
+          m_Tooltip: MonoBehaviour
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MultiplayerEventSystem
+        name: UnityEngine.InputSystem.UI.MultiplayerEventSystem, Unity.InputSystem,
+          Version=1.11.2.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MultiplayerEventSystem
+          m_Image: {fileID: 0}
+          m_Tooltip: MultiplayerEventSystem
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Outline
+        name: UnityEngine.UI.Outline, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Outline
+          m_Image: {fileID: 8117220494676001570, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Outline
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PanelEventHandler
+        name: UnityEngine.UIElements.PanelEventHandler, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PanelEventHandler
+          m_Image: {fileID: 0}
+          m_Tooltip: PanelEventHandler
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PanelRaycaster
+        name: UnityEngine.UIElements.PanelRaycaster, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PanelRaycaster
+          m_Image: {fileID: 0}
+          m_Tooltip: PanelRaycaster
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PhysicsRaycaster
+        name: UnityEngine.EventSystems.PhysicsRaycaster, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PhysicsRaycaster
+          m_Image: {fileID: 1529634331152352985, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PhysicsRaycaster
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: PositionAsUV1
+        name: UnityEngine.UI.PositionAsUV1, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: PositionAsUV1
+          m_Image: {fileID: 8460860396361312155, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PositionAsUV1
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: RawImage
+        name: UnityEngine.UI.RawImage, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: RawImage
+          m_Image: {fileID: 8791087986535517480, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: RawImage
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Scrollbar
+        name: UnityEngine.UI.Scrollbar, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Scrollbar
+          m_Image: {fileID: 4466185209652466306, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Scrollbar
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ScrollRect
+        name: UnityEngine.UI.ScrollRect, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: ScrollRect
+          m_Image: {fileID: -687345984184418926, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ScrollRect
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Selectable
+        name: UnityEngine.UI.Selectable, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Selectable
+          m_Image: {fileID: 1621476896225587395, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Selectable
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Shadow
+        name: UnityEngine.UI.Shadow, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Shadow
+          m_Image: {fileID: -3014997550705089454, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Shadow
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Slider
+        name: UnityEngine.UI.Slider, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Slider
+          m_Image: {fileID: -1631483326681689804, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Slider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: StandaloneInputModule
+        name: UnityEngine.EventSystems.StandaloneInputModule, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: StandaloneInputModule
+          m_Image: {fileID: 8653171293167480952, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: StandaloneInputModule
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Text
+        name: UnityEngine.UI.Text, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Text
+          m_Image: {fileID: 1940253149899617895, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Text
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TextContainer
+        name: TMPro.TextContainer, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TextContainer
+          m_Image: {fileID: 0}
+          m_Tooltip: TextContainer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TMP_Dropdown
+        name: TMPro.TMP_Dropdown, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TMP_Dropdown
+          m_Image: {fileID: 0}
+          m_Tooltip: TMP_Dropdown
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TMP_InputField
+        name: TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TMP_InputField
+          m_Image: {fileID: 0}
+          m_Tooltip: TMP_InputField
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TMP_SelectionCaret
+        name: TMPro.TMP_SelectionCaret, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TMP_SelectionCaret
+          m_Image: {fileID: 0}
+          m_Tooltip: TMP_SelectionCaret
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Toggle
+        name: UnityEngine.UI.Toggle, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Toggle
+          m_Image: {fileID: 6450898422665745200, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Toggle
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ToggleGroup
+        name: UnityEngine.UI.ToggleGroup, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: ToggleGroup
+          m_Image: {fileID: -785950009248020962, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ToggleGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TouchInputModule
+        name: UnityEngine.EventSystems.TouchInputModule, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TouchInputModule
+          m_Image: {fileID: 3692903559170857379, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TouchInputModule
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TrackedDeviceRaycaster
+        name: UnityEngine.InputSystem.UI.TrackedDeviceRaycaster, Unity.InputSystem,
+          Version=1.11.2.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TrackedDeviceRaycaster
+          m_Image: {fileID: 0}
+          m_Tooltip: TrackedDeviceRaycaster
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: UIFoldout
+        name: UnityEngine.Rendering.UI.UIFoldout, Unity.RenderPipelines.Core.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UIFoldout
+          m_Image: {fileID: 0}
+          m_Tooltip: UIFoldout
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: VerticalLayoutGroup
+        name: UnityEngine.UI.VerticalLayoutGroup, UnityEngine.UI, Version=1.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: VerticalLayoutGroup
+          m_Image: {fileID: 3922097781858013310, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: VerticalLayoutGroup
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+    - name: Audio
+      components:
+      - displayName: AudioBehaviour
+        name: UnityEngine.AudioBehaviour, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioBehaviour
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioBehaviour
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioChorusFilter
+        name: UnityEngine.AudioChorusFilter, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioChorusFilter
+          m_Image: {fileID: 7705900795600745325, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioChorusFilter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioDistortionFilter
+        name: UnityEngine.AudioDistortionFilter, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioDistortionFilter
+          m_Image: {fileID: 6187360391509861248, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioDistortionFilter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioEchoFilter
+        name: UnityEngine.AudioEchoFilter, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioEchoFilter
+          m_Image: {fileID: 3210512224881905367, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioEchoFilter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioHighPassFilter
+        name: UnityEngine.AudioHighPassFilter, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioHighPassFilter
+          m_Image: {fileID: 3593955179366978122, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioHighPassFilter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioListener
+        name: UnityEngine.AudioListener, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioListener
+          m_Image: {fileID: -3250772413011610475, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioListener
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioLowPassFilter
+        name: UnityEngine.AudioLowPassFilter, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioLowPassFilter
+          m_Image: {fileID: 8657486829949679400, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioLowPassFilter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioReverbFilter
+        name: UnityEngine.AudioReverbFilter, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioReverbFilter
+          m_Image: {fileID: -7400320414999350075, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioReverbFilter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioReverbZone
+        name: UnityEngine.AudioReverbZone, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioReverbZone
+          m_Image: {fileID: -6004528207235747473, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioReverbZone
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: AudioSource
+        name: UnityEngine.AudioSource, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AudioSource
+          m_Image: {fileID: 5988843443690612340, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AudioSource
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+    - name: Mesh
+      components:
+      - displayName: BillboardRenderer
+        name: UnityEngine.BillboardRenderer, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BillboardRenderer
+          m_Image: {fileID: 9071035496130155718, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: BillboardRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CanvasRenderer
+        name: UnityEngine.CanvasRenderer, UnityEngine.UIModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CanvasRenderer
+          m_Image: {fileID: -3593279590788295529, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CanvasRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: LineRenderer
+        name: UnityEngine.LineRenderer, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LineRenderer
+          m_Image: {fileID: -503134899462992896, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: LineRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MeshCollider
+        name: UnityEngine.MeshCollider, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MeshCollider
+          m_Image: {fileID: 8799233773559208360, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: MeshCollider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: MeshFilter
+        name: UnityEngine.MeshFilter, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: MeshFilter
+          m_Image: {fileID: 2244882685325231567, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: MeshFilter
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: MeshRenderer
+        name: UnityEngine.MeshRenderer, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MeshRenderer
+          m_Image: {fileID: -7633815037825259808, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: MeshRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: NavMeshAgent
+        name: UnityEngine.AI.NavMeshAgent, UnityEngine.AIModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: NavMeshAgent
+          m_Image: {fileID: 3897814842762760142, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: NavMeshAgent
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: NavMeshLink
+        name: Unity.AI.Navigation.NavMeshLink, Unity.AI.Navigation, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: NavMeshLink
+          m_Image: {fileID: 0}
+          m_Tooltip: NavMeshLink
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: NavMeshModifier
+        name: Unity.AI.Navigation.NavMeshModifier, Unity.AI.Navigation, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: NavMeshModifier
+          m_Image: {fileID: 0}
+          m_Tooltip: NavMeshModifier
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: NavMeshModifierVolume
+        name: Unity.AI.Navigation.NavMeshModifierVolume, Unity.AI.Navigation, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: NavMeshModifierVolume
+          m_Image: {fileID: 0}
+          m_Tooltip: NavMeshModifierVolume
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: NavMeshObstacle
+        name: UnityEngine.AI.NavMeshObstacle, UnityEngine.AIModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: NavMeshObstacle
+          m_Image: {fileID: -5015426118682326553, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: NavMeshObstacle
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: NavMeshSurface
+        name: Unity.AI.Navigation.NavMeshSurface, Unity.AI.Navigation, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: NavMeshSurface
+          m_Image: {fileID: 0}
+          m_Tooltip: NavMeshSurface
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: OffMeshLink
+        name: UnityEngine.AI.OffMeshLink, UnityEngine.AIModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: OffMeshLink
+          m_Image: {fileID: -1543109780647302783, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: OffMeshLink
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ParticleSystemRenderer
+        name: UnityEngine.ParticleSystemRenderer, UnityEngine.ParticleSystemModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ParticleSystemRenderer
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ParticleSystemRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Renderer
+        name: UnityEngine.Renderer, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Renderer
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Renderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SkinnedMeshRenderer
+        name: UnityEngine.SkinnedMeshRenderer, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SkinnedMeshRenderer
+          m_Image: {fileID: 2088456810220743861, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SkinnedMeshRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SpriteRenderer
+        name: UnityEngine.SpriteRenderer, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SpriteRenderer
+          m_Image: {fileID: 5134774851033864187, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SpriteRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TestResultRendererCallback
+        name: UnityEngine.TestTools.TestRunner.Callbacks.TestResultRendererCallback,
+          UnityEngine.TestRunner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TestResultRendererCallback
+          m_Image: {fileID: 0}
+          m_Tooltip: TestResultRendererCallback
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TextMesh
+        name: UnityEngine.TextMesh, UnityEngine.TextRenderingModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TextMesh
+          m_Image: {fileID: 5246181342486455390, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TextMesh
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: TextMeshPro
+        name: TMPro.TextMeshPro, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TextMeshPro
+          m_Image: {fileID: 0}
+          m_Tooltip: TextMeshPro
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TextMeshProUGUI
+        name: TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TextMeshProUGUI
+          m_Image: {fileID: 0}
+          m_Tooltip: TextMeshProUGUI
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TilemapRenderer
+        name: UnityEngine.Tilemaps.TilemapRenderer, UnityEngine.TilemapModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TilemapRenderer
+          m_Image: {fileID: 6407684334232237893, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TilemapRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TMP_SubMesh
+        name: TMPro.TMP_SubMesh, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TMP_SubMesh
+          m_Image: {fileID: 0}
+          m_Tooltip: TMP_SubMesh
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TMP_SubMeshUI
+        name: TMPro.TMP_SubMeshUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TMP_SubMeshUI
+          m_Image: {fileID: 0}
+          m_Tooltip: TMP_SubMeshUI
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: TrailRenderer
+        name: UnityEngine.TrailRenderer, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TrailRenderer
+          m_Image: {fileID: -7359199552984332046, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TrailRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: VFXRenderer
+        name: UnityEngine.VFX.VFXRenderer, UnityEngine.VFXModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: VFXRenderer
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: VFXRenderer
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+    - name: Physics
+      components:
+      - displayName: BoxCollider
+        name: UnityEngine.BoxCollider, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BoxCollider
+          m_Image: {fileID: 5725305819640465133, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: BoxCollider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CapsuleCollider
+        name: UnityEngine.CapsuleCollider, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CapsuleCollider
+          m_Image: {fileID: 4324838011611431935, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CapsuleCollider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: CharacterJoint
+        name: UnityEngine.CharacterJoint, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CharacterJoint
+          m_Image: {fileID: 1875044191613582765, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CharacterJoint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: CinemachineCollider
+        name: Unity.Cinemachine.CinemachineCollider, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineCollider
+          m_Image: {fileID: 0}
+          m_Tooltip: CinemachineCollider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: Collider
+        name: UnityEngine.Collider, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Collider
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Collider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: ConfigurableJoint
+        name: UnityEngine.ConfigurableJoint, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ConfigurableJoint
+          m_Image: {fileID: -8365020397241257277, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ConfigurableJoint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: FixedJoint
+        name: UnityEngine.FixedJoint, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: FixedJoint
+          m_Image: {fileID: -7056137702951936110, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: FixedJoint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: HingeJoint
+        name: UnityEngine.HingeJoint, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: HingeJoint
+          m_Image: {fileID: -7049302993581372179, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: HingeJoint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: Joint
+        name: UnityEngine.Joint, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Joint
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Joint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: Rigidbody
+        name: UnityEngine.Rigidbody, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Rigidbody
+          m_Image: {fileID: -614948363165286231, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Rigidbody
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: SphereCollider
+        name: UnityEngine.SphereCollider, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SphereCollider
+          m_Image: {fileID: -1388254251988990271, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SphereCollider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: SpringJoint
+        name: UnityEngine.SpringJoint, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SpringJoint
+          m_Image: {fileID: 4359275413600591929, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SpringJoint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 0
+      - displayName: TerrainCollider
+        name: UnityEngine.TerrainCollider, UnityEngine.TerrainPhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TerrainCollider
+          m_Image: {fileID: 8812993143395379715, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TerrainCollider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+      - displayName: WheelCollider
+        name: UnityEngine.WheelCollider, UnityEngine.VehiclesModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: WheelCollider
+          m_Image: {fileID: -6885338036142599965, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: WheelCollider
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+    - name: Network
+      components:
+      - displayName: NetworkView
+        name: UnityEngine.NetworkView, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: NetworkView
+          m_Image: {fileID: 8779834242249542326, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: NetworkView
+        shown: 0
+        excluded: 0
+        isBuiltIn: 1
+        script: {fileID: 0}
+        hasToggle: 1
+    customGroups: []
+    allCustomComponents:
+      name: All
+      components:
+      - displayName: CameraController
+        name: CameraController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: CameraController
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CameraController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: cf3374f596a45cc44a39f6580c850b21, type: 3}
+        hasToggle: 1
+      - displayName: UniversalAdditionalCameraData
+        name: UnityEngine.Rendering.Universal.UniversalAdditionalCameraData, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UniversalAdditionalCameraData
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: UniversalAdditionalCameraData
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+        hasToggle: 1
+      - displayName: CinemachineBrain
+        name: Unity.Cinemachine.CinemachineBrain, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineBrain
+          m_Image: {fileID: 2800000, guid: 57da91ef0c2a5489891995dc81537253, type: 3}
+          m_Tooltip: CinemachineBrain
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+        hasToggle: 1
+      - displayName: CinemachineCamera
+        name: Unity.Cinemachine.CinemachineCamera, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineCamera
+          m_Image: {fileID: 2800000, guid: 57da91ef0c2a5489891995dc81537253, type: 3}
+          m_Tooltip: CinemachineCamera
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+        hasToggle: 1
+      - displayName: CinemachineFollow
+        name: Unity.Cinemachine.CinemachineFollow, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineFollow
+          m_Image: {fileID: 2800000, guid: 26663a5ec9987421996161615506b6c5, type: 3}
+          m_Tooltip: CinemachineFollow
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
+        hasToggle: 1
+      - displayName: CinemachinePanTilt
+        name: Unity.Cinemachine.CinemachinePanTilt, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachinePanTilt
+          m_Image: {fileID: 2800000, guid: 26663a5ec9987421996161615506b6c5, type: 3}
+          m_Tooltip: CinemachinePanTilt
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 62d54399b04b4fa48a73e121d4937dd4, type: 3}
+        hasToggle: 1
+      - displayName: CinemachineThirdPersonFollow
+        name: Unity.Cinemachine.CinemachineThirdPersonFollow, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineThirdPersonFollow
+          m_Image: {fileID: 2800000, guid: 26663a5ec9987421996161615506b6c5, type: 3}
+          m_Tooltip: CinemachineThirdPersonFollow
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 625c14eee3ad46c99df7c7c891ef668a, type: 3}
+        hasToggle: 1
+      - displayName: CinemachineThirdPersonAim
+        name: Unity.Cinemachine.CinemachineThirdPersonAim, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineThirdPersonAim
+          m_Image: {fileID: 2800000, guid: 3327a326efc0c4079a8eada111b11d29, type: 3}
+          m_Tooltip: CinemachineThirdPersonAim
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 2588cc5dedbb75e49a44aada63f7b939, type: 3}
+        hasToggle: 1
+      - displayName: CinemachineBasicMultiChannelPerlin
+        name: Unity.Cinemachine.CinemachineBasicMultiChannelPerlin, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineBasicMultiChannelPerlin
+          m_Image: {fileID: 2800000, guid: 26663a5ec9987421996161615506b6c5, type: 3}
+          m_Tooltip: CinemachineBasicMultiChannelPerlin
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+        hasToggle: 1
+      - displayName: KinematicCharacterMotor
+        name: KinematicCharacterController.KinematicCharacterMotor, Assembly-CSharp,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: KinematicCharacterMotor
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: KinematicCharacterMotor
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 4d1bc5515e3ab954e80599c538834774, type: 3}
+        hasToggle: 1
+      - displayName: CharacterControl
+        name: CharacterControl, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: CharacterControl
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CharacterControl
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: fa97bb58969715942959ce0a41da3cf7, type: 3}
+        hasToggle: 1
+      - displayName: CharacterStateHolder
+        name: CharacterStateHolder, CharacterStateSystem, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: CharacterStateHolder
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CharacterStateHolder
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 9d1beaaa547c97e49afdbdc160a148bf, type: 3}
+        hasToggle: 1
+      - displayName: PlayerBodyAnimation
+        name: PlayerBodyAnimation, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: PlayerBodyAnimation
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PlayerBodyAnimation
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 574e4f4e6c276a042a2183ad1e787fcf, type: 3}
+        hasToggle: 1
+      - displayName: CharacterCustomization
+        name: CharacterCustomization, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: CharacterCustomization
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CharacterCustomization
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 4ba843e5d86e85b4ca029dd65be228fb, type: 3}
+        hasToggle: 1
+      - displayName: PlayerInputReceiver
+        name: PlayerInputReceiver, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: PlayerInputReceiver
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PlayerInputReceiver
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 880c82ba07ac0884d83f85d124eecc92, type: 3}
+        hasToggle: 1
+      - displayName: PlayerInventoryHolder
+        name: InventorySystem.PlayerInventoryHolder, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlayerInventoryHolder
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PlayerInventoryHolder
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 72e1ff1ab48d1f940a9c6d0b48069b72, type: 3}
+        hasToggle: 1
+      - displayName: TerrainScanner
+        name: TerrainScanner, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TerrainScanner
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TerrainScanner
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 39a2ecce67133f943ad852749f6de5ea, type: 3}
+        hasToggle: 1
+      - displayName: MiniMapControl
+        name: MiniMapControl, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: MiniMapControl
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: MiniMapControl
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: a7e57bb6f3c88e9499500c88d0b91d94, type: 3}
+        hasToggle: 1
+      - displayName: MenuController
+        name: MenuController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: MenuController
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: MenuController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 5d636f2226a014d4ca1f38ce5bddf661, type: 3}
+        hasToggle: 1
+      - displayName: FadeCanvas
+        name: FadeCanvas, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: FadeCanvas
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: FadeCanvas
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 15f03353b173b004dba452495a31cafc, type: 3}
+        hasToggle: 1
+      - displayName: GameManager
+        name: GameManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: GameManager
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: GameManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 056d872d46732a2498807094227aeaa5, type: 3}
+        hasToggle: 1
+      - displayName: SceneLoader
+        name: SceneLoader, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SceneLoader
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SceneLoader
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 6d4fb201096487a4994bdc49a02377d9, type: 3}
+        hasToggle: 1
+      - displayName: InputSystemUIInputModule
+        name: UnityEngine.InputSystem.UI.InputSystemUIInputModule, Unity.InputSystem,
+          Version=1.11.2.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: InputSystemUIInputModule
+          m_Image: {fileID: 2800000, guid: 3028dc075ba8c584d9bc7d1e0255e038, type: 3}
+          m_Tooltip: InputSystemUIInputModule
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+        hasToggle: 1
+      - displayName: SamplesHelpUI
+        name: Unity.Cinemachine.Samples.SamplesHelpUI, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SamplesHelpUI
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SamplesHelpUI
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: be49d5e8cf7024d6b8f8d5b9872c0f91, type: 3}
+        hasToggle: 1
+      - displayName: SamplesDynamicUI
+        name: Unity.Cinemachine.Samples.SamplesDynamicUI, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SamplesDynamicUI
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SamplesDynamicUI
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 7950c6f52d74a4772bb69c03fe19a19b, type: 3}
+        hasToggle: 1
+      - displayName: CursorLockManager
+        name: Unity.Cinemachine.Samples.CursorLockManager, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CursorLockManager
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CursorLockManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 84bbe8a9281f49f9801ffc0203bee6df, type: 3}
+        hasToggle: 1
+      - displayName: CinemachineInputAxisController
+        name: Unity.Cinemachine.CinemachineInputAxisController, Unity.Cinemachine,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineInputAxisController
+          m_Image: {fileID: 2800000, guid: 3327a326efc0c4079a8eada111b11d29, type: 3}
+          m_Tooltip: CinemachineInputAxisController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
+        hasToggle: 1
+      - displayName: SimplePlayerAnimator
+        name: Unity.Cinemachine.Samples.SimplePlayerAnimator, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SimplePlayerAnimator
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SimplePlayerAnimator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: be929e8436c3caf46b4ef616ef0e824e, type: 3}
+        hasToggle: 1
+      - displayName: SimplePlayerController
+        name: Unity.Cinemachine.Samples.SimplePlayerController, Assembly-CSharp,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SimplePlayerController
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SimplePlayerController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 297aaca66939f724fbbc8f0c485168bc, type: 3}
+        hasToggle: 1
+      - displayName: AimCameraRig
+        name: Unity.Cinemachine.Samples.AimCameraRig, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: AimCameraRig
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: AimCameraRig
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: c8861e25f312f0a4ea14b26b40531fa4, type: 3}
+        hasToggle: 1
+      - displayName: SimplePlayerAimController
+        name: Unity.Cinemachine.Samples.SimplePlayerAimController, Assembly-CSharp,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SimplePlayerAimController
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SimplePlayerAimController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 5232368c753c54e419e00665fe96a8e1, type: 3}
+        hasToggle: 1
+      - displayName: SimplePlayerShoot
+        name: Unity.Cinemachine.Samples.SimplePlayerShoot, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SimplePlayerShoot
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SimplePlayerShoot
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 8b9a98e5e4b17784592b9725e8cfc063, type: 3}
+        hasToggle: 1
+      - displayName: CinemachineImpulseSource
+        name: Unity.Cinemachine.CinemachineImpulseSource, Unity.Cinemachine, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: CinemachineImpulseSource
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: CinemachineImpulseSource
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+        hasToggle: 1
+      - displayName: UniversalAdditionalLightData
+        name: UnityEngine.Rendering.Universal.UniversalAdditionalLightData, Unity.RenderPipelines.Universal.Runtime,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UniversalAdditionalLightData
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: UniversalAdditionalLightData
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+        hasToggle: 1
+    unityVersion: 2022.3.53f1c1
+    unityCount: 362

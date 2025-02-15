@@ -13,8 +13,8 @@ public class Fly : IMovementState
     public override void HandleStateChange(ref PlayerCharacterInput inputs)
     {
         // 移动方向与玩家视角方向相同
-        CC.MoveDirection = inputs.lookDirection + CC.MoveDirectionInput;
-        if (!inputs.tryFly)
+        CC.MoveDirection = inputs.LookDirection + CC.MoveDirectionInput;
+        if (!inputs.TryFly)
         {
             CC.ChangeMovementState(CC.inAir);
         }

@@ -12,7 +12,7 @@ public class Idle : IMovementState
     {
         if (CC.MoveDirection.sqrMagnitude > 0.01f)
         {
-            if (inputs.tryRun)
+            if (inputs.TryRun)
             {
                 CC.ChangeMovementState(CC.run);
             }
@@ -21,11 +21,11 @@ public class Idle : IMovementState
                 CC.ChangeMovementState(CC.walking);
             }
         }
-        else if (inputs.tryCrouch && CC.IsStableGround)
+        else if (inputs.TryCrouch && CC.IsStableGround)
         {
             CC.ChangeMovementState(CC.crouching);
         }
-        else if (inputs.tryJump && CC.IsStableGround)
+        else if (inputs.TryJump && CC.IsStableGround)
         {
             CC.ChangeMovementState(CC.jump);
         }

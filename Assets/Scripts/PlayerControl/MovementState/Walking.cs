@@ -15,15 +15,15 @@ public class Walking : IMovementState
         {
             CC.ChangeMovementState(CC.idle);
         }
-        else if (inputs.tryRun) // Walk
+        else if (inputs.TryRun) // Walk
         {
             CC.ChangeMovementState(CC.run);
         }
-        else if (inputs.tryCrouch && CC.IsStableGround) // Crouch
+        else if (inputs.TryCrouch && CC.IsStableGround) // Crouch
         {
             CC.ChangeMovementState(CC.crouching);
         }
-        else if (inputs.tryJump && CC.IsStableGround)
+        else if (inputs.TryJump && CC.IsStableGround)
         {
             CC.ChangeMovementState(CC.jump);
         }

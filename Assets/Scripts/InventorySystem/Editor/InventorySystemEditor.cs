@@ -120,6 +120,11 @@ namespace InventorySystem
             itemListHolder = root.Q<VisualElement>("itemList-holder");
 
             debugLabel = root.Q<Label>("Debug");
+
+            if (Selection.activeObject is ItemDatabase)
+            {
+                itemDataBaseField.value = Selection.activeObject;
+            }
         }
 
         private void OnInspectorUpdate()
