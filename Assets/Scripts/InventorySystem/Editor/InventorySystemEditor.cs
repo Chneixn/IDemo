@@ -325,7 +325,7 @@ namespace InventorySystem
         {
             if (database == null)
             {
-                //Debug.Log("请先选择一个物品数据库(ItemDatabase)!");
+                Debug.Log("请先选择一个物品数据库(ItemDatabase)!");
                 debugLabel.text = "请先选择一个物品数据库(ItemDatabase)!";
                 return false;
             }
@@ -339,29 +339,29 @@ namespace InventorySystem
         private void InputJsonFile()
         {
             string path = EditorUtility.OpenFilePanel("选择Json文件", Application.dataPath, "json");
-
+            if (path == null || path == "") return;
             // 涉及System.IO时推荐使用try获取系统异常
             try
             {
-                if (path == null) return;
                 // 列表序列化需要经过中间件，放入一个Serialization结构的target列表中，因此需要对json字符串加工
                 string json = File.ReadAllText(path, System.Text.Encoding.UTF8);
-                json = "{\"target\":" + json + "}";
                 List<ItemSaveData> itemDates = JsonUtility.FromJson<Serialization<ItemSaveData>>(json).ToList();
+
+                // 在内存创建database实例，读取全部item数据
                 ItemDatabase database = ScriptableObject.CreateInstance<ItemDatabase>();
-
-                string fileName = Path.GetFileNameWithoutExtension(path);
-                AssetDatabase.CreateAsset(database, $"Assets/InventorySystem/ItemDatabase/{fileName}.asset");
-
                 foreach (var data in itemDates)
                 {
                     var item = ScriptableObject.CreateInstance<InventoryItemData>();
-                    ReadSaveDate(item, data);
-
+                    item.ReadSaveDate(data);
                     database.AddItem(item);
                 }
 
+                // 向磁盘写入database
+                string fileName = Path.GetFileNameWithoutExtension(path);
+                AssetDatabase.CreateAsset(database, $"Assets/InventorySystem/ItemDatabase/{fileName}.asset");
+
                 // 保存创建的资源
+                EditorUtility.SetDirty(database);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
@@ -372,35 +372,6 @@ namespace InventorySystem
             {
                 Debug.LogError($"Failed to read data from {path}. \n{exception}");
             }
-        }
-
-        /// <summary>
-        /// 读取序列化数据ItemSaveData
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private InventoryItemData ReadSaveDate(InventoryItemData item, ItemSaveData data)
-        {
-            item.name = $"[{data.id}]{data.display_name}";
-            item.ID = data.id;
-            item.displayName = data.display_name;
-            item.description = data.description;
-            if (data.label.Count != 0)
-            {
-                foreach (var s in data.label)
-                {
-                    item.Label.Add(s);
-                }
-            }
-            item.max_stack_size = data.max_stack_size;
-            item.value = data.value;
-            if (data.icon_path != null)
-                item.icon = AssetDatabase.LoadAssetAtPath<Sprite>(data.icon_path);
-            if (data.prefab_path != null)
-                item.item_prefab = AssetDatabase.LoadAssetAtPath<GameObject>(data.prefab_path);
-
-            return item;
         }
 
         /// <summary>
@@ -415,15 +386,11 @@ namespace InventorySystem
 
             // 将所有 itemdata 转换为需要序列化的 savedata
             List<ItemSaveData> saveDates = new();
-            foreach (var i in database.Items)
-            {
+            foreach (InventoryItemData i in database.Items)
                 saveDates.Add(new ItemSaveData(i));
-            }
 
             // 使用 JsonUtility 工具导出 Json 文件时，列表不能直接序列化，需要经过一次中间件
             string json = JsonUtility.ToJson(new Serialization<ItemSaveData>(saveDates));
-            json = json.Remove(0, 10);
-            json = json.Remove(json.Length - 1);
 
             try
             {
@@ -460,5 +427,12 @@ namespace InventorySystem
         {
             this.target = target;
         }
+
+        // // List<T> -> Json文字列 ( 例 : List<Enemy> )
+        // string str = JsonUtility.ToJson(new Serialization<Enemy>(enemies)); 
+        // // Json文字列 -> List<T>
+        // List<Enemy> enemies = JsonUtility.FromJson<Serialization<Enemy>>(str).ToList();
+        // // Dictionary<TKey,TValue> -> Json文字列 ( 例 : Dictionary<int, Enemy> )
+        // string str = JsonUtility.ToJson(new Serialization<int, Enemy>(enemies)); 
     }
 }

@@ -44,8 +44,38 @@ namespace InventorySystem
 
             return false;
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// 读取序列化数据ItemSaveData
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public void ReadSaveDate(ItemSaveData data)
+        {
+            name = $"[{data.id}]{data.display_name}";
+            ID = data.id;
+            displayName = data.display_name;
+            description = data.description;
+            if (data.label.Count != 0)
+            {
+                foreach (var s in data.label)
+                {
+                    Label.Add(s);
+                }
+            }
+            max_stack_size = data.max_stack_size;
+            value = data.value;
+            if (data.icon_path != null)
+                icon = AssetDatabase.LoadAssetAtPath<Sprite>(data.icon_path);
+            if (data.prefab_path != null)
+                item_prefab = AssetDatabase.LoadAssetAtPath<GameObject>(data.prefab_path);
+        }
+#endif
     }
 
+#if UNITY_EDITOR
     [Serializable]
     public struct ItemSaveData
     {
@@ -79,4 +109,5 @@ namespace InventorySystem
             prefab_path = AssetDatabase.GetAssetPath(itemDate.item_prefab);
         }
     }
+#endif
 }
