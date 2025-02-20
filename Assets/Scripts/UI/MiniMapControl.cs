@@ -1,5 +1,5 @@
 using UnityEngine;
-using ExtensionTools;
+using UnityUtils;
 
 public class MiniMapControl : MonoBehaviour
 {

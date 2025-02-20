@@ -41,9 +41,9 @@ namespace InventorySystem
         private PlayerInventoryHolder _playerInv;
 
         //记录购物车内物品数据与物品数量字典
-        private Dictionary<InventoryItemData, int> _shoppingCart = new();
+        private Dictionary<ItemData, int> _shoppingCart = new();
         //记录购物车内物品数据与物品对应UI
-        private Dictionary<InventoryItemData, ShoppingCartItem_UI> _shoppingCartUI = new();
+        private Dictionary<ItemData, ShoppingCartItem_UI> _shoppingCartUI = new();
 
         public void WhenDisplayShopWindow(ShopSystem shopSystem, PlayerInventoryHolder playerInventory)
         {
@@ -151,7 +151,7 @@ namespace InventorySystem
         public void RemoveItemFromCart(ShopSlot_UI shopSlot_UI)
         {
             //缓存物品数据和物品价格
-            InventoryItemData data = shopSlot_UI.AssignedItemSlot.ItemDate;
+            ItemData data = shopSlot_UI.AssignedItemSlot.ItemDate;
             int price = GetModifiedPrice(data, 1, shopSlot_UI.MarkUp);
 
             //UI处理
@@ -195,7 +195,7 @@ namespace InventorySystem
         /// <param name="shopSlot_UI"></param>
         internal void AddItemToCart(ShopSlot_UI shopSlot_UI)
         {
-            InventoryItemData data = shopSlot_UI.AssignedItemSlot.ItemDate;
+            ItemData data = shopSlot_UI.AssignedItemSlot.ItemDate;
 
             UpdateItemPreview(shopSlot_UI);
 
@@ -241,7 +241,7 @@ namespace InventorySystem
 
         private void UpdateItemPreview(ShopSlot_UI shopSlot_UI)
         {
-            InventoryItemData data = shopSlot_UI.AssignedItemSlot.ItemDate;
+            ItemData data = shopSlot_UI.AssignedItemSlot.ItemDate;
 
             _itemPreviewSprite.sprite = data.icon;
             _itemPreviewSprite.color = Color.white;
@@ -263,8 +263,8 @@ namespace InventorySystem
 
         private void ClearShopSlots()
         {
-            _shoppingCart = new Dictionary<InventoryItemData, int>();
-            _shoppingCartUI = new Dictionary<InventoryItemData, ShoppingCartItem_UI>();
+            _shoppingCart = new Dictionary<ItemData, int>();
+            _shoppingCartUI = new Dictionary<ItemData, ShoppingCartItem_UI>();
 
             //清除Panel对象下的所有子物品
             foreach (var item in _itemListContentPanel.transform.Cast<Transform>())
@@ -320,7 +320,7 @@ namespace InventorySystem
             RefreshDisplay();
         }
 
-        public static int GetModifiedPrice(InventoryItemData data, int amount, float markUp)
+        public static int GetModifiedPrice(ItemData data, int amount, float markUp)
         {
             return Mathf.FloorToInt(data.value * amount * (1 + markUp));
         }

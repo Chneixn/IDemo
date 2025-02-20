@@ -52,7 +52,7 @@ namespace InventorySystem
         /// <param name="data"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public int AddToInventory(InventoryItemData data, int amount)
+        public int AddToInventory(ItemData data, int amount)
         {
             int amountLeft = primaryInventorySystem.AddToInventory(data, amount);
             return amountLeft;
@@ -64,7 +64,7 @@ namespace InventorySystem
         /// <param name="data"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public bool RemoveFormInventory(InventoryItemData data, int amount)
+        public bool RemoveFormInventory(ItemData data, int amount)
         {
             bool s = primaryInventorySystem.RemoveItemsFromInventory(data, amount, out _);
             return s;

@@ -10,10 +10,10 @@ namespace InventorySystem
     public class ItemDatabase : ScriptableObject
     {
         [SerializeField]
-        private List<InventoryItemData> items = new();
-        public List<InventoryItemData> Items => items;
+        private List<ItemData> items = new();
+        public List<ItemData> Items => items;
 
-        public InventoryItemData GetItem(int id)
+        public ItemData GetItem(int id)
         {
             return items.Find(i => i.ID == id);
         }
@@ -24,7 +24,7 @@ namespace InventorySystem
             // 假设ID应该是从0开始的连续整数  
             int nextAvailableID = 0;
             HashSet<int> usedIDs = new();
-            List<InventoryItemData> notSetIDs = new();
+            List<ItemData> notSetIDs = new();
 
             // 遍历整个列表，记录已有ID和未设置ID的集合
             foreach (var item in items)
@@ -56,9 +56,9 @@ namespace InventorySystem
             items.Sort((x, y) => x.ID.CompareTo(y.ID));
         }
 
-        public InventoryItemData CreateItem()
+        public ItemData CreateItem()
         {
-            InventoryItemData item = ScriptableObject.CreateInstance<InventoryItemData>();
+            ItemData item = ScriptableObject.CreateInstance<ItemData>();
             // item.guid = GUID.Generate().ToString();
 
             Undo.RecordObject(this, "Item DataBase (CreateItem)");
@@ -76,7 +76,7 @@ namespace InventorySystem
             return item;
         }
 
-        public void DeleteItem(InventoryItemData item)
+        public void DeleteItem(ItemData item)
         {
             Undo.RecordObject(this, "Item DataBase (DeleteItem)");
 
@@ -87,7 +87,7 @@ namespace InventorySystem
             AssetDatabase.SaveAssets();
         }
 
-        public void AddItem(InventoryItemData item)
+        public void AddItem(ItemData item)
         {
             items.Add(item);
             AssetDatabase.AddObjectToAsset(item, this);

@@ -5,11 +5,11 @@ namespace InventorySystem
 {
     public abstract class ItemSlot
     {
-        [NonSerialized] protected InventoryItemData itemDate; // 插槽内物品数据
+        [NonSerialized] protected ItemData itemDate; // 插槽内物品数据
         [SerializeField] protected int _itemID = -1;
         [SerializeField] protected int stackSize; // 插槽内物品的实际数量
 
-        public InventoryItemData ItemDate => itemDate;
+        public ItemData ItemDate => itemDate;
         public int StackSize => stackSize;
 
         public void ClearSlot()
@@ -37,7 +37,7 @@ namespace InventorySystem
             }
         }
 
-        public void AssignItem(InventoryItemData data, int amount)
+        public void AssignItem(ItemData data, int amount)
         {
             if (itemDate == data) AddToStack(amount);
             else

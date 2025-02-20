@@ -12,8 +12,8 @@ namespace InventorySystem
         [SerializeField] private List<InventorySlot> inventorySlots;
         public List<InventorySlot> InventorySlots => inventorySlots;
         public int InventorySize => inventorySlots.Count;   // 库存中插槽的数量
-        private readonly Dictionary<InventoryItemData, int> itemsRecord = new();
-        public Dictionary<InventoryItemData, int> ItemsRecord => itemsRecord;
+        private readonly Dictionary<ItemData, int> itemsRecord = new();
+        public Dictionary<ItemData, int> ItemsRecord => itemsRecord;
 
         public UnityAction<InventorySlot> OnInventorySlotChanged;
 
@@ -37,7 +37,7 @@ namespace InventorySystem
         /// <param name="itemToAdd"></param>
         /// <param name="amountToAdd"></param>
         /// <returns>剩余未进入库存的物品数量</returns>
-        public int AddToInventory(InventoryItemData itemToAdd, int amountToAdd)
+        public int AddToInventory(ItemData itemToAdd, int amountToAdd)
         {
             // 用于记录是否有未能放进库存的物品数量
             int left = amountToAdd;
@@ -108,7 +108,7 @@ namespace InventorySystem
         /// <param name="itemToAdd"></param>
         /// <param name="invSlot"></param>
         /// <returns></returns>
-        public bool ContainItem(InventoryItemData itemToAdd, out List<InventorySlot> invSlot)
+        public bool ContainItem(ItemData itemToAdd, out List<InventorySlot> invSlot)
         {
             invSlot = InventorySlots.Where(i => i.ItemDate == itemToAdd).ToList();
 
@@ -153,7 +153,7 @@ namespace InventorySystem
         /// <param name="amountToRemove">要移除的数量</param>
         /// <param name="left">库存中该物品数量</param>
         /// <returns>是否移除成功</returns>
-        public bool RemoveItemsFromInventory(InventoryItemData data, int amountToRemove, out int left)
+        public bool RemoveItemsFromInventory(ItemData data, int amountToRemove, out int left)
         {
             //获取当前库存中该物品的数量
             left = 0;
@@ -195,7 +195,7 @@ namespace InventorySystem
             return false;
         }
 
-        public int GetItemCountFormInventory(InventoryItemData item)
+        public int GetItemCountFormInventory(ItemData item)
         {
 
             if (itemsRecord.TryGetValue(item, out int count))
@@ -215,7 +215,7 @@ namespace InventorySystem
         /// </summary>
         /// <param name="itemsForCheck"></param>
         /// <returns></returns>
-        public bool CheckInventoryRemaining(Dictionary<InventoryItemData, int> itemsForCheck)
+        public bool CheckInventoryRemaining(Dictionary<ItemData, int> itemsForCheck)
         {
             //复制玩家库存
             var clonedSystem = new InventorySystem(this.InventorySize);

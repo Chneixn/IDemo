@@ -24,7 +24,7 @@ namespace InventorySystem
     [System.Serializable]
     public struct ShopIventoryItem
     {
-        public InventoryItemData ItemData;
+        public ItemData ItemData;
         public int Amount;
     }
 }

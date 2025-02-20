@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ExtensionTools;
+using UnityUtils;
 
 public enum SkinType
 {
@@ -12,6 +12,7 @@ public enum SkinType
     FemaleArmor,
     Hat,
     Face,
+    // 吉利服
     GhillieSuit,
     Hair
 }
@@ -21,24 +22,24 @@ public enum Gender
     Female, Male
 }
 
-[System.Serializable]
+[Serializable]
 public struct CharacterSkinSaveData
 {
     public Gender gender;
     public List<SkinSaveData> skinSaveList;
+
+    [Serializable]
+    public struct SkinSaveData
+    {
+        public SkinType skinType;
+        public string skinName;
+    }
 
     public CharacterSkinSaveData(Gender gender, List<SkinSaveData> skinSaveList)
     {
         this.gender = gender;
         this.skinSaveList = skinSaveList;
     }
-}
-
-[System.Serializable]
-public struct SkinSaveData
-{
-    public SkinType skinType;
-    public string skinName;
 }
 
 public class CharacterCustomization : MonoBehaviour
@@ -48,7 +49,6 @@ public class CharacterCustomization : MonoBehaviour
     public Gender Gender => gender;
     [SerializeField] private SkinLocation[] skinLocations;
     private CharacterSkinSaveData characterSkinSaveData;
-    private List<SkinSaveData> skinSaveList;
 
     [System.Serializable]
     private class SkinLocation
@@ -59,8 +59,10 @@ public class CharacterCustomization : MonoBehaviour
         public Transform skinParent;
     }
 
-    private void Awake()
+    private void Start()
     {
+        GameManager.Instance.PlayerCam.OnCamStateChange += ChangeModelVisibility;
+
         //SaveLoad.OnLoadGame += LoadSkinData;
         //SaveLoad.OnSaveGame += SaveSkinData;
 
@@ -68,18 +70,10 @@ public class CharacterCustomization : MonoBehaviour
         //characterSkinSaveData = SetDefaultCharacterSkin(skinLocations);
     }
 
-    private void Start()
-    {
-        CameraController.Instance.OnCamStateChange += ChangeModelVisibility;
-    }
-
     private void OnDisable()
     {
         //SaveLoad.OnLoadGame -= LoadSkinData;
         //SaveLoad.OnSaveGame -= SaveSkinData;
-
-        if (CameraController.Instance != null)
-            CameraController.Instance.OnCamStateChange -= ChangeModelVisibility;
     }
 
     public void ChangeModelVisibility(CamState camState)

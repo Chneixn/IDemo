@@ -39,7 +39,7 @@ public class GunSetting : ScriptableObject
     public float timeToHolster;         // 收起武器的时间
 
     [Header("BulletParameter子弹参数")]
-    public InventoryItemData bulletData;
+    public ItemData bulletData;
 
     [Tooltip("正常射击时是否需要实例化子弹")]
     public bool needInstantiate;

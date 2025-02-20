@@ -6,8 +6,18 @@
         <ui:Button text="设置ID" parse-escape-sequences="true" display-tooltip-when-elided="true" name="setID-button" tooltip="为所有未设置ID的物品(ID为-1)自动设置ID" />
         <ui:Button text="刷新" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refresh-button" tooltip="刷新当前物品库视图" />
         <uie:ToolbarPopupSearchField focusable="true" name="searchField" tooltip="在当前物品库搜索物品（允许ID或名字模糊搜索）" style="width: 200px;" />
-        <ui:Button text="导入JSON" parse-escape-sequences="true" display-tooltip-when-elided="true" name="json-input" tooltip="将物品数据库导出为JSON文件" />
-        <ui:Button text="导出JSON" parse-escape-sequences="true" display-tooltip-when-elided="true" name="json-output" tooltip="将物品数据库导出为JSON文件" />
+    </uie:Toolbar>
+    <uie:Toolbar name="Toolbar">
+        <ui:Button text="导入Execl" parse-escape-sequences="true" display-tooltip-when-elided="true" name="execl-input" tooltip="从Execl表格导入数据库(只支持xlsx格式)" />
+        <ui:Button text="导出Execl" parse-escape-sequences="true" display-tooltip-when-elided="true" name="execl-output" tooltip="将物品数据库导出为Execl文件(xlsx格式)" />
+        <ui:TextField picking-mode="Ignore" label="Execl文件路径" name="execl-path" style="flex-grow: 1;" />
+        <ui:Button text="浏览" parse-escape-sequences="true" display-tooltip-when-elided="true" name="view-execl-path" />
+    </uie:Toolbar>
+    <uie:Toolbar name="Toolbar">
+        <ui:Button text="导入Json" parse-escape-sequences="true" display-tooltip-when-elided="true" name="json-input" tooltip="从JSON文件导入数据库" />
+        <ui:Button text="导出Json" parse-escape-sequences="true" display-tooltip-when-elided="true" name="json-output" tooltip="将物品数据库导出为JSON文件" />
+        <ui:TextField picking-mode="Ignore" label="database文件路径" name="database-path" style="flex-grow: 1;" />
+        <ui:Button text="浏览" parse-escape-sequences="true" display-tooltip-when-elided="true" name="view-database-path" />
     </uie:Toolbar>
     <ui:VisualElement name="main-panel" style="flex-grow: 1; flex-direction: row; flex-basis: 100%;">
         <ui:VisualElement name="left-panel" style="border-top-width: 1px; border-right-width: 0; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); min-width: 100px; flex-grow: 1; flex-basis: 40%; border-bottom-width: 1px; border-left-width: 1px;">
@@ -17,12 +27,7 @@
         <ui:VisualElement name="right-panel" style="min-width: 200px; flex-grow: 1; flex-basis: 60%; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
             <ui:VisualElement name="inspector-panel" style="flex-grow: 1;">
                 <ui:Label tabindex="-1" text="物品图标" parse-escape-sequences="true" display-tooltip-when-elided="true" name="icon-label" style="-unity-font-style: bold; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); border-bottom-width: 1px; padding-left: 5px; background-color: rgb(37, 37, 37);" />
-                <ui:VisualElement name="item-Image" style="justify-content: space-around; padding-top: 4%; padding-right: 4%; padding-bottom: 4%; padding-left: 4%; flex-basis: 30%;" />
-                <ui:Label text="物品标签" name="label" class="label-node" />
-                <uie:Toolbar name="label-list" style="align-items: flex-start; flex-wrap: wrap; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; border-left-color: rgba(35, 35, 35, 0); border-right-color: rgba(35, 35, 35, 0); border-top-color: rgba(35, 35, 35, 0); border-bottom-color: rgba(35, 35, 35, 0); border-bottom-width: 0; background-color: rgb(56, 56, 56);" />
-                <ui:TextField picking-mode="Ignore" label="新标签" name="new-label-text">
-                    <ui:Button text="添加" parse-escape-sequences="true" display-tooltip-when-elided="true" name="add-label" />
-                </ui:TextField>
+                <ui:VisualElement name="item-Image" style="justify-content: space-around; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; flex-basis: 30%;" />
                 <ui:Label tabindex="-1" text="物品属性Inspector" parse-escape-sequences="true" display-tooltip-when-elided="true" name="inspector-label" class="label-node" style="border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); border-bottom-width: 1px; -unity-font-style: bold; padding-left: 5px; background-color: rgb(37, 37, 37);" />
                 <InventoryItemInspectorView name="iteminspector-view" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px; min-height: 300px; flex-basis: 70%;" />
             </ui:VisualElement>

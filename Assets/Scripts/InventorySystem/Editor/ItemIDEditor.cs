@@ -8,7 +8,7 @@ namespace InventorySystem
     public class ItemIDEditor : EditorWindow
     {
         public InventorySystemEditor editor;
-        InventoryItemData itemData;
+        ItemData itemData;
 
         IntegerField integerField;
         Button applyButton;
@@ -77,7 +77,7 @@ namespace InventorySystem
         HashSet<int> usedIDs = new();
 
         // 获取database和itemdate
-        public void UpdateSelection(ItemDatabase database, InventoryItemData itemDate)
+        public void UpdateSelection(ItemDatabase database, ItemData itemDate)
         {
             this.itemData = itemDate;
             resetInt = itemDate.ID;

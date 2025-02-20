@@ -7,7 +7,7 @@ namespace InventorySystem
     [RequireComponent(typeof(SphereCollider))]
     public class ItemPickUp : MonoBehaviour
     {
-        public InventoryItemData ItemDate;
+        public ItemData ItemDate;
         public int itemCount = 1;
 
         [Tooltip("允许使用碰撞捡取")]
@@ -83,12 +83,12 @@ namespace InventorySystem
     [System.Serializable]
     public struct ItemPickUpSaveData
     {
-        public InventoryItemData ItemData;
+        public ItemData ItemData;
         public int ItemCount;
         public Vector3 position;
         public Quaternion rotation;
 
-        public ItemPickUpSaveData(InventoryItemData _data, int _itemCount, Vector3 _position, Quaternion _rotation)
+        public ItemPickUpSaveData(ItemData _data, int _itemCount, Vector3 _position, Quaternion _rotation)
         {
             this.ItemData = _data;
             this.ItemCount = _itemCount;

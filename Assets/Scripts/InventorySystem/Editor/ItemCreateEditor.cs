@@ -9,7 +9,7 @@ public class ItemCreateEditor : EditorWindow
 {
     public InventorySystemEditor editor;
     public ItemDatabase database;
-    private InventoryItemData itemData;
+    private ItemData itemData;
     private InventoryItemInspectorView inspectorView;
     private Toggle autoID;
     private Button applyButton;
@@ -41,7 +41,7 @@ public class ItemCreateEditor : EditorWindow
         root.styleSheets.Add(styleSheet);
 
         inspectorView = root.Q<InventoryItemInspectorView>("inspector-view");
-        inspectorView.Init(root.Q<VisualElement>("icon-image"), root.Q<Toolbar>("label-list"), root.Q<Button>("add-label"), root.Q<TextField>("new-label-text"));
+        inspectorView.Init(root.Q<VisualElement>("icon-image"));
 
         autoID = root.Q<Toggle>("auto-id");
 

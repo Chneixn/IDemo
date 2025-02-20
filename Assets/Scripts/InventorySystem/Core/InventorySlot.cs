@@ -10,7 +10,7 @@ namespace InventorySystem
         /// </summary>
         /// <param name="source"></param>
         /// <param name="amount"></param>
-        public InventorySlot(InventoryItemData source, int amount)
+        public InventorySlot(ItemData source, int amount)
         {
             itemDate = source;
             _itemID = itemDate.ID;
@@ -30,7 +30,7 @@ namespace InventorySystem
         /// </summary>
         /// <param name="newDate"></param>
         /// <param name="amount"></param>
-        public void UpdateInventorySlot(InventoryItemData newDate, int amount)
+        public void UpdateInventorySlot(ItemData newDate, int amount)
         {
             itemDate = newDate;
             _itemID = newDate.ID;

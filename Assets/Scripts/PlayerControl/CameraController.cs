@@ -14,7 +14,11 @@ public struct CameraInput
     public float mouseX;
     public float mouseY;
     public float zoomValue;
+    /// <summary>
+    /// 切换摄像机状态 true为FPS false为TPS
+    /// </summary>
     public bool switchCamState;
+    public bool freeLook;
 }
 
 //public interface ICameraState
@@ -28,7 +32,6 @@ public struct CameraInput
 /// </summary>
 public class CameraController : CinemachineCameraManagerBase
 {
-    public static CameraController Instance;
     [SerializeField] private CamState currentCamState;
     public CamState CurrentCamState => currentCamState;
     public Action<CamState> OnCamStateChange;
@@ -47,21 +50,19 @@ public class CameraController : CinemachineCameraManagerBase
     private float _mouseX;
     private float _mouseY;
 
-    public CinemachineCamera f_cam;
+    public CinemachineVirtualCameraBase f_cam;
     private CinemachinePanTilt f_POV;
-    public CinemachineCamera t_cam;
-    public CinemachineCamera free_cam;
+    public CinemachineVirtualCameraBase t_cam;
+    private bool isFreeLook = false;
+    public CinemachineVirtualCameraBase free_cam;
+    public Vector3 lastLookDirection;
 
     private CinemachineBrain brain;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     protected override void Start()
     {
         base.Start();
+        lastLookDirection = transform.forward;
         brain = GetComponent<CinemachineBrain>();
 
         for (int i = 0; i < ChildCameras.Count; ++i)
@@ -71,15 +72,14 @@ public class CameraController : CinemachineCameraManagerBase
                 continue;
             if (f_cam == null && cam.TryGetComponent<CinemachinePanTilt>(out _))
             {
-                f_cam = (CinemachineCamera)cam;
+                f_cam = cam;
             }
             else if (t_cam == null && cam.TryGetComponent<CinemachineThirdPersonAim>(out _))
-            {
-                t_cam = (CinemachineCamera)cam;
-            }
+                t_cam = cam;
+
             else if (free_cam == null)
             {
-                free_cam = (CinemachineCamera)cam;
+                free_cam = cam;
             }
         }
 
@@ -100,9 +100,11 @@ public class CameraController : CinemachineCameraManagerBase
             _mouseY -= inputs.mouseY * YmouseSensitivity / Y_Mult;
         }
 
-        // 读取控制表的摄像机状态
+        // 读取控制模式的摄像机状态
         if (inputs.switchCamState)
-            currentCamState = currentCamState == CamState.FPS ? CamState.TPS : CamState.FPS;
+            UpdateCamState(CamState.TPS);
+        else UpdateCamState(CamState.FPS);
+
 
         switch (currentCamState)
         {
@@ -115,8 +117,6 @@ public class CameraController : CinemachineCameraManagerBase
             case CamState.TPS:
                 {
                     // Handle Zoom
-
-
                     //float currentDistance = t_framingTransposer.m_CameraDistance;
                     //if (currentDistance != t_currentTargetDistance)
                     //{
@@ -131,6 +131,10 @@ public class CameraController : CinemachineCameraManagerBase
                     //// Handle POV
                     //t_camPOV.m_VerticalAxis.Value = _mouseY;
                     //t_camPOV.m_HorizontalAxis.Value = _mouseX;
+
+                    isFreeLook = inputs.freeLook;
+                    if (isFreeLook) UpdateCamState(CamState.FreeLook);
+                    else UpdateCamState(CamState.TPS);
                 }
                 break;
         }
@@ -151,9 +155,14 @@ public class CameraController : CinemachineCameraManagerBase
         return newCam;
     }
 
+    /// <summary>
+    /// 改变相机状态，有同状态切换保护
+    /// </summary>
+    /// <param name="newstate"></param>
     public void UpdateCamState(CamState newstate)
     {
         if (currentCamState == newstate) return;
+        if (newstate == CamState.FreeLook) lastLookDirection = transform.forward;
         currentCamState = newstate;
         OnCamStateChange?.Invoke(currentCamState);
     }

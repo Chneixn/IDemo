@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class PlayerBodyAnimation : MonoBehaviour
 {
-    [SerializeField] private GameObject characterModel;
-
     [SerializeField] private Animator animator;
     private CharacterControl character;
 
     private void Awake()
     {
-        animator = characterModel.GetComponent<Animator>();
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
     }
 
     public void Init(CharacterControl character)
@@ -23,7 +22,7 @@ public class PlayerBodyAnimation : MonoBehaviour
     {
         string animationName = nextState.ToString();
 
-        
+
 
         if (HasAnimation(0, animationName))
             animator.CrossFadeInFixedTime(animationName, 0.2f);

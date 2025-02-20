@@ -91,35 +91,23 @@ public class PlayerInputReceiver : UnityInputReceiver
     {
         var input = userInput.SourceInput.PlayerInput;
         characterInputs.MoveDirection = input.Movement.ReadValue<Vector2>();
-        characterInputs.LookDirection = playerCam.transform.forward;
+        characterInputs.LookDirection = playerCam.CurrentCamState == CamState.FreeLook ? playerCam.lastLookDirection : playerCam.transform.forward;
         characterInputs.CamRotation = playerCam.transform.rotation;
 
         if (holdToJump)
-        {
             characterInputs.TryJump = input.Jump.inProgress;
-        }
         else
-        {
             characterInputs.TryJump = input.Jump.triggered;
-        }
 
         if (holdToRun)
-        {
             characterInputs.TryRun = input.Run.inProgress;
-        }
         else if (input.Run.triggered)
-        {
             characterInputs.TryRun = !characterInputs.TryRun;
-        }
 
         if (holdToCrouch)
-        {
             characterInputs.TryCrouch = input.Crouch.inProgress;
-        }
         else if (input.Crouch.triggered)
-        {
             characterInputs.TryCrouch = !characterInputs.TryCrouch;
-        }
 
         if (input.Fly.triggered)
             characterInputs.TryFly = !characterInputs.TryFly;
@@ -140,7 +128,11 @@ public class PlayerInputReceiver : UnityInputReceiver
         cameraInput.mouseX = input.Look.ReadValue<Vector2>().x;
         cameraInput.mouseY = input.Look.ReadValue<Vector2>().y;
         cameraInput.zoomValue = input.Zoom.ReadValue<float>();
-        cameraInput.switchCamState = input.SwitchCamState.triggered;
+        cameraInput.freeLook = input.FreeLook.inProgress;
+        if (input.SwitchCamState.triggered)
+        {
+            cameraInput.switchCamState = !cameraInput.switchCamState;
+        }
 
         playerCam.ApplyInput(ref cameraInput);
     }

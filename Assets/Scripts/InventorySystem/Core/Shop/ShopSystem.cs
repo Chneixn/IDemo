@@ -41,7 +41,7 @@ namespace InventorySystem
         /// </summary>
         /// <param name="data"></param>
         /// <param name="amount"></param>
-        public void AddToShop(InventoryItemData data, int amount)
+        public void AddToShop(ItemData data, int amount)
         {
             if (ContainItem(data, out ShopSlot shopSlot))
             {
@@ -76,7 +76,7 @@ namespace InventorySystem
         /// <param name="itemToAdd"></param>
         /// <param name="shopSlot"></param>
         /// <returns></returns>
-        public bool ContainItem(InventoryItemData itemToAdd, out ShopSlot shopSlot)
+        public bool ContainItem(ItemData itemToAdd, out ShopSlot shopSlot)
         {
             shopSlot = _shopInventory.Find(i => i.ItemDate == itemToAdd);
 
@@ -88,14 +88,14 @@ namespace InventorySystem
         /// </summary>
         /// <param name="data">物品数据</param>
         /// <param name="amount">物品数量</param>
-        public void PurchaseItem(InventoryItemData data, int amount)
+        public void PurchaseItem(ItemData data, int amount)
         {
             if (!ContainItem(data, out ShopSlot slot)) return;
 
             slot.RemoveFromStack(amount);
         }
 
-        public void SellItem(InventoryItemData data, int amount, int price)
+        public void SellItem(ItemData data, int amount, int price)
         {
             AddToShop(data, amount);
             SpendGold(price);

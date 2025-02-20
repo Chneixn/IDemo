@@ -76,7 +76,7 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""16590040-6766-4c55-969d-ddb929a8addb"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -85,7 +85,7 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
                     ""name"": ""Dodge"",
                     ""type"": ""Button"",
                     ""id"": ""5a10b13e-129a-452e-984a-665ea88ff329"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -95,6 +95,15 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""72332794-eeb5-423e-bbed-67ba0128bcd8"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FreeLook"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cb4a5ec-918b-43a6-8001-33c289f6a131"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -306,11 +315,11 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f51cf01b-6404-4554-a661-d41001ddaa37"",
-                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""id"": ""4e01c15a-ee12-4c18-aaca-95f4fbb0e433"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": """",
                     ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -356,6 +365,17 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Fly"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb2b5786-f235-4790-81d1-51ee39c01db2"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""FreeLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1095,6 +1115,7 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
         m_PlayerInput_Crouch = m_PlayerInput.FindAction("Crouch", throwIfNotFound: true);
         m_PlayerInput_Dodge = m_PlayerInput.FindAction("Dodge", throwIfNotFound: true);
         m_PlayerInput_SwitchCamState = m_PlayerInput.FindAction("SwitchCamState", throwIfNotFound: true);
+        m_PlayerInput_FreeLook = m_PlayerInput.FindAction("FreeLook", throwIfNotFound: true);
         m_PlayerInput_Zoom = m_PlayerInput.FindAction("Zoom", throwIfNotFound: true);
         m_PlayerInput_Back = m_PlayerInput.FindAction("Back", throwIfNotFound: true);
         m_PlayerInput_Fly = m_PlayerInput.FindAction("Fly", throwIfNotFound: true);
@@ -1214,6 +1235,7 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Crouch;
     private readonly InputAction m_PlayerInput_Dodge;
     private readonly InputAction m_PlayerInput_SwitchCamState;
+    private readonly InputAction m_PlayerInput_FreeLook;
     private readonly InputAction m_PlayerInput_Zoom;
     private readonly InputAction m_PlayerInput_Back;
     private readonly InputAction m_PlayerInput_Fly;
@@ -1229,6 +1251,7 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_PlayerInput_Crouch;
         public InputAction @Dodge => m_Wrapper.m_PlayerInput_Dodge;
         public InputAction @SwitchCamState => m_Wrapper.m_PlayerInput_SwitchCamState;
+        public InputAction @FreeLook => m_Wrapper.m_PlayerInput_FreeLook;
         public InputAction @Zoom => m_Wrapper.m_PlayerInput_Zoom;
         public InputAction @Back => m_Wrapper.m_PlayerInput_Back;
         public InputAction @Fly => m_Wrapper.m_PlayerInput_Fly;
@@ -1265,6 +1288,9 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
             @SwitchCamState.started += instance.OnSwitchCamState;
             @SwitchCamState.performed += instance.OnSwitchCamState;
             @SwitchCamState.canceled += instance.OnSwitchCamState;
+            @FreeLook.started += instance.OnFreeLook;
+            @FreeLook.performed += instance.OnFreeLook;
+            @FreeLook.canceled += instance.OnFreeLook;
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
@@ -1302,6 +1328,9 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
             @SwitchCamState.started -= instance.OnSwitchCamState;
             @SwitchCamState.performed -= instance.OnSwitchCamState;
             @SwitchCamState.canceled -= instance.OnSwitchCamState;
+            @FreeLook.started -= instance.OnFreeLook;
+            @FreeLook.performed -= instance.OnFreeLook;
+            @FreeLook.canceled -= instance.OnFreeLook;
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
@@ -1748,6 +1777,7 @@ public partial class @SourceInput: IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
         void OnSwitchCamState(InputAction.CallbackContext context);
+        void OnFreeLook(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnFly(InputAction.CallbackContext context);

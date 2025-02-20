@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor.Callbacks;
 
-// TODO: item 建立分类，添加过滤器，分类显示物品
+// TODO: item 建立分类，分类显示物品
 
 namespace InventorySystem
 {
@@ -21,13 +21,18 @@ namespace InventorySystem
         private Button refreshButton;
         private Button setIDButton;
         private ToolbarPopupSearchField searchField;
-        private List<InventoryItemData> searchItems;
+        private List<ItemData> searchItems;
         private Button jsonInputButton;
         private Button jsonOutButton;
-        // private Button execlInputButton;
-        // private Button execlOutButton;
+        private Button execlInputButton;
+        private Button execlOutButton;
+        private TextField execlPathField;
+        private Button viewExeclPathButton;
+        private TextField databasePathField;
+        private Button viewDatabasePathButton;
 
-        private Label debugLabel;
+        // tip 提示
+        private Label tipLabel;
 
         private VisualElement itemListHolder;
         private ListView itemListView;
@@ -65,6 +70,7 @@ namespace InventorySystem
             return false;
         }
 
+        #region On Create Editor
         public void CreateGUI()
         {
             setting = InventorySystemEditorSetting.GetOrCreateSettings();
@@ -107,25 +113,38 @@ namespace InventorySystem
             jsonOutButton = root.Q<Button>("json-output");
             jsonOutButton.clicked += OutJsonFile;
 
-            // execlInputButton = root.Q<Button>("execl-input");
-            // execlInputButton.clicked += InputExeclFile;
+            execlInputButton = root.Q<Button>("execl-input");
+            execlInputButton.clicked += InputExeclFile;
 
-            // execlOutButton = root.Q<Button>("execl-out");
-            // execlOutButton.clicked += OutExeclFile;
+            execlOutButton = root.Q<Button>("execl-output");
+            execlOutButton.clicked += OutExeclFile;
+
+            execlPathField = root.Q<TextField>("execl-path");
+            execlPathField.value = setting.execlPath;
+            execlPathField.RegisterValueChangedCallback((x) => OnExeclPathValueChange(x.newValue));
+            viewExeclPathButton = root.Q<Button>("view-execl-path");
+            viewExeclPathButton.clicked += OnViewExeclPath;
+
+            databasePathField = root.Q<TextField>("database-path");
+            databasePathField.value = setting.newDatabasePath;
+            databasePathField.RegisterValueChangedCallback((x) => OnDatabasePathValueChange(x.newValue));
+            viewDatabasePathButton = root.Q<Button>("view-database-path");
+            viewDatabasePathButton.clicked += OnViewDatabasePath;
 
             inspectorView = root.Q<InventoryItemInspectorView>("iteminspector-view");
-            inspectorView.Init(root.Q<VisualElement>("item-Image"), root.Q<Toolbar>("label-list"), root.Q<Button>("add-label"), root.Q<TextField>("new-label-text"));
+            inspectorView.Init(root.Q<VisualElement>("item-Image"));
 
             // Item List Holder
             itemListHolder = root.Q<VisualElement>("itemList-holder");
 
-            debugLabel = root.Q<Label>("Debug");
+            tipLabel = root.Q<Label>("Debug");
 
             if (Selection.activeObject is ItemDatabase)
             {
                 itemDataBaseField.value = Selection.activeObject;
             }
         }
+        #endregion
 
         private void OnInspectorUpdate()
         {
@@ -150,7 +169,7 @@ namespace InventorySystem
         /// <summary>
         /// 刷新物品显示列表
         /// </summary>
-        private void RefreshItemListView(List<InventoryItemData> items)
+        private void RefreshItemListView(List<ItemData> items)
         {
             itemListHolder.Clear();
             itemListView = new ListView
@@ -175,7 +194,7 @@ namespace InventorySystem
             // 当选择 item 不为空时
             if (enumerator.MoveNext())
             {
-                var item = enumerator.Current as InventoryItemData;
+                var item = enumerator.Current as ItemData;
 
                 inspectorView.UpdateSelection(item);
             }
@@ -201,7 +220,7 @@ namespace InventorySystem
         {
             if (database == null) return;
 
-            InventoryItemData item = database.Items[index];
+            ItemData item = database.Items[index];
             Label label = element as Label;
             label.text = $"[{item.ID}] {item.displayName}";
 
@@ -258,8 +277,7 @@ namespace InventorySystem
             }
             else
             {
-                //Debug.LogWarning("请先选择一个 Item Data Base! ");
-                debugLabel.text = "请先选择一个 Item Data Base! ";
+                ShowTip("请先选择一个 Item Data Base! ", Color.yellow);
             }
         }
         #endregion
@@ -290,7 +308,7 @@ namespace InventorySystem
                 RefreshItemListView(database.Items);
             }
 
-            debugLabel.text = "ToolTips...";
+            ShowTip("ToolTips...", Color.white, false);
         }
 
         /// <summary>
@@ -317,6 +335,28 @@ namespace InventorySystem
             }
         }
 
+        private void OnViewExeclPath()
+        {
+            string path = EditorUtility.OpenFolderPanel("选择Execl存储文件夹", Application.dataPath, "");
+            if (!string.IsNullOrEmpty(path))
+            {
+                execlPathField.value = path;
+            }
+        }
+
+        private void OnExeclPathValueChange(string newValue) => setting.execlPath = newValue;
+
+        private void OnDatabasePathValueChange(string newValue) => setting.newDatabasePath = newValue;
+
+        private void OnViewDatabasePath()
+        {
+            string path = EditorUtility.OpenFolderPanel("选择Database存储文件夹", Application.dataPath, "");
+            if (!string.IsNullOrEmpty(path))
+            {
+                databasePathField.value = path.Substring(Application.dataPath.Length - 6);
+            }
+        }
+
         /// <summary>
         /// 检查database是否为空
         /// </summary>
@@ -325,8 +365,7 @@ namespace InventorySystem
         {
             if (database == null)
             {
-                Debug.Log("请先选择一个物品数据库(ItemDatabase)!");
-                debugLabel.text = "请先选择一个物品数据库(ItemDatabase)!";
+                ShowTip("请先选择一个物品数据库(ItemDatabase)!", Color.yellow);
                 return false;
             }
             return true;
@@ -345,31 +384,13 @@ namespace InventorySystem
             {
                 // 列表序列化需要经过中间件，放入一个Serialization结构的target列表中，因此需要对json字符串加工
                 string json = File.ReadAllText(path, System.Text.Encoding.UTF8);
-                List<ItemSaveData> itemDates = JsonUtility.FromJson<Serialization<ItemSaveData>>(json).ToList();
+                List<ItemSaveData> itemDates = JsonUtility.FromJson<SerializableList<ItemSaveData>>(json).ToList();
 
-                // 在内存创建database实例，读取全部item数据
-                ItemDatabase database = ScriptableObject.CreateInstance<ItemDatabase>();
-                foreach (var data in itemDates)
-                {
-                    var item = ScriptableObject.CreateInstance<InventoryItemData>();
-                    item.ReadSaveDate(data);
-                    database.AddItem(item);
-                }
-
-                // 向磁盘写入database
-                string fileName = Path.GetFileNameWithoutExtension(path);
-                AssetDatabase.CreateAsset(database, $"Assets/InventorySystem/ItemDatabase/{fileName}.asset");
-
-                // 保存创建的资源
-                EditorUtility.SetDirty(database);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-
-                Debug.Log($"Creat ItemDatabase which contain {database.Items.Count} items, in Assets/InventorySystem/ItemDatabase/{fileName}.asset", database);
-                ChangeDatabase(database);
+                CreateAssetFromSaveData(ref itemDates, path);
             }
             catch (System.Exception exception)
             {
+                ShowTip($"Failed to read data from {path}. \n{exception}", Color.red, false);
                 Debug.LogError($"Failed to read data from {path}. \n{exception}");
             }
         }
@@ -381,29 +402,170 @@ namespace InventorySystem
         {
             if (!CheckDatabase()) return;
 
-            string path = EditorUtility.SaveFilePanel("选择需要保存Json文件的文件夹", Application.dataPath, database.name, "json");
+            string path = EditorUtility.SaveFilePanelInProject("选择需要保存Json文件的文件夹", database.name, "json", "");
             if (path == "") return;
 
             // 将所有 itemdata 转换为需要序列化的 savedata
             List<ItemSaveData> saveDates = new();
-            foreach (InventoryItemData i in database.Items)
+            foreach (ItemData i in database.Items)
                 saveDates.Add(new ItemSaveData(i));
 
             // 使用 JsonUtility 工具导出 Json 文件时，列表不能直接序列化，需要经过一次中间件
-            string json = JsonUtility.ToJson(new Serialization<ItemSaveData>(saveDates));
+            string json = JsonUtility.ToJson(new SerializableList<ItemSaveData>(saveDates), true);
 
             try
             {
                 File.WriteAllText(path, json);
-                Debug.Log($"Save Json file to {path}.", database);
+                ShowTip($"Save Json file to {path}.", Color.yellow);
             }
             catch (System.Exception exception)
             {
+                ShowTip($"Failed to save data to {path}. \n{exception}", Color.red, false);
                 Debug.LogError($"Failed to save data to {path}. \n{exception}");
             }
         }
 
         #endregion
+
+        #region Execl处理
+
+        private void InputExeclFile()
+        {
+            string path = EditorUtility.OpenFilePanel("选择表格文件", setting.execlPath, "xlsx");
+            if (path == null || path == "") return;
+            // 涉及System.IO时推荐使用try获取系统异常
+            try
+            {
+                // 获取execl文件
+                Excel xls = ExcelHelper.LoadExcel(path);
+                if (xls.Tables.Count == 0)
+                {
+                    ShowTip($"表格文件没有表 {path}.", Color.red, false);
+                    Debug.LogError("表格文件没有表");
+                    return;
+                }
+
+                int rowCount = xls.Tables[0].RowCount;
+                if (rowCount <= 1)
+                {
+                    ShowTip($"表格文件没有数据 {path}.", Color.red, false);
+                    Debug.LogError("表格文件没有数据");
+                    return;
+                }
+                List<ItemSaveData> itemDates = new();
+
+                // 获取工作表
+                foreach (ExcelTable table in xls.Tables)
+                {
+                    //获取表格的列和行
+                    for (int row = 0; row <= table.RowCount; row++)
+                    {
+                        // 跳过第一行
+                        if (row <= 1) continue;
+                        ItemSaveData save = new()
+                        {
+                            id = int.Parse(table.GetValue(row, 1).ToString()),
+                            display_name = table.GetValue(row, 2).ToString(),
+                            description = table.GetValue(row, 3).ToString(),
+                            itemType = ItemType.None,
+                            maxStackSize = int.Parse(table.GetValue(row, 5).ToString()),
+                            value = int.Parse(table.GetValue(row, 6).ToString()),
+                            iconPath = table.GetValue(row, 7).ToString(),
+                            prefabPath = table.GetValue(row, 8).ToString()
+                        };
+                        foreach (ItemType type in Enum.GetValues(typeof(ItemType)))
+                        {
+                            if (table.GetValue(row, 4).ToString() == type.ToString())
+                                save.itemType = type;
+                        }
+                        itemDates.Add(save);
+                    }
+                }
+
+                CreateAssetFromSaveData(ref itemDates, path);
+            }
+            catch (System.Exception exception)
+            {
+                ShowTip($"Failed to read data from {path}. \n{exception}", Color.red, false);
+                Debug.LogError($"Failed to read data from {path}. \n{exception}");
+            }
+        }
+
+        /// <summary>
+        /// 导出Excel文件
+        /// </summary>
+        private void OutExeclFile()
+        {
+            if (!CheckDatabase()) return;
+            string path = $"{setting.execlPath}/{database.name}.xlsx";
+            try
+            {
+                // 将所有 itemdata 转换为可序列化的 savedata
+                List<ItemSaveData> saveDates = new();
+                foreach (ItemData i in database.Items)
+                    saveDates.Add(new ItemSaveData(i));
+
+                // 检查文件是否存在，存在则读取，否则创建新文件
+                Excel xls = File.Exists(path) ? ExcelHelper.LoadExcel(path) : ExcelHelper.CreateExcel(path);
+                ExcelTable table = xls.Tables[0];
+                for (int i = 0; i < saveDates.Count; i++)
+                {
+                    int row = i + 2;
+                    table.SetValue(row, 1, saveDates[i].id.ToString());
+                    table.SetValue(row, 2, saveDates[i].display_name);
+                    table.SetValue(row, 3, saveDates[i].description);
+                    table.SetValue(row, 4, saveDates[i].itemType.ToString());
+                    table.SetValue(row, 5, saveDates[i].maxStackSize.ToString());
+                    table.SetValue(row, 6, saveDates[i].value.ToString());
+                    table.SetValue(row, 7, saveDates[i].iconPath);
+                    table.SetValue(row, 8, saveDates[i].prefabPath);
+                }
+
+                ExcelHelper.SaveExcel(xls, path);
+                ShowTip($"Save Execl file to {path}.", Color.yellow);
+            }
+            catch (System.Exception exception)
+            {
+                ShowTip($"Failed to save data to {path}. \n{exception}", Color.red, false);
+                Debug.LogError($"Failed to save data to {path}. \n{exception}");
+            }
+        }
+
+        #endregion
+
+        private void CreateAssetFromSaveData(ref List<ItemSaveData> itemDates, string path)
+        {
+            // 在内存创建database实例
+            ItemDatabase database = ScriptableObject.CreateInstance<ItemDatabase>();
+
+            // 向磁盘写入database,在嵌套scriptableobject时必须先写入磁盘进行持久化
+            string fileName = Path.GetFileNameWithoutExtension(path);
+            // createAsset 需要使用相对路径
+            AssetDatabase.CreateAsset(database, $"{setting.newDatabasePath}/{fileName}.asset");
+
+            // 读取全部item数据
+            foreach (var data in itemDates)
+            {
+                ItemData item = ScriptableObject.CreateInstance<ItemData>();
+                item.ReadSaveDate(data);
+                database.AddItem(item);
+            }
+
+            // 保存创建的资源
+            EditorUtility.SetDirty(database);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            ShowTip($"Creat ItemDatabase which contain {database.Items.Count} items, in {setting.newDatabasePath}{fileName}.asset", Color.yellow);
+            ChangeDatabase(database);
+        }
+
+        private void ShowTip(string text, Color color, bool debugLog = true)
+        {
+            tipLabel.style.color = color;
+            tipLabel.text = text;
+            if (debugLog) Debug.Log(text);
+        }
 
         private void OnDestroy()
         {
@@ -417,13 +579,12 @@ namespace InventorySystem
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class Serialization<T>
+    public class SerializableList<T>
     {
-        [SerializeField]
-        List<T> target;
+        [SerializeField] private List<T> target;
         public List<T> ToList() { return target; }
 
-        public Serialization(List<T> target)
+        public SerializableList(List<T> target)
         {
             this.target = target;
         }
