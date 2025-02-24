@@ -86,7 +86,7 @@ public class BaseGun : MonoBehaviour, IWeapon
         }
 
         // 检查库存组件
-        if (GameManager.Instance.PlayerInventory.PrimaryInventorySystem == null) Debug.LogError("Can't find player's inventory!");
+        if (GameManager.Instance.PlayerInventory.PrimaryStorage == null) Debug.LogError("Can't find player's inventory!");
     }
 
     public virtual void EnableWeapon()
@@ -104,7 +104,6 @@ public class BaseGun : MonoBehaviour, IWeapon
     public virtual void DisableWeapon()
     {
         // 在换弹匣时切换武器,重新换子弹
-        // TODO: 分段换弹匣动画
         if (!readyToReload && reloadTimer.IsActive) reloadTimer.PauseTimer();
         OnDisableWeapon?.Invoke();
     }
@@ -285,7 +284,7 @@ public class BaseGun : MonoBehaviour, IWeapon
     /// </summary>
     public void UpdateBulletCount()
     {
-        totalBulletsLeft = GameManager.Instance.PlayerInventory.PrimaryInventorySystem.GetItemCountFormInventory(set.bulletData);
+        totalBulletsLeft = GameManager.Instance.PlayerInventory.PrimaryStorage.GetItemCountFormInventory(set.bulletData);
         //Debug.Log($"update bullet count! total bullet left {totalBulletsLeft}");
     }
 
@@ -295,7 +294,7 @@ public class BaseGun : MonoBehaviour, IWeapon
     /// <param name="amount"></param>
     private void RemoveBulletFormInventory(int amount)
     {
-        bool success = GameManager.Instance.PlayerInventory.PrimaryInventorySystem.RemoveItemsFromInventory(set.bulletData, amount, out _);
+        bool success = GameManager.Instance.PlayerInventory.PrimaryStorage.RemoveItemsFromInventory(set.bulletData, amount, out _);
         //if (!success)
         //{
         //    Debug.Log($"Remove ammo [{set.bulletData.displayName}] failed!");

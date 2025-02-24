@@ -27,6 +27,9 @@ public class LockGun : BaseGun
     private List<Transform> lockedTargets = new();
     private Coroutine lockingCoroutine;
 
+    /// <summary>
+    /// 锁定信息，包含锁定的目标，锁定起始时间与锁定进度
+    /// </summary>
     public class LockInfo
     {
         public Transform Target;
