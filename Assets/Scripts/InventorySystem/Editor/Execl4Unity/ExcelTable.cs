@@ -5,7 +5,7 @@ using OfficeOpenXml;
 
 public class ExcelTable
 {
-    private Dictionary<int, Dictionary<int, ExcelTableCell>> cells = new Dictionary<int, Dictionary<int, ExcelTableCell>>();
+    private Dictionary<int, Dictionary<int, ExcelTableCell>> cells = new();
 
     public string TableName;
     public int NumberOfRows;

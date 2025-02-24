@@ -6,17 +6,17 @@ namespace InventorySystem
     [System.Serializable]
     public abstract class InventoryHolder : MonoBehaviour
     {
-        [SerializeField] private int inventorySize;
-        [SerializeField] protected InventorySystem primaryInventorySystem;
+        [SerializeField] private int storageSize;
+        [SerializeField] protected InventoryStorage primaryStorage;
 
-        public InventorySystem PrimaryInventorySystem => primaryInventorySystem;
+        public InventoryStorage PrimaryStorage => primaryStorage;
 
         //Inv System to Display, amount to offest display by
-        public static UnityAction<InventorySystem, int> OnDynamicInventoryDisplayRequested;
+        public static UnityAction<InventoryStorage, int> OnDisplayRequested;
 
         protected virtual void Awake()
         {
-            primaryInventorySystem = new InventorySystem(inventorySize);
+            primaryStorage = new InventoryStorage(storageSize);
         }
     }
 }

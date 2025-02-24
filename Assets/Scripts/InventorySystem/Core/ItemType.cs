@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType
+namespace InventorySystem
 {
-    None,
-    Weapon,
-    Gold,
-    Important
+    public enum ItemType
+    {
+        Default,
+        Weapon,
+        Gold,
+        Important
+    }
+
 }

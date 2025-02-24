@@ -5,7 +5,6 @@ using UnityEngine.UIElements;
 using UnityEngine;
 using UnityEditor.UIElements;
 
-// TODO:选择物品图标后同步更新
 public partial class InventoryItemInspectorView : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<InventoryItemInspectorView> { }

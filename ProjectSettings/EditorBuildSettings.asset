@@ -5,12 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Main_Menu.unity
+  - enabled: 1
+    path: Assets/Scenes/Bootstrapper.unity
+    guid: 3fd433cfbc1788a43a9977fc602a4da1
+  - enabled: 1
+    path: Assets/Scenes/Menu_Env.unity
     guid: 51e900be28f66d94d8393ce679289807
   - enabled: 1
-    path: Assets/OtherAssets/Lazy Dream Studio/Easy Aspect Ratio Control/Scenes/Demo.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/ClimbTest_Map.unity
+    guid: 8dacf06c730675847b9e00f0510b79f1
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 3e104ebbb4c4f77469fc823c83a1c582, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 1b643f7c5118128419889308e3679da1, type: 2}

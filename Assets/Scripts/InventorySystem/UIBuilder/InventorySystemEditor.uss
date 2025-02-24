@@ -52,3 +52,7 @@
     -unity-text-align: middle-center;
     -unity-font-style: bold;
 }
+
+.button {
+    width: 40px;
+}

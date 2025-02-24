@@ -9,9 +9,9 @@ namespace InventorySystem
     {
         public static UnityAction OnPlayerInventoryChange;
 
-        public static UnityAction<InventorySystem, int> OnPlayerInventoryDisplayRequested;
+        public static UnityAction<InventoryStorage, int> OnPlayerInventoryDisplayRequested;
 
-        public static UnityAction<InventorySystem, int> WithChestInteraction;
+        public static UnityAction<InventoryStorage, int> WithChestInteraction;
 
         // 玩家hotbar的数量，HotBar插槽不会在玩家背包显示，仅在hotbar显示
         [SerializeField] private int hotBarCount = 2;
@@ -54,7 +54,7 @@ namespace InventorySystem
         /// <returns></returns>
         public int AddToInventory(ItemData data, int amount)
         {
-            int amountLeft = primaryInventorySystem.AddToInventory(data, amount);
+            int amountLeft = primaryStorage.AddToInventory(data, amount);
             return amountLeft;
         }
 
@@ -66,7 +66,7 @@ namespace InventorySystem
         /// <returns></returns>
         public bool RemoveFormInventory(ItemData data, int amount)
         {
-            bool s = primaryInventorySystem.RemoveItemsFromInventory(data, amount, out _);
+            bool s = primaryStorage.RemoveItemsFromInventory(data, amount, out _);
             return s;
         }
 
@@ -75,10 +75,10 @@ namespace InventorySystem
         /// </summary>
         /// <param name="chestInv"></param>
         /// <param name="_offest"></param>
-        public void DisplayPlayerInventoryOnChestInteraction(InventorySystem chestInv, int _offest)
+        public void DisplayPlayerInventoryOnChestInteraction(InventoryStorage chestInv, int _offest)
         {
             WithChestInteraction?.Invoke(chestInv, _offest);
-            OnPlayerInventoryDisplayRequested?.Invoke(primaryInventorySystem, hotBarCount);
+            OnPlayerInventoryDisplayRequested?.Invoke(primaryStorage, hotBarCount);
         }
     }
 }

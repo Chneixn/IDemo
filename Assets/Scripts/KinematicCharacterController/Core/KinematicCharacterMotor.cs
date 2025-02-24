@@ -1759,7 +1759,7 @@ namespace KinematicCharacterController
                 // Avoid calculations if the two planes are the same
                 if (dotPlanes < 0.999f)
                 {
-                    // TODO: can this whole part be made simpler? (with 2d projections, etc)
+                    // can this whole part be made simpler? (with 2d projections, etc)
                     Vector3 normalAOnCreasePlane = Vector3.ProjectOnPlane(currentHitNormal, tmpBlockingCreaseDirection).normalized;
                     Vector3 normalBOnCreasePlane = Vector3.ProjectOnPlane(previousHitNormal, tmpBlockingCreaseDirection).normalized;
                     float dotPlanesOnCreasePlane = Vector3.Dot(normalAOnCreasePlane, normalBOnCreasePlane);

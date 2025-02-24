@@ -1,27 +1,33 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/Scripts/InventorySystem/UIBuilder/InventorySystemEditor.uss?fileID=7433441132597879392&amp;guid=b5bd124783620ac408eabceae5ae8f99&amp;type=3#InventorySystemEditor" />
-    <uie:Toolbar name="TopBar">
+    <uie:Toolbar name="TopBar" style="justify-content: flex-start; align-items: stretch;">
         <uie:ObjectField label="物品数据库" name="itemDataBase-select" style="width: 300px;" />
-        <ui:Button text="创建" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-button" tooltip="在当前物品库创建一个新的物品" style="flex-direction: column; margin-right: 1px; margin-left: 1px; margin-top: 1px; margin-bottom: 1px;" />
-        <ui:Button text="设置ID" parse-escape-sequences="true" display-tooltip-when-elided="true" name="setID-button" tooltip="为所有未设置ID的物品(ID为-1)自动设置ID" />
-        <ui:Button text="刷新" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refresh-button" tooltip="刷新当前物品库视图" />
-        <uie:ToolbarPopupSearchField focusable="true" name="searchField" tooltip="在当前物品库搜索物品（允许ID或名字模糊搜索）" style="width: 200px;" />
+        <uie:ToolbarButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-button" tooltip="在当前物品库创建一个新的物品" style="background-image: url(&quot;project://database/Assets/Scripts/InventorySystem/Editor/Assets/create.png?fileID=2800000&amp;guid=ab97b32d96179fd4092cd52c7e9aea62&amp;type=3#create&quot;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(194, 194, 194); width: 25px; -unity-slice-top: 2; -unity-slice-left: 2; -unity-slice-right: 2; -unity-slice-bottom: 2;" />
+        <uie:ToolbarButton text="ID" parse-escape-sequences="true" display-tooltip-when-elided="true" name="setID-button" tooltip="为所有未设置ID的物品(ID为-1)自动设置ID" style="-unity-text-align: middle-center; width: 25px; font-size: 16px;" />
+        <uie:ToolbarButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="refresh-button" tooltip="刷新当前物品库视图" style="background-image: url(&quot;project://database/Assets/Scripts/InventorySystem/Editor/Assets/refresh.png?fileID=2800000&amp;guid=55b86e8f521dc6e4b8f0b3110c934fcb&amp;type=3#refresh&quot;); -unity-background-scale-mode: scale-to-fit; width: 25px; -unity-slice-left: 1; -unity-slice-top: 1; -unity-slice-right: 1; -unity-slice-bottom: 1; -unity-background-image-tint-color: rgb(194, 194, 194);" />
+        <uie:ToolbarSearchField name="searchField" tooltip="在当前物品库以名字搜索" style="flex-grow: 1;" />
     </uie:Toolbar>
     <uie:Toolbar name="Toolbar">
-        <ui:Button text="导入Execl" parse-escape-sequences="true" display-tooltip-when-elided="true" name="execl-input" tooltip="从Execl表格导入数据库(只支持xlsx格式)" />
-        <ui:Button text="导出Execl" parse-escape-sequences="true" display-tooltip-when-elided="true" name="execl-output" tooltip="将物品数据库导出为Execl文件(xlsx格式)" />
+        <ui:Label tabindex="-1" text="Execl" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; width: 45px;" />
+        <ui:Button text="Input" parse-escape-sequences="true" display-tooltip-when-elided="true" name="execl-input" tooltip="从Execl表格导入数据库(只支持xlsx格式)" style="width: 40px;" />
+        <ui:Button text="Out" parse-escape-sequences="true" display-tooltip-when-elided="true" name="execl-output" tooltip="将物品数据库导出为Execl文件(xlsx格式)" style="width: 40px;" />
         <ui:TextField picking-mode="Ignore" label="Execl文件路径" name="execl-path" style="flex-grow: 1;" />
-        <ui:Button text="浏览" parse-escape-sequences="true" display-tooltip-when-elided="true" name="view-execl-path" />
+        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="view-execl-path" style="width: 25px; background-image: url(&quot;project://database/Assets/Scripts/InventorySystem/Editor/Assets/folderOpen.png?fileID=2800000&amp;guid=defdae3430474ed458c80274b83c29b2&amp;type=3#folderOpen&quot;); -unity-background-scale-mode: scale-to-fit; -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2; -unity-background-image-tint-color: rgb(194, 194, 194);" />
     </uie:Toolbar>
     <uie:Toolbar name="Toolbar">
-        <ui:Button text="导入Json" parse-escape-sequences="true" display-tooltip-when-elided="true" name="json-input" tooltip="从JSON文件导入数据库" />
-        <ui:Button text="导出Json" parse-escape-sequences="true" display-tooltip-when-elided="true" name="json-output" tooltip="将物品数据库导出为JSON文件" />
+        <ui:Label tabindex="-1" text="Json" parse-escape-sequences="true" display-tooltip-when-elided="true" style="width: 45px; -unity-text-align: middle-center;" />
+        <ui:Button text="Input" parse-escape-sequences="true" display-tooltip-when-elided="true" name="json-input" tooltip="从JSON文件导入数据库" class="button" />
+        <ui:Button text="Out" parse-escape-sequences="true" display-tooltip-when-elided="true" name="json-output" tooltip="将物品数据库导出为JSON文件" style="width: 40px;" />
         <ui:TextField picking-mode="Ignore" label="database文件路径" name="database-path" style="flex-grow: 1;" />
-        <ui:Button text="浏览" parse-escape-sequences="true" display-tooltip-when-elided="true" name="view-database-path" />
+        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="view-database-path" style="background-image: url(&quot;project://database/Assets/Scripts/InventorySystem/Editor/Assets/folderOpen.png?fileID=2800000&amp;guid=defdae3430474ed458c80274b83c29b2&amp;type=3#folderOpen&quot;); -unity-background-image-tint-color: rgb(194, 194, 194); -unity-background-scale-mode: scale-to-fit; width: 25px; -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2;" />
     </uie:Toolbar>
     <ui:VisualElement name="main-panel" style="flex-grow: 1; flex-direction: row; flex-basis: 100%;">
         <ui:VisualElement name="left-panel" style="border-top-width: 1px; border-right-width: 0; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); min-width: 100px; flex-grow: 1; flex-basis: 40%; border-bottom-width: 1px; border-left-width: 1px;">
             <ui:Label tabindex="-1" text="物品列表" parse-escape-sequences="true" display-tooltip-when-elided="true" name="itemList-label" style="-unity-font-style: bold; margin-right: 0; margin-left: 0; padding-left: 5px; border-bottom-width: 1px; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); background-color: rgb(37, 37, 37);" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); border-bottom-width: 1px;">
+                <ui:EnumField label="ItemType" type="InventorySystem.ItemType, InventorySystem" name="item-type" tooltip="选择要显示的物品类型" style="flex-grow: 1;" />
+                <ui:Button text="All" parse-escape-sequences="true" display-tooltip-when-elided="true" name="item-type-all" tooltip="显示所有类型物品" class="button" />
+            </ui:VisualElement>
             <ui:VisualElement name="itemList-holder" class="item-list-view" />
         </ui:VisualElement>
         <ui:VisualElement name="right-panel" style="min-width: 200px; flex-grow: 1; flex-basis: 60%; border-left-color: rgb(88, 88, 88); border-right-color: rgb(88, 88, 88); border-top-color: rgb(88, 88, 88); border-bottom-color: rgb(88, 88, 88); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">

@@ -18,6 +18,11 @@ namespace InventorySystem
             return items.Find(i => i.ID == id);
         }
 
+        public List<ItemData> GetItemsByType(ItemType type)
+        {
+            return items.FindAll(i => i.itemType == type);
+        }
+
 #if UNITY_EDITOR
         public void SetItemIDs()
         {

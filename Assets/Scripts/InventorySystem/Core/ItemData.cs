@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace InventorySystem
     {
         [ReadOnly] public int ID = -1;
         public string displayName = "None";
-        public ItemType itemType = ItemType.None;
+        public ItemType itemType = ItemType.Default;
         [TextArea(4, 4)] public string description;
         public int max_stack_size = 1;
         public int value = 0;

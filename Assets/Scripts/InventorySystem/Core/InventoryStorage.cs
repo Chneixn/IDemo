@@ -7,11 +7,11 @@ using System.Linq;
 namespace InventorySystem
 {
     [Serializable]
-    public class InventorySystem
+    public class InventoryStorage
     {
         [SerializeField] private List<InventorySlot> inventorySlots;
         public List<InventorySlot> InventorySlots => inventorySlots;
-        public int InventorySize => inventorySlots.Count;   // 库存中插槽的数量
+        public int InventorySize => inventorySlots.Count;   // 库存容量大小
         private readonly Dictionary<ItemData, int> itemsRecord = new();
         public Dictionary<ItemData, int> ItemsRecord => itemsRecord;
 
@@ -21,7 +21,7 @@ namespace InventorySystem
         /// 创建一个插槽列表，输入所需的插槽数量
         /// </summary>
         /// <param name="size"></param>
-        public InventorySystem(int size)
+        public InventoryStorage(int size)
         {
             inventorySlots = new List<InventorySlot>(size);
 
@@ -218,7 +218,7 @@ namespace InventorySystem
         public bool CheckInventoryRemaining(Dictionary<ItemData, int> itemsForCheck)
         {
             //复制玩家库存
-            var clonedSystem = new InventorySystem(this.InventorySize);
+            var clonedSystem = new InventoryStorage(this.InventorySize);
             for (int i = 0; i < InventorySize; i++)
             {
                 clonedSystem.InventorySlots[i].AssignItem(this.InventorySlots[i].ItemDate, this.InventorySlots[i].StackSize);

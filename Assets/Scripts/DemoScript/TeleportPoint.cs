@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class TeleportPoint : MonoBehaviour, IInteractable
 {
-    public SceneLoadEventSO loadEventSO;
     public bool isChangeScene;
-    public GameSceneSO sceneToGo;
     public Vector3 positionToGo;
 
     public Action<IInteractable> OnInteractionComplete { get; set; }
@@ -30,7 +28,5 @@ public class TeleportPoint : MonoBehaviour, IInteractable
     public void TeleportToNewScene()
     {
         Debug.Log("开始传送！");
-        if (sceneToGo != null)
-            loadEventSO.RaiseLoadRequestEvent(sceneToGo, positionToGo, true);
     }
 }
