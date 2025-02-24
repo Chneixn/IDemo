@@ -6,7 +6,7 @@
 - 基于KCC控制器的模块化角色运动控制器
 - 基于Cinemachine的摄像机控制器
 - 基于ScriptableObject的库存管理器
-- 基于Eflatun.SceneReference的场景加载器
+- 基于[Eflatun.SceneReference](https://github.com/starikcetin/Eflatun.SceneReference)的场景加载器
 - 数据持久化模块
 - 基于行为树的AI控制器
 
