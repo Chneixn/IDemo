@@ -1,25 +1,43 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityUtils;
 
 namespace System.SceneManagement
 {
     public class SceneLoader : MonoBehaviour
     {
-        [SerializeField] private LoadingCanvas loadingPanel;
-        [SerializeField] private Canvas loadingCanvas;
+        [SerializeField] private LoadingCanvas loadingCanvas;
         [SerializeField] private FadeCanvas fadeCanvas;
         [SerializeField] private float fadeDuration = 0.5f;
+        [SerializeField] private float forceWaitTime = 1f;
         [SerializeField] private SceneGroup[] sceneGroups;
 
-        private float loadingProgress;
-        bool isLoading;
+        [SerializeField] private float loadingProgress;
+        [SerializeField] bool isLoading = false;
 
         public readonly SceneGroupManager manager = new();
 
         async void Start()
         {
             await LoadSceneGroup(0);
+        }
+
+        private void Update()
+        {
+            if (isLoading)
+            {
+                if (!fadeCanvas.IsDone) return;
+                else EnableLoadingCanvas();
+                if (!loadingCanvas.IsDone) loadingCanvas.SetTargetPercent(loadingProgress);
+                else
+                {
+                    EnableLoadingCanvas(false);
+                    DisableFadeCanvas();
+                    isLoading = false;
+                }
+            }
         }
 
         /// <summary>
@@ -34,19 +52,26 @@ namespace System.SceneManagement
                 Debug.LogError("Invalid scene group index" + index);
                 return;
             }
-            fadeCanvas.FadeIn(fadeDuration);
-            await Task.Delay((int)(fadeDuration * 1000));
-            EnableLoadingCanvas();
+            EnableFadeCanvas();
+            isLoading = true;
             LoadingProgress progress = new();
-            progress.Progressed += p =>
-            {
-                loadingProgress = p;
-                loadingPanel.SetTargetPercent(loadingProgress);
-            };
+            progress.Progressed += p => loadingProgress = p;
 
             await manager.LoadScenes(sceneGroups[index], progress);
-            EnableLoadingCanvas(false);
+        }
+
+        private void EnableFadeCanvas()
+        {
+            fadeCanvas.gameObject.SetActive(true);
+            fadeCanvas.FadeIn(fadeDuration);
+            PlayerManager.Instance.CharacterControl.ChangeMovementState(PlayerManager.Instance.CharacterControl.freeze);
+        }
+
+        private void DisableFadeCanvas()
+        {
+            fadeCanvas.gameObject.SetActive(true);
             fadeCanvas.FadeOut(fadeDuration);
+            PlayerManager.Instance.CharacterControl.ChangeMovementState(PlayerManager.Instance.CharacterControl.idle);
         }
 
         /// <summary>
@@ -55,11 +80,18 @@ namespace System.SceneManagement
         /// <param name="enable"></param>
         private void EnableLoadingCanvas(bool enable = true)
         {
-            isLoading = enable;
-            loadingCanvas.gameObject.SetActive(enable);
-            fadeCanvas.gameObject.SetActive(enable);
+            loadingCanvas.gameObject.SetActiveSafe(enable);
+        }
+
+
+#if UNITY_EDITOR
+        [ContextMenu("加载第二个场景组")]
+        public async Task LoadNextSceneGroup()
+        {
+            await LoadSceneGroup(1);
         }
     }
+#endif
 
     public class LoadingProgress : IProgress<float>
     {
@@ -68,7 +100,7 @@ namespace System.SceneManagement
         const float ratio = 1f;
         public void Report(float value)
         {
-            Progressed?.Invoke(value / ratio);
+            Progressed.Invoke(value / ratio);
         }
     }
 }

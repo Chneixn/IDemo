@@ -11,13 +11,14 @@ public class LoadingCanvas : MonoBehaviour
     private float targetPercent = 0f;
     [SerializeField] private TextMeshProUGUI loadingText;
     [SerializeField] private Slider _slider;
+    public bool IsDone => percentCompleted >= 1f;
 
     private void OnEnable() => Reset();
     private void OnDisable() => Reset();
 
     private void Update()
     {
-        while (_slider.value < targetPercent)
+        while (percentCompleted < targetPercent)
         {
             percentCompleted += Time.deltaTime;
             _slider.value = Mathf.Clamp01(percentCompleted / targetPercent);

@@ -2,6 +2,7 @@ using System;
 using Unity.Collections;
 using UnityEngine;
 
+[Obsolete]
 [System.Serializable]
 [ExecuteInEditMode]
 public class UniqueID : MonoBehaviour

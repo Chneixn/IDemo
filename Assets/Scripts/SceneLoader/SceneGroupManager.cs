@@ -44,13 +44,13 @@ namespace System.SceneManagement
                 loadedScenes.Add(SceneManager.GetSceneAt(i).name);
             }
 
-            int totalSceneToLoad = group.Scenes.Count;
-            // 使用异步操作组来查询加载场景进度
-            var operationGroup = new AsyncOperationGroup(totalSceneToLoad);
+            int totalScenesToLoad = ActiveSceneGroup.Scenes.Count;
+            // 将所有场景加载操作添加进异步操作组来查询整体加载场景进度
+            var operationGroup = new AsyncOperationGroup(totalScenesToLoad);
 
-            for (int i = 0; i < totalSceneToLoad; i++)
+            for (int i = 0; i < totalScenesToLoad; i++)
             {
-                var sceneData = group.Scenes[i];
+                var sceneData = ActiveSceneGroup.Scenes[i];
                 // 如果不重新加载存在的场景，并且该场景已经加载过了，则跳过
                 if (!reloadDupScenes && loadedScenes.Contains(sceneData.Name)) continue;
 
@@ -69,11 +69,13 @@ namespace System.SceneManagement
             }
 
             // 等待所有场景异步加载完成, 并且每隔100ms更新进度
-            while (!operationGroup.IsDone || !handleGroup.IsDone)
+            do
             {
                 progress?.Report((operationGroup.Progress + handleGroup.Progress) / 2);
                 await Task.Delay(100);
-            }
+            } while (!operationGroup.IsDone || !handleGroup.IsDone);
+
+            progress?.Report(1);
 
             Scene activeScene = SceneManager.GetSceneByName(ActiveSceneGroup.FindSceneNameByType(SceneType.Activate));
 
@@ -91,15 +93,14 @@ namespace System.SceneManagement
             var activeScene = SceneManager.GetActiveScene().name;
 
             int sceneCount = SceneManager.sceneCount;
-            for (int i = 0; i < sceneCount; i++)
+            for (int i = sceneCount - 1; i > 0; i--)
             {
                 var sceneAt = SceneManager.GetSceneAt(i);
-                var sceneName = sceneAt.name;
-
                 // 如果场景没有加载则跳过
                 if (!sceneAt.isLoaded) continue;
 
                 // 如果是当前激活的场景或者是Bootstrapper场景则跳过
+                var sceneName = sceneAt.name;
                 if (sceneName.Equals(activeScene) || sceneName == "Bootstrapper") continue;
 
                 // 如果是Addressable加载过的场景则跳过
@@ -127,6 +128,7 @@ namespace System.SceneManagement
                     Addressables.UnloadSceneAsync(handle);
                 }
             }
+            handleGroup.Handles.Clear();
 
             while (!operationGroup.IsDone)
             {
@@ -145,7 +147,8 @@ namespace System.SceneManagement
     {
         public readonly List<AsyncOperation> Operations;
 
-        public float Progress => Operations.Count == 0 ? 0 : Operations.Average(o => o.progress);
+        // 异步操作队列不为零时,返回所有异步操作进度的平均值,否则为1,表示已完成
+        public float Progress => Operations.Count == 0 ? 1 : Operations.Average(o => o.progress);
         public bool IsDone => Operations.All(o => o.isDone);
 
         public AsyncOperationGroup(int initialCapacity)
@@ -162,7 +165,8 @@ namespace System.SceneManagement
     {
         public readonly List<AsyncOperationHandle<SceneInstance>> Handles;
 
-        public float Progress => Handles.Count == 0 ? 0 : Handles.Average(a => a.PercentComplete);
+        // 异步操作队列不为零时,返回所有异步操作进度的平均值,否则为1,表示已完成
+        public float Progress => Handles.Count == 0 ? 1 : Handles.Average(a => a.PercentComplete);
         public bool IsDone => Handles.Count == 0 || Handles.All(a => a.IsDone);
 
         public AsyncOperationHandleGroup(int initialCapacity)
