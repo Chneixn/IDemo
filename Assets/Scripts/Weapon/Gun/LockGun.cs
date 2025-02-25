@@ -37,20 +37,20 @@ public class LockGun : BaseGun
         public float Progress;
     }
 
-    public override void ActivateWeapon(Camera cam)
+    protected override void ActivateWeapon(Camera cam)
     {
         base.ActivateWeapon(cam);
         hitInfos ??= new RaycastHit[50];
     }
 
-    public override void AimEnd()
+    protected override void AimEnd()
     {
         if (lockingCoroutine != null) StopCoroutine(lockingCoroutine);
         // 清除锁定标志
         base.AimEnd();
     }
 
-    public override void AimStart()
+    protected override void AimStart()
     {
         lockingCoroutine = StartCoroutine(LockingTarget());
         base.AimStart();
@@ -135,7 +135,8 @@ public class LockGun : BaseGun
         yield return null;
     }
 
-    public override void Shoot()
+    // TODO:实现追踪子弹发生功能
+    protected override void Shoot()
     {
         if (!readyToShoot) return;
         else if (set.autoReloadWhenEmpty && currentBulletsCount <= 0)

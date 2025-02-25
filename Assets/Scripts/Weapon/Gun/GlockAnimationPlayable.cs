@@ -4,16 +4,15 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-public class GlockAnimationPlayable : WeaponAnimation
+public class GlockAnimationPlayable : GunAnimation
 {
     public AnimationClip IdleClip;
 
     PlayableGraph playableGraph;
     AnimationPlayableOutput playableOutput;
 
-    public override void Start()
+    private void Start()
     {
-        base.Start();
         playableGraph = PlayableGraph.Create();
         playableGraph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
         playableOutput = AnimationPlayableOutput.Create(playableGraph, $"{name}:Animation", GetComponent<Animator>());
@@ -46,12 +45,5 @@ public class GlockAnimationPlayable : WeaponAnimation
     {
         playableGraph.Stop();
     }
-
-    public virtual void OnShoot() { }
-    public virtual void OnSootFinshed() { }
-    public virtual void OnAim() { }
-    public virtual void OnAimFinshed() { }
-    public virtual void OnReloadBegin() { }
-    public virtual void OnReloadFinshed() { }
 
 }

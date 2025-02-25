@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66947987d61c7d4cb115ba481a4a9fb, type: 3}
+  m_Name: Knife
+  m_EditorClassIdentifier: 
+  knifeData: {fileID: 0}
+  litDamage: 30
+  heavyDamage: 70
+  attackRange: 1.5
+  litCoolDown: 1
+  heavyCoolDown: 2
+  allowButtonHold: 0
+  timeToHolster: 0
+  attackEffect: {fileID: 0}

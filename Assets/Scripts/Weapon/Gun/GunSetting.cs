@@ -1,13 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using InventorySystem;
 
 [Serializable]
-[CreateAssetMenu(menuName = "Weapon/Create new GunSetting", fileName = "New_GunSetting")]
+[CreateAssetMenu(menuName = "Weapon/Create new GunSetting", fileName = "New GunSetting")]
 public class GunSetting : ScriptableObject
 {
+    public ItemData gunData;
     [Header("Gun Parameter枪械参数")]
     public float weaponDamage;          //枪械伤害
     public bool isShotgun;

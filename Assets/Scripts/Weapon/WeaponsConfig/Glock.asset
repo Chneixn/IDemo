@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be35c2c3657f2849a1696d2924fda4d, type: 3}
   m_Name: Glock
   m_EditorClassIdentifier: 
+  gunData: {fileID: 0}
   weaponDamage: 22
   isShotgun: 0
   RPM: 462
@@ -30,7 +31,7 @@ MonoBehaviour:
   hasBrust: 0
   fireIsHit: 1
   timeToHolster: 0
-  bulletData: {fileID: 5605219069273686451, guid: 0c4b57dc6e86dc14699d76714ab894b8, type: 2}
+  bulletData: {fileID: 0}
   needInstantiate: 0
   shootVelocity: 400
   isTraceableBullet: 0

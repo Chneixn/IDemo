@@ -12,14 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be35c2c3657f2849a1696d2924fda4d, type: 3}
   m_Name: M416_Config
   m_EditorClassIdentifier: 
-  lockMode: 0
-  lockRange: 0
-  lockRadius: 0
-  multilock: 0
-  maxLockCount: 0
-  lockableLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  gunData: {fileID: 0}
   weaponDamage: 22
   isShotgun: 0
   RPM: 880
@@ -27,21 +20,18 @@ MonoBehaviour:
   spread: 0
   spreadMult: 0
   spreadMultWithAim: 0
+  autoReloadWhenEmpty: 0
   reloadTime: 0
   reloadEmptyTime: 0
   defaultMagazineSize: 0
   bulletsPerTap: 0
   weaponRange: 0
-  defaultFireMod: 2
+  defaultFireMod: 1
   hasAuto: 1
   hasBrust: 0
   fireIsHit: 1
   timeToHolster: 0
-  bulletData: {fileID: -2133674254975352603, guid: 0c4b57dc6e86dc14699d76714ab894b8, type: 2}
+  bulletData: {fileID: 0}
   needInstantiate: 0
   shootVelocity: 575
   isTraceableBullet: 0
-  muzzleFlash: {fileID: 0}
-  muzzleFlashLight: {fileID: 0}
-  casingParticle: {fileID: 0}
-  bulletHole: {fileID: 0}
