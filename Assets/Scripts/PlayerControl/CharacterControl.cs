@@ -18,6 +18,7 @@ public struct PlayerCharacterInput
     public bool TryFly;
 }
 
+// FIXME:获取相机方向为前进方向
 public class CharacterControl : MonoBehaviour, ICharacterController
 {
     [HideInInspector]
@@ -118,10 +119,6 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         camYPosCache = CharacterCamPos.localPosition.y;
         using_gravity = default_gravity;
         InitState();
-    }
-
-    private void Start()
-    {
         CurrentMovementState = idle;
         ChangeMovementState(idle);
     }

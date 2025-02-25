@@ -61,7 +61,7 @@ public class CharacterCustomization : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.PlayerCam.OnCamStateChange += ChangeModelVisibility;
+        PlayerManager.Instance.PlayerCam.OnCamStateChange += ChangeModelVisibility;
 
         //SaveLoad.OnLoadGame += LoadSkinData;
         //SaveLoad.OnSaveGame += SaveSkinData;
@@ -82,12 +82,12 @@ public class CharacterCustomization : MonoBehaviour
         {
             case CamState.FPS:
                 {
-                    characterModel.ISetActive(false);
+                    characterModel.SetActiveSafe(false);
                 }
                 break;
             case CamState.TPS:
                 {
-                    characterModel.ISetActive(true);
+                    characterModel.SetActiveSafe(true);
                 }
                 break;
         }

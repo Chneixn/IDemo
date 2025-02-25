@@ -14,7 +14,7 @@ public class MiniMapControl : MonoBehaviour
         miniMapUI = GameObject.Find("MiniMapUI");
         if (enableMiniMap && miniMapUI != null)
         {
-            miniMapUI.ISetActive(true);
+            miniMapUI.SetActiveSafe(true);
         }
         else
         {

@@ -21,17 +21,12 @@ public struct CameraInput
     public bool freeLook;
 }
 
-//public interface ICameraState
-//{
-//    CamState CamState { get; }
-//    void HandleInput(ref CameraInput inputs);
-//}
-
 /// <summary>
 /// 实现玩家视角操控和操作输入传入
 /// </summary>
 public class CameraController : CinemachineCameraManagerBase
 {
+    public CinemachineBrain brain;
     [SerializeField] private CamState currentCamState;
     public CamState CurrentCamState => currentCamState;
     public Action<CamState> OnCamStateChange;
@@ -57,13 +52,15 @@ public class CameraController : CinemachineCameraManagerBase
     public CinemachineVirtualCameraBase free_cam;
     public Vector3 lastLookDirection;
 
-    private CinemachineBrain brain;
-
     protected override void Start()
     {
         base.Start();
         lastLookDirection = transform.forward;
-        brain = GetComponent<CinemachineBrain>();
+        if (brain == null)
+        {
+            brain = FindFirstObjectByType<CinemachineBrain>();
+            Debug.Log($"Auto find CinemachineBrain at {brain.gameObject.name}");
+        }
 
         for (int i = 0; i < ChildCameras.Count; ++i)
         {

@@ -8,7 +8,7 @@ public struct InteractionInput
 
 public class Interactor : MonoBehaviour
 {
-    private Camera playerCam;
+    private Camera cam;
 
     [Header("交互设置")]
     [SerializeField] private float interactionRange = 3f;
@@ -20,13 +20,13 @@ public class Interactor : MonoBehaviour
     {
         bool _tryInteraction = inputs.tryInteraction;
 
-        if (playerCam == null)
+        if (cam == null)
         {
-            playerCam = GameManager.Instance.PlayerCam.GetComponent<Camera>();
+            cam = GetComponentInParent<Camera>();
         }
 
         // 射线检测可交互物品
-        Ray _aimRay = playerCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        Ray _aimRay = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
         if (Physics.Raycast(_aimRay, out RaycastHit _hitInfo, interactionRange, interactionLayer))
         {

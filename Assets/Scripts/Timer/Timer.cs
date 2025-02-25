@@ -124,9 +124,16 @@ public class Timer
         isEnd = false;
     }
 
+    /// <summary>
+    /// 单次计时(结束后不移除计时器)
+    /// </summary>
+    /// <param name="delay"></param>
+    /// <param name="onCompleted"></param>
+    /// <param name="onUpdate"></param>
+    /// <param name="isIgnoreTimeScale"></param>
     public void StartTimeOut(float delay, Action onCompleted, Action<float> onUpdate = null, bool isIgnoreTimeScale = true)
     {
-        StartTiming(delay, false, isIgnoreTimeScale, 1, 0, true, onCompleted, onUpdate, false);
+        StartTiming(delay, false, isIgnoreTimeScale, 1, 0, true, onCompleted, onUpdate);
     }
 
     /// <summary>

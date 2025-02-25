@@ -36,7 +36,7 @@ public class PlayerInputReceiver : UnityInputReceiver
     public override void Start()
     {
         base.Start();
-        var m = GameManager.Instance;
+        var m = PlayerManager.Instance;
         if (m == null) Debug.LogError("Missing GameManager!");
         playerCam = m.PlayerCam;
         characterControl = m.CharacterControl;
@@ -91,8 +91,9 @@ public class PlayerInputReceiver : UnityInputReceiver
     {
         var input = userInput.SourceInput.PlayerInput;
         characterInputs.MoveDirection = input.Movement.ReadValue<Vector2>();
-        characterInputs.LookDirection = playerCam.CurrentCamState == CamState.FreeLook ? playerCam.lastLookDirection : playerCam.transform.forward;
-        characterInputs.CamRotation = playerCam.transform.rotation;
+
+        characterInputs.LookDirection = playerCam.brain.transform.position;
+        characterInputs.CamRotation = playerCam.brain.transform.rotation;
 
         if (holdToJump)
             characterInputs.TryJump = input.Jump.inProgress;
@@ -157,7 +158,7 @@ public class PlayerInputReceiver : UnityInputReceiver
         weaponInput.quick3 = input.QuickUse_3.triggered;
         weaponInput.quick4 = input.QuickUse_4.triggered;
         weaponInput.switchWeapon = input.SwitchLastWeapon.triggered;
-        weaponInput.fire = input.Fire.triggered;
+        weaponInput.fire = input.Fire.inProgress;
 
         if (holdToAim)
             weaponInput.aim = input.Aim.IsPressed();
