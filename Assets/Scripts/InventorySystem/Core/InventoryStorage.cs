@@ -197,8 +197,12 @@ namespace InventorySystem
 
         public int GetItemCountFormInventory(ItemData item)
         {
-
-            if (itemsRecord.TryGetValue(item, out int count))
+            if (item == null)
+            {
+                Debug.LogWarning($"获取物品数量时发生错误！传入物品为空！返回数值 0");
+                return 0;
+            }
+            else if (itemsRecord.TryGetValue(item, out int count))
             {
                 //Debug.Log($"物品[{item.displayName}]剩余{count}个");
                 return count;

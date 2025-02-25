@@ -20,7 +20,7 @@ public class PlayerFootstepLisener : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        characterControl = GameManager.Instance.CharacterControl;
+        characterControl = PlayerManager.Instance.CharacterControl;
     }
 
     private void Update()

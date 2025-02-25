@@ -53,7 +53,7 @@ public class ItemPickUp : MonoBehaviour
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
         //获取玩家库存
-        PlayerInventoryHolder inventory = GameManager.Instance.PlayerInventory;
+        PlayerInventoryHolder inventory = PlayerManager.Instance.PlayerInventory;
         if (!inventory)
         {
             interactSuccessful = false;

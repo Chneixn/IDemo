@@ -4,7 +4,7 @@ using InventorySystem;
 using System;
 
 [DisallowMultipleComponent]
-public class GameManager : SingleMonoBase<GameManager>
+public class PlayerManager : SameSceneSingleMono<PlayerManager>
 {
     #region 游戏全局广播属性
     //全局GamePasue
@@ -14,8 +14,7 @@ public class GameManager : SingleMonoBase<GameManager>
     //控制状态机
     private InputManager inputManager;
     public InputManager Input => inputManager;
-
-    public bool AllowBackpackOpen;
+    
     #endregion
 
     #region 玩家常用属性
@@ -35,28 +34,17 @@ public class GameManager : SingleMonoBase<GameManager>
     {
         base.Awake();
         inputManager = InputManager.Instance;
-        // 临时测试用
-        Application.targetFrameRate = 60;
-        _gamePause = true;
     }
 
     private void Start()
     {
-        // demo mode
+        // TODO:只在demo中使用，正式项目中删除
         inputManager.Push(PlayerInput);
-        CharacterCustomization.ChangeModelVisibility(PlayerCam.CurrentCamState);
-        PlayerInventory.AddToInventory(ItemDatabase.GetItem(1), 50);
     }
 
-    void Update()
-    {
-        inputManager.OnUpdate();
-    }
+    void Update() => inputManager.OnUpdate();
 
-    private void LateUpdate()
-    {
-        inputManager.OnLateUpdate();
-    }
+    private void LateUpdate() => inputManager.OnLateUpdate();
 
     public void SetGamePasue(bool pause)
     {
@@ -64,8 +52,8 @@ public class GameManager : SingleMonoBase<GameManager>
         OnGamePause?.Invoke(pause);
     }
 
-    //private void OnApplicationPause(bool pause)
-    //{
-    //    SetGamePasue(pause);
-    //}
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        OnGamePause?.Invoke(pauseStatus);
+    }
 }

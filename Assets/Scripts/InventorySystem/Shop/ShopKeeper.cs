@@ -30,7 +30,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        PlayerInventoryHolder playerInv = GameManager.Instance.PlayerInventory;
+        PlayerInventoryHolder playerInv = PlayerManager.Instance.PlayerInventory;
 
         if (playerInv)
         {
