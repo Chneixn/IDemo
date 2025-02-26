@@ -42,11 +42,11 @@ namespace BehaviourTreesSystem
         {
             if (debug == null)
             {
-                if (enemyControl.gameObject.TryGetComponent(out SectorScanDebug scanDebug))
+                if (agent.gameObject.TryGetComponent(out SectorScanDebug scanDebug))
                 {
                     debug = scanDebug;
                 }
-                else debug = enemyControl.gameObject.AddComponent<SectorScanDebug>();
+                else debug = agent.gameObject.AddComponent<SectorScanDebug>();
 
                 debug.scan = this;
             }
@@ -73,7 +73,7 @@ namespace BehaviourTreesSystem
 
         private void Scan()
         {
-            count = Physics.OverlapSphereNonAlloc(enemyControl.transform.position, distance, colliders, scanLayers, QueryTriggerInteraction.Collide);
+            count = Physics.OverlapSphereNonAlloc(agent.transform.position, distance, colliders, scanLayers, QueryTriggerInteraction.Collide);
 
             objects.Clear();
             for (int i = 0; i < count; ++i)
@@ -88,13 +88,13 @@ namespace BehaviourTreesSystem
 
         public bool IsInSight(GameObject obj)
         {
-            Vector3 origin = enemyControl.transform.position;
+            Vector3 origin = agent.transform.position;
             Vector3 dest = obj.transform.position;
             Vector3 direction = dest - origin;
             if (direction.y < 0 || direction.y > height) return false;
 
             direction.y = 0;
-            float deltaAngle = Vector3.Angle(direction, enemyControl.transform.forward);
+            float deltaAngle = Vector3.Angle(direction, agent.transform.forward);
             if (deltaAngle > angle) return false;
 
             origin.y += height / 2;

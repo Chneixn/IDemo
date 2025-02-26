@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -100,7 +102,7 @@ namespace BehaviourTreesSystem
                 decorator.child = null;
                 EditorUtility.SetDirty(decorator);
             }
-                
+
             CompositeNode composite = parent as CompositeNode;
             if (composite)
             {
@@ -156,11 +158,11 @@ namespace BehaviourTreesSystem
             return tree;
         }
 
-        public void Bind(EnemyController agent)
+        public void Bind(Agent agent)
         {
             Traverse(rootNode, node =>
             {
-                node.enemyControl = agent;
+                node.agent = agent;
                 node.blackboard = blackboard;
             });
         }

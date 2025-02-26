@@ -9,13 +9,13 @@ namespace BehaviourTreesSystem
     {
         public float range = 25.0f;
         public float targetUpdateTime = 1.0f;
-        private NavMeshAgent nmAgent;
+        private EnemyController col;
         private Timer timer;
 
         protected override void OnStart()
         {
-            if (enemyControl.agent != null || !nmAgent) nmAgent = enemyControl.agent;
-            else return;
+            col = agent as EnemyController;
+            if (col == null) return;
 
             if (timer == null)
                 timer = TimerManager.CreateTimer();
@@ -24,7 +24,7 @@ namespace BehaviourTreesSystem
             {
                 if (blackboard.TargetTransform != null)
                 {
-                    nmAgent.destination = blackboard.TargetTransform.position;
+                    col.nav.destination = blackboard.TargetTransform.position;
                 }
             });
 
@@ -37,12 +37,12 @@ namespace BehaviourTreesSystem
 
         protected override State OnUpdate()
         {
-            if (nmAgent == null) return State.Failure;
-                
-            if (blackboard.TargetTransform != null || nmAgent.pathPending || !nmAgent.isOnNavMesh || nmAgent.remainingDistance > 0.1f)
+            if (col == null) return State.Failure;
+
+            if (blackboard.TargetTransform != null || col.nav.pathPending || !col.nav.isOnNavMesh || col.nav.remainingDistance > 0.1f)
                 return State.Running;
 
-            nmAgent.destination = range * Random.insideUnitCircle;
+            col.nav.destination = range * Random.insideUnitCircle;
             return State.Success;
         }
     }

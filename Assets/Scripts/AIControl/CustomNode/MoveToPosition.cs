@@ -6,6 +6,7 @@ namespace BehaviourTreesSystem
 {
     public class MoveToPosition : ActionNode
     {
+        EnemyController col;
         public float speedMultiple = 1f;
         public float stoppingDistance = 0.1f;
         public bool updateRotation = true;
@@ -15,11 +16,13 @@ namespace BehaviourTreesSystem
 
         protected override void OnStart()
         {
-            enemyControl.agent.stoppingDistance = stoppingDistance;
-            enemyControl.agent.speed = blackboard.MoveSpeed * speedMultiple;
-            enemyControl.agent.destination = blackboard.MoveToPosition;
-            enemyControl.agent.updateRotation = updateRotation;
-            enemyControl.agent.acceleration = acceleration;
+            col = agent as EnemyController;
+            if (col == null) return;
+            col.nav.stoppingDistance = stoppingDistance;
+            col.nav.speed = blackboard.MoveSpeed * speedMultiple;
+            col.nav.destination = blackboard.MoveToPosition;
+            col.nav.updateRotation = updateRotation;
+            col.nav.acceleration = acceleration;
         }
 
         protected override void OnStop()
@@ -29,17 +32,19 @@ namespace BehaviourTreesSystem
 
         protected override State OnUpdate()
         {
-            if (enemyControl.agent.pathPending)
+            if (col == null) return State.Failure;
+
+            if (col.nav.pathPending)
             {
                 return State.Running;
             }
 
-            if (enemyControl.agent.remainingDistance < tolerance)
+            if (col.nav.remainingDistance < tolerance)
             {
                 return State.Success;
             }
 
-            if (enemyControl.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
+            if (col.nav.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
             {
                 return State.Failure;
             }

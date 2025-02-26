@@ -17,7 +17,7 @@ namespace BehaviourTreesSystem
         [HideInInspector] public string guid;
         [HideInInspector] public Vector2 position;
         [HideInInspector] public Blackboard blackboard;
-        [HideInInspector] public EnemyController enemyControl;
+        [HideInInspector] public Agent agent;
         [TextArea] public string description;
 
         public State Update()
@@ -43,7 +43,7 @@ namespace BehaviourTreesSystem
         {
             return Instantiate(this);
         }
-
+        
         protected abstract void OnStart();
         protected abstract void OnStop();
         protected abstract State OnUpdate();

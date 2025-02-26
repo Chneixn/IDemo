@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using BehaviourTreesSystem;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(CharacterStateHolder))]
 [RequireComponent(typeof(RagdollControl))]
-public class EnemyController : MonoBehaviour, IPoolObjectItem
+public class EnemyController : Agent, IPoolObjectItem
 {
-    public NavMeshAgent agent;
+    public NavMeshAgent nav;
     public CharacterStateHolder stateHolder;
     private List<HitBox> hitBoxes;
     public RagdollControl ragdoll;
@@ -16,7 +17,7 @@ public class EnemyController : MonoBehaviour, IPoolObjectItem
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        nav = GetComponent<NavMeshAgent>();
         stateHolder = GetComponent<CharacterStateHolder>();
         ragdoll = GetComponent<RagdollControl>();
         animator = GetComponentInChildren<Animator>();

@@ -7,12 +7,12 @@ namespace BehaviourTreesSystem
     public class BehaviourTreeRunner : MonoBehaviour
     {
         public BehaviourTree tree;
-        public EnemyController enemyController;
+        public Agent agent;
 
         private void Start()
         {
             tree = tree.Clone();
-            tree.Bind(GetComponent<EnemyController>());
+            tree.Bind(GetComponent<Agent>());
         }
 
         private void Update()
