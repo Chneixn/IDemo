@@ -6,35 +6,34 @@ using UnityEngine;
 [Serializable]
 public class Walking : IMovementState
 {
-    public override MovementState State => MovementState.Walking;
     public float walkingSpeed;
 
     public override void HandleStateChange(ref PlayerCharacterInput inputs)
     {
         if (CC.MoveDirection == Vector3.zero)
         {
-            CC.ChangeMovementState(CC.idle);
+            CC.ChangeMovementState(typeof(Idle));
         }
         else if (inputs.TryRun) // Walk
         {
-            CC.ChangeMovementState(CC.run);
+            CC.ChangeMovementState(typeof(Run));
         }
         else if (inputs.TryCrouch && CC.IsStableGround) // Crouch
         {
-            CC.ChangeMovementState(CC.crouching);
+            CC.ChangeMovementState(typeof(Crouching));
         }
         else if (inputs.TryJump && CC.IsStableGround)
         {
-            CC.ChangeMovementState(CC.jump);
+            CC.ChangeMovementState(typeof(Jump));
         }
     }
 
-    public override void OnStateEnter(MovementState lastState)
+    public override void OnStateEnter()
     {
         CC.MaxSpeed = walkingSpeed;
     }
 
-    public override void OnStateExit(MovementState newState)
+    public override void OnStateExit(IMovementState newState)
     {
 
     }
@@ -43,9 +42,9 @@ public class Walking : IMovementState
     {
         base.UpdateVelocity(ref currentVelocity, deltaTime);
 
-        if (!CC.IsAnyGround && CC.EnableGravity)
+        if (!CC.IsAnyGround && CC.Gravity.Enable)
         {
-            CC.ChangeMovementState(CC.inAir);
+            CC.ChangeMovementState(typeof(InAir));
         }
     }
 }

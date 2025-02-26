@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]
 public class Jump : IMovementState
 {
-    public override MovementState State => MovementState.Jump;
     public float jumpForce;
 
     public override void HandleStateChange(ref PlayerCharacterInput inputs)
@@ -14,12 +13,12 @@ public class Jump : IMovementState
 
     }
 
-    public override void OnStateEnter(MovementState lastState)
+    public override void OnStateEnter()
     {
         CC.InternalVelocity = CC.Motor.CharacterUp * jumpForce;
     }
 
-    public override void OnStateExit(MovementState newState)
+    public override void OnStateExit(IMovementState newState)
     {
 
     }

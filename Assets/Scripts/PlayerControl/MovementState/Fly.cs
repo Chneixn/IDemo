@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]
 public class Fly : IMovementState
 {
-    public override MovementState State => MovementState.Fly;
     public bool allowFly;
     public float FlySpeed;
 
@@ -16,21 +15,21 @@ public class Fly : IMovementState
         CC.MoveDirection = inputs.LookDirection + CC.MoveDirectionInput;
         if (!inputs.TryFly)
         {
-            CC.ChangeMovementState(CC.inAir);
+            CC.ChangeMovementState(typeof(InAir));
         }
     }
 
-    public override void OnStateEnter(MovementState lastState)
+    public override void OnStateEnter()
     {
         CC.MaxSpeed = FlySpeed;
-        CC.EnableGravity = false;
+        CC.Gravity.Enable = false;
         CC.Motor.SetCapsuleCollisionsActivation(false);
         CC.Motor.SetMovementCollisionsSolvingActivation(false);
         CC.Motor.SetGroundSolvingActivation(false);
     }
-    public override void OnStateExit(MovementState newState)
+    public override void OnStateExit(IMovementState newState)
     {
-        CC.EnableGravity = true;
+        CC.Gravity.Enable = true;
         CC.Motor.SetCapsuleCollisionsActivation(true);
         CC.Motor.SetMovementCollisionsSolvingActivation(true);
         CC.Motor.SetGroundSolvingActivation(true);

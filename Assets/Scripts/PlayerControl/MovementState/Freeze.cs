@@ -6,21 +6,19 @@ using UnityEngine;
 [Serializable]
 public class Freeze : IMovementState
 {
-    public override MovementState State => MovementState.Freeze;
-
     public override void HandleStateChange(ref PlayerCharacterInput inputs)
     {
-        
+
     }
 
-    public override void OnStateEnter(MovementState lastState)
+    public override void OnStateEnter()
     {
-        CC.EnableGravity = false;
+        CC.Gravity.Enable = false;
         CC.MaxSpeed = 0f;
     }
-    public override void OnStateExit(MovementState newState)
+    public override void OnStateExit(IMovementState newState)
     {
-        CC.EnableGravity = true;
+        CC.Gravity.Enable = true;
     }
 
     public override void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
@@ -31,6 +29,6 @@ public class Freeze : IMovementState
 
     public override void PostGroundingUpdate(float deltaTime)
     {
-        
+
     }
 }

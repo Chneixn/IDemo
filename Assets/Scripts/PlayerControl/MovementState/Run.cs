@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]
 public class Run : IMovementState
 {
-    public override MovementState State => MovementState.Run;
     public float runSpeed;
 
     public override void HandleStateChange(ref PlayerCharacterInput inputs)
@@ -14,28 +13,28 @@ public class Run : IMovementState
         if (CC.MoveDirection == Vector3.zero)
         {
             inputs.TryRun = false;
-            CC.ChangeMovementState(CC.idle);
+            CC.ChangeMovementState(typeof(Idle));
         }
         else if (!inputs.TryRun) // Walk
         {
-            CC.ChangeMovementState(CC.walking);
+            CC.ChangeMovementState(typeof(Walking));
         }
         else if (inputs.TryCrouch && CC.IsStableGround) // Crouch
         {
-            CC.ChangeMovementState(CC.crouching);
+            CC.ChangeMovementState(typeof(Crouching));
         }
         else if (inputs.TryJump && CC.IsStableGround)
         {
-            CC.ChangeMovementState(CC.jump);
+            CC.ChangeMovementState(typeof(Jump));
         }
     }
 
-    public override void OnStateEnter(MovementState lastState)
+    public override void OnStateEnter()
     {
         CC.MaxSpeed = 10f;
     }
 
-    public override void OnStateExit(MovementState newState)
+    public override void OnStateExit(IMovementState newState)
     {
         
     }

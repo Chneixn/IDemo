@@ -4,26 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MovementState
-{
-    Freeze,
-    Idle,
-    Walking,
-    Run,
-    Jump,
-    Crouching,
-    InAir,
-    Fly,
-    Grabbing
-}
-
 [Serializable]
 public abstract class IMovementState : ICharacterController
 {
-    public abstract MovementState State { get; }
     [HideInInspector] public CharacterControl CC;
-    public abstract void OnStateExit(MovementState newState);
-    public abstract void OnStateEnter(MovementState lastState);
+    public abstract void OnStateExit(IMovementState newState);
+    public abstract void OnStateEnter();
     public abstract void HandleStateChange(ref PlayerCharacterInput inputs);
     public virtual void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
@@ -66,7 +52,7 @@ public abstract class IMovementState : ICharacterController
     {
         if (!CC.IsStableGround && CC.Motor.LastGroundingStatus.IsStableOnGround)
         {
-            CC.ChangeMovementState(CC.inAir);
+            CC.ChangeMovementState(typeof(InAir));
         }
     }
     public virtual void AfterCharacterUpdate(float deltaTime) { }

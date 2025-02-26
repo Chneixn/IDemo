@@ -4,29 +4,27 @@ using UnityEngine;
 
 public class Grabbing : IMovementState
 {
-    public override MovementState State => MovementState.Grabbing;
-    [Header("Reference引用绑定")]
-    public CharacterControl cc;
+    [Header("Grabbing Binding")]
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
     [SerializeField] private LineRenderer rope_lr;
     [SerializeField] private LineRenderer swing_lr;
 
-    [Header("Grappling Setting参数设置")]
+    [Header("Grappling Setting参数")]
     public float maxGrappleDistance = 25f;
     public float grappleDelayTime = 0.25f;
     public float overshootYAxis = 2f;
     [SerializeField] private bool allowStop = false;
     [SerializeField] private bool allowGrappling = true;
 
-    [Header("Swing摆动设置")]
+    [Header("Swing摆动")]
     public float UAF = 4.5f;    // 弹簧频率
     public float DR = 0.5f;     // 阻尼比
     public float Mass = 1f;     // 玩家重量
     public float Length = 8f;   // 绳索长度
     public float SwingSpeed = 15f; // 摆动时最大速度
 
-    [Header("Cooldown冷却时间")]
+    [Header("Cooldown冷却")]
     public float grapplingCd = 1f;
 
     [Header("VFX")]
@@ -52,10 +50,10 @@ public class Grabbing : IMovementState
             rope.DrawRope();
     }
 
-    public override void OnStateEnter(MovementState lastState)
+    public override void OnStateEnter()
     {
-        gcache = cc.Gravity;
-        vcache = cc.MaxSpeed;
+        gcache = CC.Gravity.Velue;
+        vcache = CC.MaxSpeed;
         // swing_lr = cc.AddComponent<LineRenderer>();
         rope = new(this, rope_lr, swing_lr, affectCurve);
 
@@ -128,14 +126,14 @@ public class Grabbing : IMovementState
     //    if (isLog) Debug.Log("Swing!");
     //}
 
-    public override void OnStateExit(MovementState newState)
+    public override void OnStateExit(IMovementState newState)
     {
         if (!allowStop) return;
 
         allowStop = false;
         needDraw = false;
-        cc.Gravity = gcache;    //恢复重力
-        cc.MaxSpeed = vcache;    //恢复空速
+        CC.Gravity.Velue = gcache;    //恢复重力
+        CC.MaxSpeed = vcache;    //恢复空速
         rope.ClearDraw();
         joint.active = false;   // 停止弹簧计算器
         TimerManager.CreateTimeOut(grappleDelayTime, () => { allowGrappling = true; });
@@ -151,8 +149,8 @@ public class Grabbing : IMovementState
     /// <returns>当前玩家速度</returns>
     public Vector3 JumpingToPosition(Vector3 targetPosition, float trajectoryHeight)
     {
-        Vector3 r = CalculateJumpVelocity(cc.transform.position, targetPosition, trajectoryHeight) - cc.CurrentSpeed;
-        cc.InternalVelocity = r;
+        Vector3 r = CalculateJumpVelocity(CC.transform.position, targetPosition, trajectoryHeight) - CC.CurrentSpeed;
+        CC.InternalVelocity = r;
         if (isLog) Debug.Log("InternalVelocity: " + r);
         return r;
     }

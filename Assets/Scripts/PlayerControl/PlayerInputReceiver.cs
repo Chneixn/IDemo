@@ -94,6 +94,7 @@ public class PlayerInputReceiver : UnityInputReceiver
 
         characterInputs.LookDirection = playerCam.brain.transform.position;
         characterInputs.CamRotation = playerCam.brain.transform.rotation;
+        characterInputs.CameraState = playerCam.CurrentCamState;
 
         if (holdToJump)
             characterInputs.TryJump = input.Jump.inProgress;

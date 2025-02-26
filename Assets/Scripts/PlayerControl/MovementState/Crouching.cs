@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]
 public class Crouching : IMovementState
 {
-    public override MovementState State => MovementState.Crouching;
     public float crouchSpeed; //下蹲后的移动速度
     public float crouchTime; //下蹲动作完成时间
     public float crouchCoolDownf; //下蹲操作的冷却时间
@@ -43,16 +42,16 @@ public class Crouching : IMovementState
 
             if (CC.MoveDirection.sqrMagnitude >= 0.001f)
             {
-                CC.ChangeMovementState(CC.walking);
+                CC.ChangeMovementState(typeof(Walking));
             }
             else
             {
-                CC.ChangeMovementState(CC.idle);
+                CC.ChangeMovementState(typeof(Idle));
             }
         }
     }
 
-    public override void OnStateEnter(MovementState lastState)
+    public override void OnStateEnter()
     {
         if (!saveCapsuleDate)
         {
@@ -81,7 +80,7 @@ public class Crouching : IMovementState
         CC.MaxSpeed = crouchSpeed;
     }
 
-    public override void OnStateExit(MovementState newState)
+    public override void OnStateExit(IMovementState newState)
     {
         if (DebugCrouch) Debug.Log("退出下蹲完毕");
         //恢复摄像机位置

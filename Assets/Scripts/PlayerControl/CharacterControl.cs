@@ -10,7 +10,7 @@ public struct PlayerCharacterInput
     public Vector2 MoveDirection;
     public Quaternion CamRotation;
     public Vector3 LookDirection;
-    public ForwardModes inputForward;
+    public CamState CameraState;
     public bool TryRun;
     public bool TryDodge;
     public bool TryJump;
@@ -18,7 +18,6 @@ public struct PlayerCharacterInput
     public bool TryFly;
 }
 
-// FIXME:获取相机方向为前进方向
 public class CharacterControl : MonoBehaviour, ICharacterController
 {
     [HideInInspector]
@@ -26,7 +25,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     //private PlayerBodyAnimation bodyAnimation;
 
     #region Public
-    public Vector3 CurrentSpeed => currentVelocity;
+    public Vector3 CurrentSpeed;
     public bool IsStableGround => Motor.GroundingStatus.IsStableOnGround;
     public bool IsAnyGround => Motor.GroundingStatus.FoundAnyGround;
     #endregion
@@ -36,7 +35,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     [SerializeField, ReadOnly] private float camYPosCache; //缓存相机原始Y坐标
     [SerializeField, ReadOnly] private float camTargetPos; //缓存相机即将移动到的Y坐标
     [SerializeField, ReadOnly] private bool camPosUpdateRequested = false;
-    [SerializeField, ReadOnly] private float cam_velocity; //用于平滑摄像机移动
+    [SerializeField, ReadOnly] private float camVelocity; //用于平滑摄像机移动
     [SerializeField, ReadOnly] private float camMoveTime;
 
     [Header("Direction")]
@@ -56,11 +55,12 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     Vector3 m_LastRawInput;
     Quaternion m_Upsidedown = Quaternion.AngleAxis(180, Vector3.left);
 
-    #region Setting
-    private IMovementState CurrentMovementState;
+    #region State
+    private FSM<IMovementState> FSM;
+    private IMovementState CurrentState => FSM.CurState;
+    public Action<IMovementState> OnMovementStateChanged;
+
     [Header("MovementState移动状态")]
-    [ReadOnly] public MovementState MovementState;
-    public Action<MovementState> OnMovementStateChanged;
     public Freeze freeze = new();
     public Idle idle = new();
     public Walking walking = new();
@@ -69,10 +69,10 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     public Crouching crouching = new();
     public InAir inAir = new();
     public Fly fly = new();
+    #endregion
 
-    [Header("Speed")]
-    [SerializeField, ReadOnly] private Vector3 currentVelocity;
-    [SerializeField, ReadOnly] private Vector3 targetMovementVelocity;
+    #region Setting
+    [Header("Setting")]
     [Tooltip("当前最大限制速度")]
     public float MaxSpeed = 0f;
     [Tooltip("速度改变的敏锐度")]
@@ -88,23 +88,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         set { internalVelocity = value; }
     }
 
-    #region Gravity
-    [Header("Gravity重力")]
-    public bool EnableGravity = true;
-    [SerializeField]
-    private bool _walkOnAnyGround = false;
-    [SerializeField]
-    private bool usePhysicsGravity = false;
-    [SerializeField]
-    private Vector3 default_gravity = new(0, -15f, 0);
-    [SerializeField, ReadOnly]
-    private Vector3 using_gravity = Vector3.zero;
-    public Vector3 Gravity
-    {
-        get { return usePhysicsGravity == false ? using_gravity : Physics.gravity; }
-        set { using_gravity = value; }
-    }
-    #endregion
+    public GravityConfig Gravity = new();
 
     [Header("Colliders碰撞体")]
     public List<Collider> IgnoredColliders = new(); //忽视碰撞体的列表
@@ -117,32 +101,27 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         Motor = GetComponent<KinematicCharacterMotor>();
         Motor.CharacterController = this;
         camYPosCache = CharacterCamPos.localPosition.y;
-        using_gravity = default_gravity;
-        InitState();
-        CurrentMovementState = idle;
-        ChangeMovementState(idle);
+
+        CreateFSM();
     }
 
-    private void InitState()
+    private void CreateFSM()
     {
-        freeze.CC = this;
-        idle.CC = this;
-        walking.CC = this;
-        run.CC = this;
-        jump.CC = this;
-        crouching.CC = this;
-        inAir.CC = this;
-        fly.CC = this;
+        // 在创建状态机时输入第一个状态
+        FSM = new(idle, this);
+        FSM.AddState(fly);
+        FSM.AddState(inAir);
+        FSM.AddState(crouching);
+        FSM.AddState(jump);
+        FSM.AddState(walking);
+        FSM.AddState(run);
+        FSM.AddState(freeze);
     }
 
-    public void ChangeMovementState(IMovementState newState)
+    public void ChangeMovementState(System.Type newState)
     {
-        var lastState = CurrentMovementState.State;
-        CurrentMovementState.OnStateExit(newState.State);
-        CurrentMovementState = newState;
-        MovementState = CurrentMovementState.State;
-        OnMovementStateChanged?.Invoke(newState.State);
-        newState.OnStateEnter(lastState);
+        FSM.ChangeState(newState);
+        OnMovementStateChanged?.Invoke(CurrentState);
     }
 
     public void AfterCharacterUpdate(float deltaTime)
@@ -150,13 +129,13 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         if (camPosUpdateRequested)
         {
             // 将摄像机位置平滑移动至下蹲后应有高度位置
-            float height = Mathf.SmoothDamp(CharacterCamPos.localPosition.y, camTargetPos, ref cam_velocity, camMoveTime);
+            float height = Mathf.SmoothDamp(CharacterCamPos.localPosition.y, camTargetPos, ref camVelocity, camMoveTime);
             CharacterCamPos.localPosition = new Vector3(0f, height, 0f);
             if (CharacterCamPos.localPosition.y == camTargetPos)
                 camPosUpdateRequested = false;
         }
 
-        CurrentMovementState.AfterCharacterUpdate(deltaTime);
+        CurrentState.AfterCharacterUpdate(deltaTime);
     }
 
     /// <summary>
@@ -179,33 +158,33 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
     public void BeforeCharacterUpdate(float deltaTime)
     {
-        CurrentMovementState.BeforeCharacterUpdate(deltaTime);
+        CurrentState.BeforeCharacterUpdate(deltaTime);
     }
 
     public bool IsColliderValidForCollisions(Collider coll)
     {
         //处理碰撞：在列表中的物体不计算物体碰撞
-        return CurrentMovementState.IsColliderValidForCollisions(coll);
+        return CurrentState.IsColliderValidForCollisions(coll);
     }
 
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
-        CurrentMovementState.OnDiscreteCollisionDetected(hitCollider);
+        CurrentState.OnDiscreteCollisionDetected(hitCollider);
     }
 
     public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
     {
-        CurrentMovementState.OnGroundHit(hitCollider, hitNormal, hitPoint, ref hitStabilityReport);
+        CurrentState.OnGroundHit(hitCollider, hitNormal, hitPoint, ref hitStabilityReport);
     }
 
     public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
     {
-        CurrentMovementState.OnMovementHit(hitCollider, hitNormal, hitPoint, ref hitStabilityReport);
+        CurrentState.OnMovementHit(hitCollider, hitNormal, hitPoint, ref hitStabilityReport);
     }
 
     public void PostGroundingUpdate(float deltaTime)
     {
-        CurrentMovementState.PostGroundingUpdate(deltaTime);
+        CurrentState.PostGroundingUpdate(deltaTime);
     }
 
     public void ProcessHitStabilityReport(
@@ -217,7 +196,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport
     )
     {
-        CurrentMovementState.ProcessHitStabilityReport(hitCollider, hitNormal, hitPoint, atCharacterPosition, atCharacterRotation, ref hitStabilityReport);
+        CurrentState.ProcessHitStabilityReport(hitCollider, hitNormal, hitPoint, atCharacterPosition, atCharacterRotation, ref hitStabilityReport);
     }
 
     public void OnCameraUpdate(float deltaTime, Vector3 camForward)
@@ -235,20 +214,19 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     /// <param name="deltaTime">当前KCC刷新时间，默认与fixedUpdate同步为0.02s</param>
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        CurrentMovementState.UpdateRotation(ref currentRotation, deltaTime);
+        CurrentState.UpdateRotation(ref currentRotation, deltaTime);
 
-        #region 在其他重力平台自适应重力进行胶囊体旋转
-        if (_walkOnAnyGround)
+        // 在其他重力平台自适应重力进行胶囊体旋转
+        if (Gravity.walkOnAnyGround)
         {
-            float angleBetweenUpDirections = Vector3.Angle(-using_gravity, Motor.CharacterUp);
+            float angleBetweenUpDirections = Vector3.Angle(Gravity.Velue, Motor.CharacterUp);
             //float angleThreshold = 0.001f;
 
             if (angleBetweenUpDirections < 0.001f) { return; }
 
-            Quaternion retationDifference = Quaternion.FromToRotation(Motor.CharacterUp, -using_gravity);
+            Quaternion retationDifference = Quaternion.FromToRotation(Motor.CharacterUp, Gravity.Velue);
             currentRotation = retationDifference * currentRotation;
         }
-        #endregion
     }
 
     /// <summary>
@@ -258,7 +236,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     /// <param name="deltaTime">0.02f</param>
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
-        CurrentMovementState.UpdateVelocity(ref currentVelocity, deltaTime);
+        CurrentState.UpdateVelocity(ref currentVelocity, deltaTime);
 
         // 实现瞬时突变速度
         if (internalVelocity.sqrMagnitude > 0f)
@@ -268,47 +246,48 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         }
 
         //重力实现
-        if (!IsAnyGround && EnableGravity)
+        if (!IsAnyGround && Gravity.Enable)
         {
-            currentVelocity += using_gravity * deltaTime;
+            currentVelocity += Gravity.Velue * deltaTime;
         }
 
         //获取当前直观速度大小
-        this.currentVelocity = currentVelocity;
+        CurrentSpeed = currentVelocity;
     }
 
     #region 玩家输入
     /// <summary>
-    /// 获取玩家的操作输入
+    /// 获取玩家的操作输入, 处理移动向量与视角向量处理
     /// </summary>
     /// <param name="inputs"></param>
     public void HandleInput(ref PlayerCharacterInput inputs)
     {
-        /// 处理移动向量与视角向量处理
         // 玩家输入的世界坐标下移动向量
         MoveDirectionInput = new Vector3(inputs.MoveDirection.x, 0f, inputs.MoveDirection.y);
-
-        // 玩家当前的视角在水平面投影的方向向量
-        FaceDirection = Vector3.ProjectOnPlane(inputs.LookDirection, Motor.CharacterUp);
-
-        // 已经在cam处限制向上看的角度，不会出现垂直
-        if (FaceDirection == Vector3.zero)  //正在向上看
-        {
-            FaceDirection = new Vector3(inputs.LookDirection.x, inputs.LookDirection.z, -inputs.LookDirection.y).normalized;
-        }
-
         CamRotation = inputs.CamRotation;
 
+        var forwardMode = inputs.CameraState;
+        // 弃元模式赋值
+        var frame = forwardMode switch
+        {
+            CamState.FPS => CamRotation,
+            CamState.TPS => CamRotation,
+            CamState.FreeLook => Motor.TransientRotation,
+            _ => Quaternion.identity
+        };
+
         //玩家在自身视角坐标系下的移动向量
-        MoveDirection = Quaternion.LookRotation(FaceDirection) * MoveDirectionInput;
+        MoveDirection = frame * MoveDirectionInput;
 
         if (inputs.TryFly && fly.allowFly)
         {
-            ChangeMovementState(fly);
+            ChangeMovementState(typeof(Fly));
         }
 
-        CurrentMovementState.HandleStateChange(ref inputs);
+        CurrentState.HandleStateChange(ref inputs);
     }
+
+    // TODO: 应用控制角色在非正常重力状态下的控制代码
 
     // Get the reference frame for the input.  The idea is to map camera fwd/right
     // to the player's XZ plane.  There is some complexity here to avoid

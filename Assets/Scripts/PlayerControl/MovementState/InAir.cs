@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]
 public class InAir : IMovementState
 {
-    public override MovementState State => MovementState.InAir;
     public float maxAirSpeed;
     public float airMovementSharpness;
     public Timer airTimer;
@@ -23,7 +22,7 @@ public class InAir : IMovementState
 
     }
 
-    public override void OnStateEnter(MovementState lastState)
+    public override void OnStateEnter()
     {
         if (!airTimer.IsActive)
         {
@@ -32,7 +31,7 @@ public class InAir : IMovementState
         }
     }
 
-    public override void OnStateExit(MovementState newState)
+    public override void OnStateExit(IMovementState newState)
     {
         if (airTimer.IsActive)
         {
@@ -63,6 +62,6 @@ public class InAir : IMovementState
 
     private void OnLanded()
     {
-        CC.ChangeMovementState(CC.idle);
+        CC.ChangeMovementState(typeof(Idle));
     }
 }
