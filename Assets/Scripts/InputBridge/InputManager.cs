@@ -3,17 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace DRockInputBridge
 {
-    // TODO：也许可以多个控制器并行推入推出
-    public enum PushType
-    {
-        Single,
-        Mult
-    }
-
     public interface IUserInput
     {
         public SourceInput SourceInput { get; }
