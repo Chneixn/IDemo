@@ -6,7 +6,7 @@ using UnityUtils;
 
 namespace System.SceneManagement
 {
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader : PersistentSingleton<SceneLoader>
     {
         [SerializeField] private LoadingCanvas loadingCanvas;
         [SerializeField] private FadeCanvas fadeCanvas;
@@ -64,14 +64,12 @@ namespace System.SceneManagement
         {
             fadeCanvas.gameObject.SetActive(true);
             fadeCanvas.FadeIn(fadeDuration);
-            PlayerManager.Instance.CharacterControl.ChangeMovementState(PlayerManager.Instance.CharacterControl.freeze);
         }
 
         private void DisableFadeCanvas()
         {
             fadeCanvas.gameObject.SetActive(true);
             fadeCanvas.FadeOut(fadeDuration);
-            PlayerManager.Instance.CharacterControl.ChangeMovementState(PlayerManager.Instance.CharacterControl.idle);
         }
 
         /// <summary>
