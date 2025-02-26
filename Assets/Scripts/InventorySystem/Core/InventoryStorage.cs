@@ -158,20 +158,14 @@ namespace InventorySystem
         public bool RemoveItemsFromInventory(ItemData data, int amountToRemove, out int left)
         {
             //获取当前库存中该物品的数量
-            left = 0;
-            if (ContainItem(data, out List<InventorySlot> slots))
-            {
-                foreach (InventorySlot slot in slots)
-                {
-                    left += slot.StackSize;
-                }
-            }
+            left = itemsRecord.TryGetValue(data, out left) ? left : 0;
 
             // 当可移除的物品少于当前库存中物品时，不允许移除
             if (left < amountToRemove) return false;
             if (amountToRemove == 0) return true;
 
             // 逐个插槽进行物品删除
+            ContainItem(data, out var slots);
             foreach (InventorySlot slot in slots)
             {
                 int stackSize = slot.StackSize;

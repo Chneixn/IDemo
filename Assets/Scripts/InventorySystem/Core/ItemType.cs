@@ -7,6 +7,7 @@ namespace InventorySystem
     public enum ItemType
     {
         Default,
+        Ammo,
         Weapon,
         Gold,
         Important
