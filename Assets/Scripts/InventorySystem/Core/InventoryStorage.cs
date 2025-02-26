@@ -94,7 +94,9 @@ namespace InventorySystem
                     return left;
                 }
             }
+#if UNITY_EDITOR
             if (amountToAdd != 0) Debug.LogWarning($"移动物品时发生计数错误！剩余未处理物品{itemToAdd.displayName}，数量为{amountToAdd}");
+#endif
             left = amountToAdd;
 
             UpdateItemsRecord();
@@ -199,7 +201,9 @@ namespace InventorySystem
         {
             if (item == null)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning($"获取物品数量时发生错误！传入物品为空！返回数值 0");
+#endif
                 return 0;
             }
             else if (itemsRecord.TryGetValue(item, out int count))

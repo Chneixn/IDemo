@@ -56,8 +56,8 @@ public class MouseItemDate : MonoBehaviour
             if (Mouse.current.leftButton.wasPressedThisFrame && !IsPointerOverUIObject())
             {
                 // 丢弃物品功能
-                if (AssignedInventorySlot.ItemDate.item_prefab != null)
-                    GameObjectPoolManager.SpawnObject(AssignedInventorySlot.ItemDate.item_prefab, _dropTranfrom.position, Quaternion.identity);
+                // if (AssignedInventorySlot.ItemDate.item_prefab != null)
+                //     GameObjectPoolManager.SpawnObject(AssignedInventorySlot.ItemDate.item_prefab, _dropTranfrom.position, Quaternion.identity);
 
                 if (AssignedInventorySlot.StackSize > 1)
                 {
