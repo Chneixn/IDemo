@@ -22,7 +22,7 @@ public class RightAnglFlip : MonoBehaviour
         {
             if (col.TryGetComponent(out CharacterControl cc))
             {
-                cc.Gravity = -target.forward * cc.Gravity.magnitude;
+                cc.Gravity.Velue = -target.forward * cc.Gravity.Velue.magnitude;
                 //Debug.Log($"Set character gravity to {cc.Gravity}!");
             }
         }

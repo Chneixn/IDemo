@@ -21,7 +21,14 @@ public class SaveLoadManager : PersistentSingleton<SaveLoadManager>
         }
     }
 
-    readonly IDataService dataService = new FileDataService(new JsonSerializer());
+    private IDataService dataService;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        // Application.persistentDataPath 只允许在 mono 周期中访问
+        dataService = new FileDataService(new JsonSerializer());
+    }
 
     public void OnNewGame()
     {

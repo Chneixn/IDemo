@@ -74,8 +74,8 @@ public class ObjectPool<T> : IObjectPool<T> where T : new()
 
     public void OnPushHandle(T item)
     {
-        if (item is IPoolObjectItem iPoolItem)
-            iPoolItem.OnRecycleHandle();
+        if (item is IPoolObject iPoolItem)
+            iPoolItem.OnRecycle();
         if (item is IList list)
             list.Clear();
         else if (item is IDictionary dictionary)
@@ -84,7 +84,7 @@ public class ObjectPool<T> : IObjectPool<T> where T : new()
 
     public void OnPopHandle(T item)
     {
-        if (item is IPoolObjectItem iPoolItem)
-            iPoolItem.OnGetHandle();
+        if (item is IPoolObject iPoolItem)
+            iPoolItem.OnGet();
     }
 }

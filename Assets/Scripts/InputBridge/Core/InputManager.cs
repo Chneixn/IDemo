@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityUtils;
 
 namespace DRockInputBridge
 {
@@ -16,20 +17,18 @@ namespace DRockInputBridge
         Vector2 GetVector2(string name);
     }
 
-    public class InputManager : IUserInput
+    public class InputManager : PersistentSingleton<InputManager>, IUserInput
     {
-        public static InputManager Instance { get; } = new InputManager();
-
         private SourceInput _sourceInput;
         public SourceInput SourceInput => _sourceInput;
         protected PushdownFSM fsm = new();
         public PushdownFSM FSM => fsm;
 
-        /// <summary>
-        /// SourceInput 只能在Mono周期内被实例化
-        /// </summary>
-        public InputManager()
+        // SourceInput 只能在Mono周期内被实例化
+
+        protected override void Awake()
         {
+            base.Awake();
             _sourceInput = new();
             _sourceInput.Enable();
         }
@@ -45,14 +44,14 @@ namespace DRockInputBridge
             fsm.Pop();
         }
 
-        public void OnUpdate()
+        public void Update()
         {
-            fsm.CurrentReceiver.OnUpdate();
+            fsm.CurrentReceiver?.OnUpdate();
         }
 
-        public void OnLateUpdate()
+        public void LateUpdate()
         {
-            fsm.CurrentReceiver.OnLateUpdate();
+            fsm.CurrentReceiver?.OnLateUpdate();
         }
 
         #region 转接为以string监听输入(旧输入模式样式)

@@ -1,25 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using BehaviourTreesSystem;
 using UnityEngine;
-using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(CharacterStateHolder))]
-[RequireComponent(typeof(RagdollControl))]
-public class EnemyController : Agent, IPoolObjectItem
+public class ZombieController : IPoolableObject
 {
-    public NavMeshAgent nav;
     public CharacterStateHolder stateHolder;
-    private List<HitBox> hitBoxes;
     public RagdollControl ragdoll;
+    private List<HitBox> hitBoxes;
+    private Rigidbody rb;
     private Animator animator;
-
-    private void Start()
+    void Start()
     {
-        nav = GetComponent<NavMeshAgent>();
         stateHolder = GetComponent<CharacterStateHolder>();
         ragdoll = GetComponent<RagdollControl>();
+        rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
 
         stateHolder.healthState.OnCharacterDead += OnDead;
@@ -39,9 +33,11 @@ public class EnemyController : Agent, IPoolObjectItem
         }
     }
 
+#if UNITY_EDITOR
     [ContextMenu("AddHitBox")]
     public void AddHitBox()
     {
+        if (stateHolder == null) Debug.Log("StateHolder is null");
         Rigidbody[] rigids = transform.GetComponentsInChildren<Rigidbody>();
         hitBoxes = new();
         foreach (var go in rigids)
@@ -68,13 +64,14 @@ public class EnemyController : Agent, IPoolObjectItem
             }
         }
     }
+#endif
 
-    public void OnGetHandle()
+    public override void OnGet()
     {
         Debug.Log("Get Clone! " + this);
     }
 
-    public void OnRecycleHandle()
+    public override void OnRecycle()
     {
         Debug.Log("Recycle " + this);
     }

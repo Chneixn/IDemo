@@ -153,21 +153,21 @@ public class PlayerInputReceiver : UnityInputReceiver
     private void PrassThroughWeaponInput()
     {
         var input = userInput.SourceInput.WeaponInput;
-        weaponInput.quick0 = input.QuickUse_0.triggered;
         weaponInput.quick1 = input.QuickUse_1.triggered;
         weaponInput.quick2 = input.QuickUse_2.triggered;
         weaponInput.quick3 = input.QuickUse_3.triggered;
         weaponInput.quick4 = input.QuickUse_4.triggered;
-        weaponInput.switchWeapon = input.SwitchLastWeapon.triggered;
+        weaponInput.reload = input.Reload.triggered;
         weaponInput.fire = input.Fire.inProgress;
+        weaponInput.switchLastWeapon = input.SwitchLastWeapon.triggered;
+        weaponInput.switchFireMod = input.FireModeSwitch.triggered;
+        weaponInput.scrollSwitch = input.ScrollSwitch.ReadValue<float>();
 
         if (holdToAim)
             weaponInput.aim = input.Aim.IsPressed();
         else if (input.Aim.triggered)
             weaponInput.aim = !weaponInput.aim;
 
-        weaponInput.reload = input.Reload.triggered;
-        weaponInput.switchFireMod = input.FireModeSwitch.triggered;
         weaponHolder.ApplyInput(ref weaponInput);
     }
     #endregion

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using KinematicCharacterController;
 using UnityEngine;
 
 [Serializable]
@@ -11,7 +10,7 @@ public class GravityConfig
     public bool walkOnAnyGround = false;
     public bool UsePhysics = false;
     public Vector3 Default = new(0, -15f, 0);
-    [SerializeField, ReadOnly] private Vector3 gravity = Vector3.zero;
+    [SerializeField] private Vector3 gravity = Vector3.zero;
     public Vector3 Velue
     {
         get

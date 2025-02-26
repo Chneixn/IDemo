@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.SceneManagement;
 using UnityEngine;
 
 public class TimerManager : MonoBehaviour
@@ -17,6 +18,19 @@ public class TimerManager : MonoBehaviour
         StartCoroutine(UpdateTimers());
     }
 
+    void Start()
+    {
+        SceneLoader.Instance.Manager.OnSceneReadyToUnloaded += FinishAllTimers;
+    }
+
+    private void FinishAllTimers()
+    {
+        foreach (var t in timers)
+        {
+            t.StopTimer();
+        }
+    }
+
     private IEnumerator UpdateTimers()
     {
         while (true)
@@ -27,16 +41,18 @@ public class TimerManager : MonoBehaviour
                 timers.AddRange(timersCache);
                 timersCache.Clear();
             }
+
+            // 回收所有空闲计时器
+            var needRemove = timers.FindAll(timer => timer.ReadyToRemove == true);
+            if (needRemove.Count > 0)
+                RemoveTimers(needRemove);
+
             // 循环调用未结束的计时器
             foreach (Timer timer in timers)
             {
                 if (!timer.IsEnd && timer.IsActive)
                     timer.UpdateTimer();
             }
-            // 回收所有空闲计时器
-            var needRemove = timers.FindAll(timer => timer.ReadyToRemove == true);
-            if (needRemove.Count > 0)
-                RemoveTimers(needRemove);
 
             yield return null;
         }
@@ -132,6 +148,7 @@ public class TimerManager : MonoBehaviour
     /// <returns></returns>
     public static bool RemoveTimer(Timer timer)
     {
+        if (timer == null) return false;
         return RemoveTimer(timer.ID);
     }
 

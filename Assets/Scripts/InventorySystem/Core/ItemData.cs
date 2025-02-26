@@ -15,7 +15,7 @@ namespace InventorySystem
         public int max_stack_size = 1;
         public int value = 0;
         public Sprite icon;
-        public GameObject item_prefab;
+        public GameObject prefab;
 
 #if UNITY_EDITOR
         /// <summary>
@@ -36,7 +36,7 @@ namespace InventorySystem
             if (data.iconPath != null)
                 icon = AssetDatabase.LoadAssetAtPath<Sprite>(data.iconPath);
             if (data.prefabPath != null)
-                item_prefab = AssetDatabase.LoadAssetAtPath<GameObject>(data.prefabPath);
+                prefab = AssetDatabase.LoadAssetAtPath<GameObject>(data.prefabPath);
         }
 #endif
     }
@@ -64,7 +64,7 @@ namespace InventorySystem
             value = itemDate.value;
             // 以项目相对路径存储图标和预制体
             iconPath = AssetDatabase.GetAssetPath(itemDate.icon);
-            prefabPath = AssetDatabase.GetAssetPath(itemDate.item_prefab);
+            prefabPath = AssetDatabase.GetAssetPath(itemDate.prefab);
         }
     }
 #endif

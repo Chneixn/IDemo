@@ -14,9 +14,10 @@ namespace System.SceneManagement
 {
     public class SceneGroupManager
     {
-        public event Action<string> OnSceneLoaded = delegate { };
-        public event Action<string> OnSceneUnloaded = delegate { };
-        public event Action OnSceneGroupLoaded = delegate { };
+        public event Action<string> OnSceneLoaded;
+        public event Action<string> OnSceneUnloaded;
+        public event Action OnSceneReadyToUnloaded;
+        public event Action OnSceneGroupLoaded;
 
         private readonly AsyncOperationHandleGroup handleGroup = new(10);
 
@@ -65,7 +66,7 @@ namespace System.SceneManagement
                     handleGroup.Handles.Add(sceneHandle);
                 }
 
-                OnSceneLoaded.Invoke(sceneData.Name);
+                OnSceneLoaded?.Invoke(sceneData.Name);
             }
 
             // 等待所有场景异步加载完成, 并且每隔100ms更新进度
@@ -84,7 +85,7 @@ namespace System.SceneManagement
                 SceneManager.SetActiveScene(activeScene);
             }
 
-            OnSceneGroupLoaded.Invoke();
+            OnSceneGroupLoaded?.Invoke();
         }
         public async Task UnLoadScenes()
         {
@@ -118,8 +119,10 @@ namespace System.SceneManagement
 
                 operationGroup.Operations.Add(operation);
 
-                OnSceneUnloaded.Invoke(scene);
+                OnSceneUnloaded?.Invoke(scene);
             }
+
+            OnSceneReadyToUnloaded?.Invoke();
 
             foreach (var handle in handleGroup.Handles)
             {

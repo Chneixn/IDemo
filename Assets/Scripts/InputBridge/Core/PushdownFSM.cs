@@ -18,7 +18,7 @@ namespace DRockInputBridge
         public IInputReceiver CurrentReceiver => current;
         public Action<IInputReceiver> OnInputIn;
         public Action<IInputReceiver> OnInputOut;
-        private Stack<IInputReceiver> stack = new(); // 缓存栈
+        private readonly Stack<IInputReceiver> stack = new(); // 缓存栈
 
         /// <summary>
         /// 切换当前控制为新控制，当前控制器推入栈中

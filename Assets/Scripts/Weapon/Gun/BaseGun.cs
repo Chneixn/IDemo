@@ -15,6 +15,8 @@ public class BaseGun : IWeapon
 {
     public GunSetting set;
 
+    private InventoryStorage playerInventory;
+
     [SerializeField, ReadOnly] protected int totalBulletsLeft = 0;        // 背包中剩余弹药数
     [SerializeField, ReadOnly] protected int currentBulletsCount = 0;     // 当前弹匣剩余子弹
     [SerializeField, ReadOnly] protected int bulletsShotted = 0;          // 已射击的子弹
@@ -37,16 +39,12 @@ public class BaseGun : IWeapon
     [Tooltip("枪口位置, 用于子弹生成和开火特效")]
     [SerializeField] protected Transform muzzlePoint;           // 子弹射击点
 
-    /// <summary>
-    /// 如果击中某物的击中信息
-    /// </summary>
-    protected RaycastHit hitInfo;
-
     #region Action
     public Action OnEnableWeapon;
     public Action OnDisableWeapon;
     public Action<bool> OnShot;
     public Action<bool> OnShotFinshed;
+    public Action<RaycastHit> OnHit;
     public Action OnAim;
     public Action OnAimFinshed;
     public Action<bool> OnReloadBegin;
@@ -80,7 +78,12 @@ public class BaseGun : IWeapon
         if (set.isShotgun && set.isTraceableBullet) Debug.LogWarning("霰弹枪功能不能与追踪子弹共用！", gameObject);
 
         // 检查库存组件
-        if (PlayerManager.Instance.PlayerInventory.PrimaryStorage == null) Debug.LogError("Can't find player's inventory!");
+        if (playerInventory == null)
+        {
+            playerInventory = PlayerManager.Instance.PlayerInventory.PrimaryStorage;
+            playerInventory.OnInventorySlotChanged += AutoUpdateAmmo;
+            if (playerInventory == null) Debug.LogError("Can't find player's inventory!");
+        }
     }
 
     public override void EnableWeapon(Camera cam)
@@ -178,11 +181,11 @@ public class BaseGun : IWeapon
         {
             if (Physics.Raycast(ray, out RaycastHit _hitInfo, set.weaponRange))
             {
-                hitInfo = _hitInfo;
                 //以射击即击中的方式传入伤害，忽略子弹飞行时间
                 if (_hitInfo.collider.TryGetComponent(out IDamageable t))
                 {
                     t.TakeDamage(set.weaponDamage, DamageType.Bullet, ray.direction);
+                    OnHit?.Invoke(_hitInfo);
                 }
             }
         }
@@ -190,8 +193,9 @@ public class BaseGun : IWeapon
         if (set.needInstantiate)
         {
             var bullet = InstantiateBullet();
+            bullet.transform.position = muzzlePoint.position;
             // 赋予子弹速度
-            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * set.shootVelocity;
+            bullet.GetComponent<Rigidbody>().velocity = muzzlePoint.forward * set.shootVelocity;
         }
 
         // 霰弹枪功能
@@ -221,12 +225,12 @@ public class BaseGun : IWeapon
     protected virtual GameObject InstantiateBullet()
     {
         // TODO: 接入对象池系统
-        if (set.bulletData.item_prefab == null)
+        if (set.bulletData.prefab == null)
         {
             Debug.LogWarning("未指定子弹预制体！");
             return null;
         }
-        else return Instantiate(set.bulletData.item_prefab, muzzlePoint.position, Quaternion.identity);
+        else return GameObjectPoolManager.GetItem<Bullet>(set.bulletData.prefab.GetComponent<Bullet>()).gameObject;
     }
 
     protected virtual void ShootFinished()
@@ -280,18 +284,28 @@ public class BaseGun : IWeapon
         }
         readyToReload = true;
         readyToShoot = true;
-        UpdateBulletCount();
         OnReloadFinshed?.Invoke();
     }
     #endregion
 
     #region Handle Ammo
+
+    private void AutoUpdateAmmo(ItemSlot _) => UpdateBulletCount();
+
+    public virtual void UnLoadAmmo()
+    {
+        if (currentBulletsCount > 0)
+        {
+            currentBulletsCount = playerInventory.AddToInventory(set.bulletData, currentBulletsCount);
+        }
+    }
+
     /// <summary>
     /// 获取背包中剩余弹药
     /// </summary>
-    protected void UpdateBulletCount()
+    protected virtual void UpdateBulletCount()
     {
-        totalBulletsLeft = PlayerManager.Instance.PlayerInventory.PrimaryStorage.GetItemCountFormInventory(set.bulletData);
+        totalBulletsLeft = playerInventory.GetItemCountFormInventory(set.bulletData);
         //Debug.Log($"update bullet count! total bullet left {totalBulletsLeft}");
     }
 
@@ -299,9 +313,9 @@ public class BaseGun : IWeapon
     /// 从背包中移除弹药
     /// </summary>
     /// <param name="amount"></param>
-    protected void RemoveBulletFormInventory(int amount)
+    protected virtual bool RemoveBulletFormInventory(int amount)
     {
-        bool success = PlayerManager.Instance.PlayerInventory.PrimaryStorage.RemoveItemsFromInventory(set.bulletData, amount, out _);
+        return playerInventory.RemoveItemsFromInventory(set.bulletData, amount, out _);
         //if (!success)
         //{
         //    Debug.Log($"Remove ammo [{set.bulletData.displayName}] failed!");

@@ -17,7 +17,7 @@ namespace System.SceneManagement
         [SerializeField] private float loadingProgress;
         [SerializeField] bool isLoading = false;
 
-        public readonly SceneGroupManager manager = new();
+        public readonly SceneGroupManager Manager = new();
 
         async void Start()
         {
@@ -57,7 +57,7 @@ namespace System.SceneManagement
             LoadingProgress progress = new();
             progress.Progressed += p => loadingProgress = p;
 
-            await manager.LoadScenes(sceneGroups[index], progress);
+            await Manager.LoadScenes(sceneGroups[index], progress);
         }
 
         private void EnableFadeCanvas()

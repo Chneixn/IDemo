@@ -8,9 +8,14 @@ public class GunVFX : MonoBehaviour
     private BaseGun gun;
 
     [Header("GunVFX视觉效果")]
-    public ParticleSystem muzzleFlash;      //枪口火焰 （粒子效果）
-    public Light muzzleFlashLight;          //枪口火焰灯光
-    public GameObject bulletHolePrefab;           // 弹痕
+    public ParticleSystem muzzleFlash;
+    public Light flashLight;
+    public float flashLightTime = 0.5f;
+    public IPoolableParticleSystem hitParticle;
+    public float hitParticleTime = 3f;
+    public GameObject bulletHolePrefab;
+
+    private float timer = 0f;
 
     public void Start()
     {
@@ -23,56 +28,47 @@ public class GunVFX : MonoBehaviour
         }
 
         gun.OnShot += OnShot;
-        gun.OnShotFinshed += OnShotFinshed;
+        gun.OnHit += OnHit;
     }
 
-    private void OnShotFinshed(bool isEmpty)
+    private void OnHit(RaycastHit hit)
     {
-        if (muzzleFlash != null) muzzleFlash.Stop();
+        if (bulletHolePrefab != null)
+        {
+            var obj = Instantiate(bulletHolePrefab, hit.point, Quaternion.LookRotation(-hit.normal));
+            obj.transform.localPosition -= hit.normal * 0.01f; // 贴花偏移, 避免重叠时产生闪烁
+        }
+
+        if (hitParticle != null)
+        {
+            var obj = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(hitParticle);
+            obj.transform.position = hit.point;
+            obj.system.Play();
+            TimerManager.CreateTimeOut(hitParticleTime, () => GameObjectPoolManager.RecycleItem(hitParticle.name, obj));
+        }
     }
 
     private void OnShot(bool isEmpty)
     {
         if (muzzleFlash != null) muzzleFlash.Play();
+        if (flashLight != null)
+        {
+            flashLight.enabled = true;
+            timer = flashLightTime;
+        }
     }
 
-
-
-    /// <summary>
-    /// 处理击中某物后的效果实现
-    /// </summary>
-    /// <param name="hit">射线返回的信息</param>
-    public void HandleHitEffect(ref RaycastHit hit)
+    void Update()
     {
-        if (bulletHolePrefab == null) { Debug.LogWarning("未指定弹痕预制体！"); return; }
-
-        GameObject spawnedDecal = Instantiate(bulletHolePrefab, hit.point, Quaternion.LookRotation(-hit.normal));
-        //将贴花作为被击中物体的子物体
-        spawnedDecal.transform.SetParent(hit.collider.transform);
-
-        ////检测击中物体的Tag，传入对应贴花预制体
-        //if (hit.collider.CompareTag("Wall"))
-        //    SpawnDecal(hit, bulletHole);
-        //检测击中的物体是否有材质
-        //if (hit.collider.sharedMaterial != null)
-        //{
-        //    //缓存材质的命名
-        //    string materialName = hit.collider.sharedMaterial.name;
-        //    if (bulletHole == null) return;
-        //    //判断不同材质名生成对应贴花
-        //    switch (materialName)
-        //    {
-        //        case "Metal":
-        //            {
-
-        //            }
-        //            break;
-        //        default:
-        //            {
-
-        //            }
-        //            break;
-        //    }
-        //}
+        // 延时关闭灯光
+        if (timer > 0f && flashLight != null)
+        {
+            if (flashLight.enabled)
+            {
+                timer -= Time.deltaTime;
+                if (timer <= 0f) flashLight.enabled = false;
+            }
+        }
     }
+
 }

@@ -6,19 +6,12 @@ using System;
 [DisallowMultipleComponent]
 public class PlayerManager : SameSceneSingleMono<PlayerManager>
 {
-    #region 游戏全局广播属性
-    //全局GamePasue
-    [SerializeField, ReadOnly] private bool _gamePause;
+    public int PlayerIndex = 0;
+
+    [SerializeField] private bool _gamePause;
     public Action<bool> OnGamePause;
 
-    //控制状态机
-    private InputManager inputManager;
-    public InputManager Input => inputManager;
-    
-    #endregion
-
     #region 玩家常用属性
-
     public CharacterControl CharacterControl;
     public CameraController PlayerCam;
     public Interactor Interactor;
@@ -29,22 +22,6 @@ public class PlayerManager : SameSceneSingleMono<PlayerManager>
     public ItemDatabase ItemDatabase;
 
     #endregion
-
-    protected override void Awake()
-    {
-        base.Awake();
-        inputManager = InputManager.Instance;
-    }
-
-    private void Start()
-    {
-        // TODO:只在demo中使用，正式项目中删除
-        inputManager.Push(PlayerInput);
-    }
-
-    void Update() => inputManager.OnUpdate();
-
-    private void LateUpdate() => inputManager.OnLateUpdate();
 
     public void SetGamePasue(bool pause)
     {

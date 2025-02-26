@@ -18,17 +18,15 @@ public class PlayerBodyAnimation : MonoBehaviour
         this.character = character;
     }
 
-    public void UpdateAnimations(MovementState nextState, MovementState lastState)
+    public void UpdateAnimations(IMovementState state)
     {
-        string animationName = nextState.ToString();
+        string animationName = nameof(state);
 
-
-
-        if (HasAnimation(0, animationName))
+        if (HasAnimation(animationName))
             animator.CrossFadeInFixedTime(animationName, 0.2f);
     }
 
-    private bool HasAnimation(int layerIndex, string name)
+    private bool HasAnimation(string name, int layerIndex = 0)
     {
         return animator.HasState(layerIndex, Animator.StringToHash(name));
     }

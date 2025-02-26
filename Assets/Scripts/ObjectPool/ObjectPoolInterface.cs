@@ -9,14 +9,11 @@ public interface IObjectPool<T>
     void OnPopHandle(T item);
 }
 
-public interface IPoolObjectItem
+/// <summary>
+/// Use for non unity object
+/// </summary>
+public interface IPoolObject
 {
-    /// <summary>
-    /// 获取时调用
-    /// </summary>
-    void OnGetHandle();
-    /// <summary>
-    /// 回收时调用
-    /// </summary>
-    void OnRecycleHandle();
+    void OnGet();
+    void OnRecycle();
 }

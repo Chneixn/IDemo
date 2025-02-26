@@ -7,6 +7,7 @@ public class KnifeAnimation : MonoBehaviour
 {
     public Knife knife;
     public Animator animator;
+    private bool enable = false;
 
     private void Awake()
     {
@@ -23,14 +24,15 @@ public class KnifeAnimation : MonoBehaviour
         PlayerManager.Instance.CharacterControl.OnMovementStateChanged += OnMovementStateChanged;
     }
 
-    private void OnMovementStateChanged(MovementState state)
+    private void OnMovementStateChanged(IMovementState state)
     {
-        if (state == MovementState.Walking)
+        if (!enable) return;
+        if (state is Walking)
         {
             animator.SetBool("isWalking", true);
             animator.SetBool("isRunning", false);
         }
-        else if (state == MovementState.Run)
+        else if (state is Run)
         {
             animator.SetBool("isRunning", true);
             animator.SetBool("isWalking", false);
@@ -45,11 +47,12 @@ public class KnifeAnimation : MonoBehaviour
     private void OnDisableWeapon()
     {
         animator.SetTrigger("isDisable");
+        enable = false;
     }
 
     private void OnEnableWeapon()
     {
-
+        enable = true;
     }
 
     private void OnAttack(bool lit)

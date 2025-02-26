@@ -29,7 +29,6 @@ public abstract class IWeapon : MonoBehaviour
 
 public struct WeaponInput
 {
-    public bool quick0;
     public bool quick1;
     public bool quick2;
     public bool quick3;
@@ -37,16 +36,17 @@ public struct WeaponInput
     public bool fire;
     public bool aim;
     public bool reload;
-    public bool switchWeapon;
+    public bool switchLastWeapon;
     public bool switchFireMod;
+    public float scrollSwitch;
 }
 
 public class WeaponHolder : MonoBehaviour
 {
     [Header("Weapons")]
     public List<IWeapon> weapons = new();
-
-    private IWeapon currentWeapon;
+    public Action<IWeapon> OnWeaponChanged;
+    private IWeapon curWeapon;
 
     // 当前武器的在武器列表的位置，-1为尚未初始化
     private int curIndex = -1;
@@ -62,8 +62,8 @@ public class WeaponHolder : MonoBehaviour
 
     void Start()
     {
-        var list = GetComponentsInChildren<IWeapon>();
-        foreach (var i in list)
+        IWeapon[] list = GetComponentsInChildren<IWeapon>();
+        foreach (IWeapon i in list)
         {
             weapons.Add(i);
             i.SetVisualModel(false);
@@ -73,8 +73,8 @@ public class WeaponHolder : MonoBehaviour
         {
             curIndex = 0;
             lastIndex = 0;
-            currentWeapon = weapons[0];
-            currentWeapon.EnableWeapon(cam);
+            curWeapon = weapons[0];
+            curWeapon.EnableWeapon(cam);
         }
     }
 
@@ -107,19 +107,23 @@ public class WeaponHolder : MonoBehaviour
     public void SwitchWeaponByIndex(int index)
     {
         // 检测请求的武器是否为当前武器
-        if (curIndex < 0 || curIndex >= weapons.Count || curIndex == index) return;
+        if (index < 0 || index >= weapons.Count || curIndex == index) return;
+
         lastIndex = curIndex;
         // 关闭当前的武器
-        currentWeapon?.DisableWeapon();
+        if (curWeapon != null)
+            curWeapon.DisableWeapon();
         // 激活请求的武器
         curIndex = index;
-        weapons[index].EnableWeapon(cam);
+        curWeapon = weapons[curIndex];
+        curWeapon.EnableWeapon(cam);
+        OnWeaponChanged?.Invoke(curWeapon);
     }
 
     /// <summary>
-    /// 滚轮切换上一个武器
+    /// 滚轮切换下一个武器
     /// </summary>
-    public void SwitchNextWeapon()
+    public void SwitchLowerWeapon()
     {
         if (curIndex + 1 > weapons.Count - 1)
         {
@@ -129,9 +133,9 @@ public class WeaponHolder : MonoBehaviour
     }
 
     /// <summary>
-    /// 滚轮切换下一个武器
+    /// 滚轮切换上一个武器
     /// </summary>
-    public void SwitchUpWeapon()
+    public void SwitchUpperWeapon()
     {
         if (curIndex - 1 < weapons.Count - 1)
         {
@@ -154,7 +158,15 @@ public class WeaponHolder : MonoBehaviour
     /// </summary>
     public void ApplyInput(ref WeaponInput inputs)
     {
-        currentWeapon?.HandleInput(ref inputs);
+        if (inputs.quick1) SwitchWeaponByIndex(0);
+        else if (inputs.quick2) SwitchWeaponByIndex(1);
+        else if (inputs.quick3) SwitchWeaponByIndex(2);
+        else if (inputs.quick4) SwitchWeaponByIndex(3);
+        else if (inputs.switchLastWeapon) SwitchLastWeapon();
+        else if (inputs.scrollSwitch > 0f) SwitchUpperWeapon();
+        else if (inputs.scrollSwitch < 0f) SwitchLowerWeapon();
+
+        curWeapon?.HandleInput(ref inputs);
     }
 }
 

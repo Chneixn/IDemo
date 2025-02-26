@@ -288,7 +288,7 @@ MonoBehaviour:
       colorTwo: {r: 0.225, g: 0.225, b: 0.225, a: 1}
   components:
     enableIcons: 1
-    showMissingScriptWarning: 1
+    showMissingScriptWarning: 0
     showAll: 3
     stackDuplicateIcons: 1
     unityGroups:
@@ -4789,7 +4789,7 @@ MonoBehaviour:
         script: {fileID: 11500000, guid: fa97bb58969715942959ce0a41da3cf7, type: 3}
         hasToggle: 1
       - displayName: CharacterStateHolder
-        name: CharacterStateHolder, CharacterStateSystem, Version=0.0.0.0, Culture=neutral,
+        name: CharacterStateHolder, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         content:
           m_Text: CharacterStateHolder
@@ -4837,8 +4837,8 @@ MonoBehaviour:
         script: {fileID: 11500000, guid: 880c82ba07ac0884d83f85d124eecc92, type: 3}
         hasToggle: 1
       - displayName: PlayerInventoryHolder
-        name: InventorySystem.PlayerInventoryHolder, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
+        name: PlayerInventoryHolder, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
         content:
           m_Text: PlayerInventoryHolder
           m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
@@ -4894,28 +4894,6 @@ MonoBehaviour:
         excluded: 0
         isBuiltIn: 0
         script: {fileID: 11500000, guid: 15f03353b173b004dba452495a31cafc, type: 3}
-        hasToggle: 1
-      - displayName: GameManager
-        name: GameManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        content:
-          m_Text: GameManager
-          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
-          m_Tooltip: GameManager
-        shown: 0
-        excluded: 0
-        isBuiltIn: 0
-        script: {fileID: 11500000, guid: 056d872d46732a2498807094227aeaa5, type: 3}
-        hasToggle: 1
-      - displayName: SceneLoader
-        name: SceneLoader, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        content:
-          m_Text: SceneLoader
-          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
-          m_Tooltip: SceneLoader
-        shown: 0
-        excluded: 0
-        isBuiltIn: 0
-        script: {fileID: 11500000, guid: 6d4fb201096487a4994bdc49a02377d9, type: 3}
         hasToggle: 1
       - displayName: InputSystemUIInputModule
         name: UnityEngine.InputSystem.UI.InputSystemUIInputModule, Unity.InputSystem,
@@ -5060,6 +5038,396 @@ MonoBehaviour:
         excluded: 0
         isBuiltIn: 0
         script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+        hasToggle: 1
+      - displayName: PlayerManager
+        name: PlayerManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlayerManager
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PlayerManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 945999054f3daa34dbc2a3b25971c657, type: 3}
+        hasToggle: 1
+      - displayName: UIManager
+        name: UIManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UIManager
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: UIManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: fb12311c4f9927345b8f1de750faad62, type: 3}
+        hasToggle: 1
+      - displayName: TimerManager
+        name: TimerManager, TimerSystem, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TimerManager
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TimerManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 2875de5c2994c1c4097cb5808b0adbcd, type: 3}
+        hasToggle: 1
+      - displayName: InputManagerInspectorDebug
+        name: InputManagerInspectorDebug, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: InputManagerInspectorDebug
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: InputManagerInspectorDebug
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: ee7c11023adc9c048a9783ca647113fe, type: 3}
+        hasToggle: 1
+      - displayName: SaveLoadManager
+        name: SaveLoadManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: SaveLoadManager
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SaveLoadManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 776bce50783250443b44f3df75dbce12, type: 3}
+        hasToggle: 1
+      - displayName: Interactor
+        name: Interactor, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Interactor
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Interactor
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: b64fec9d8a3c8064aa96f875ff9648af, type: 3}
+        hasToggle: 1
+      - displayName: WeaponHolder
+        name: WeaponHolder, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: WeaponHolder
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: WeaponHolder
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 618d927c9bf9e2243b8e528e9a677018, type: 3}
+        hasToggle: 1
+      - displayName: BaseGun
+        name: BaseGun, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: BaseGun
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: BaseGun
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 6063336ecf822eb48ab12045de211c2d, type: 3}
+        hasToggle: 1
+      - displayName: WeaponAudio
+        name: WeaponAudio, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: WeaponAudio
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: WeaponAudio
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 8112c1ba465ba584e87918aa4d902e50, type: 3}
+        hasToggle: 1
+      - displayName: GlockAnimator
+        name: GlockAnimator, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: GlockAnimator
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: GlockAnimator
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: fd1cb64cb1c343e42ba79d8b5e9c8740, type: 3}
+        hasToggle: 1
+      - displayName: Knife
+        name: Knife, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Knife
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Knife
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 68ab9c1cba461be4c8cc82b88ff416cb, type: 3}
+        hasToggle: 1
+      - displayName: KnifeAnimation
+        name: KnifeAnimation, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: KnifeAnimation
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: KnifeAnimation
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 10a82be32e3f6054195cb50a5d1661dc, type: 3}
+        hasToggle: 1
+      - displayName: Grenade
+        name: Grenade, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Grenade
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Grenade
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: ceab69bae03a4ad43919e6680a0c6748, type: 3}
+        hasToggle: 1
+      - displayName: ExplosionBulletSet
+        name: ExplosionBulletSet, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: ExplosionBulletSet
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ExplosionBulletSet
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 757bc955c677f894589df03fd57265c9, type: 3}
+        hasToggle: 1
+      - displayName: TestPlayerScene
+        name: TestPlayerScene, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TestPlayerScene
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TestPlayerScene
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: da735c11a0ecf7b44b97fc9453fe3236, type: 3}
+        hasToggle: 1
+      - displayName: LoadingCanvas
+        name: LoadingCanvas, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: LoadingCanvas
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: LoadingCanvas
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 4f87d0b527ea0554f9cbd6dfaf972ea0, type: 3}
+        hasToggle: 1
+      - displayName: Bootstrapper
+        name: Bootstrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Bootstrapper
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Bootstrapper
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 76204c01f64a14548ba8b61d8b93799b, type: 3}
+        hasToggle: 1
+      - displayName: SceneLoader
+        name: System.SceneManagement.SceneLoader, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: SceneLoader
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SceneLoader
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: aeea6ba7360f6af4f8c14695e4317a70, type: 3}
+        hasToggle: 1
+      - displayName: UIPanel
+        name: UIPanel, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UIPanel
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: UIPanel
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 41040f51c9abb874ea4f910d7c6c82c8, type: 3}
+        hasToggle: 1
+      - displayName: UIPanelVFX
+        name: UIPanelVFX, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UIPanelVFX
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: UIPanelVFX
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 70ff6e15f9168fe44a91d97168f8c971, type: 3}
+        hasToggle: 1
+      - displayName: InventoryUIController
+        name: InventoryUIController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: InventoryUIController
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: InventoryUIController
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 797dca17f73093b47abda34a29c57347, type: 3}
+        hasToggle: 1
+      - displayName: ShopKeeperDisplay
+        name: ShopKeeperDisplay, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: ShopKeeperDisplay
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: ShopKeeperDisplay
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 019ee08e0b4c1af4c9df86e01b016879, type: 3}
+        hasToggle: 1
+      - displayName: Gun_DebugUI
+        name: Gun_DebugUI, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: Gun_DebugUI
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Gun_DebugUI
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: a34013c9469bc584e88d6fd1155eb6b7, type: 3}
+        hasToggle: 1
+      - displayName: TextMeshProUGUI
+        name: TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: TextMeshProUGUI
+          m_Image: {fileID: 2800000, guid: 2fd6421f253b4ef1a19526541f9ffc0c, type: 3}
+          m_Tooltip: TextMeshProUGUI
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+        hasToggle: 1
+      - displayName: DebugLog
+        name: DebugLog, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugLog
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: DebugLog
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 13bbb90ec226b834cab311c7e2b92cdc, type: 3}
+        hasToggle: 1
+      - displayName: DynamicInventoryDisplay
+        name: DynamicInventoryDisplay, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: DynamicInventoryDisplay
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: DynamicInventoryDisplay
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: c531281d4e4fa504193a4c97638e8fdd, type: 3}
+        hasToggle: 1
+      - displayName: StaticInventoryDisplay
+        name: StaticInventoryDisplay, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: StaticInventoryDisplay
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: StaticInventoryDisplay
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 5816f59fac129084da6e3fb0c4a8bda1, type: 3}
+        hasToggle: 1
+      - displayName: MouseItemDate
+        name: MouseItemDate, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: MouseItemDate
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: MouseItemDate
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 047badcf7f0ec544d8a14ba1ffea84d0, type: 3}
+        hasToggle: 1
+      - displayName: Debug_InputRecPanel
+        name: Debug_InputRecPanel, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Debug_InputRecPanel
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Debug_InputRecPanel
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 3a8cdce782ae51f498ae722741177808, type: 3}
+        hasToggle: 1
+      - displayName: Debug_CharacterInfo
+        name: Debug_CharacterInfo, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: Debug_CharacterInfo
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: Debug_CharacterInfo
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 3411a68c2d4e6384d8367fbc2844e7c6, type: 3}
+        hasToggle: 1
+      - displayName: PlayerStateBar
+        name: PlayerStateBar, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: PlayerStateBar
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: PlayerStateBar
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: e2efac1aa73618c48b9ed3e91ecfb58b, type: 3}
+        hasToggle: 1
+      - displayName: TeleportPoint
+        name: TeleportPoint, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: TeleportPoint
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: TeleportPoint
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 72fbae218a46aa940b87c328ffec35ed, type: 3}
+        hasToggle: 1
+      - displayName: PlayerInputManager
+        name: UnityEngine.InputSystem.PlayerInputManager, Unity.InputSystem, Version=1.11.2.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PlayerInputManager
+          m_Image: {fileID: 2800000, guid: 40265a896a0f341bb956e90c59025a29, type: 3}
+          m_Tooltip: PlayerInputManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+        hasToggle: 1
+      - displayName: InputManager
+        name: DRockInputBridge.InputManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: InputManager
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: InputManager
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: bc50898ef9246b94aa05a5885b1b322a, type: 3}
         hasToggle: 1
     unityVersion: 2022.3.53f1c1
     unityCount: 362

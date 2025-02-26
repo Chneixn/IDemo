@@ -30,7 +30,7 @@ public class Fort : MonoBehaviour
     [SerializeField] private float attack_cooldown;
     [SerializeField] private int bullet_count;
     [SerializeField] private bool bullet_instantiate;
-    [SerializeField] private NormalBulletSet bullet_Prefab;
+    [SerializeField] private Bullet bullet_Prefab;
 
     //private bool isSearching;
     //private bool isAttacking;
@@ -190,7 +190,7 @@ public class Fort : MonoBehaviour
 
             for (int i = 0; i < bullet_count; i++)
             {
-                var bullet = UnityObjectPoolManager.Instance.GetItem<NormalBulletSet>(bullet_Prefab.name);
+                var bullet = GameObjectPoolManager.GetItem<Bullet>(bullet_Prefab);
                 
             }
 

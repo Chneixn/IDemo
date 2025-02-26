@@ -1,20 +1,18 @@
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// 实现榴弹子弹；可弹跳；范围伤害；
 /// </summary>
-public class ExplosionBulletSet : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class ExplosionBulletSet : IPoolableObject
 {
     [Header("References目标绑定")]
-    [SerializeField] private GameObject explosionFX;
+    [SerializeField] private IPoolableParticleSystem explosionFX;
     [SerializeField] private AudioClip[] explosionSounds;
-    [SerializeField] private LayerMask whatIsEnemies;
-    private Transform tr;
+    [SerializeField] private LayerMask interactableLayer;
     private Rigidbody rb;
     private AudioSource audioSource;
-    private MeshRenderer grenadeMesh;
 
     [Header("BulletBounciness子弹弹力")]
     [Range(0f, 1f)]
@@ -28,7 +26,6 @@ public class ExplosionBulletSet : MonoBehaviour
     [SerializeField] private Transform target;
 
     [Header("爆炸设置")]
-    [SerializeField] private bool isExplosible;       //是否可爆炸
     [SerializeField] private float explosionDamage;   //爆炸伤害
     [SerializeField] private float explosionRange;    //爆炸范围
     [SerializeField] private bool enableExplosionForce;
@@ -41,45 +38,44 @@ public class ExplosionBulletSet : MonoBehaviour
     [SerializeField] private bool explodeOnTuch;      //是否碰撞即爆炸
     [SerializeField] private float VFX_Time;
 
-    int collisions; //当前碰撞次数
+    int collisions = 0; //当前碰撞次数
     PhysicMaterial _physicsMaterial;
 
-    private void Start()
-    {
-        Setup();
-    }
+    readonly Collider[] colliders = new Collider[20];
 
-    /// <summary>
-    /// 初始化子弹物理材质与重力设置
-    /// </summary>
+    private void Start() => Setup();
+
     private void Setup()
     {
         //创建新物理材质，初始化材质设置
-        _physicsMaterial = new PhysicMaterial();
-        _physicsMaterial.bounciness = bounciness;
-        _physicsMaterial.frictionCombine = PhysicMaterialCombine.Minimum;
-        _physicsMaterial.bounceCombine = PhysicMaterialCombine.Maximum;
+        _physicsMaterial = new PhysicMaterial
+        {
+            bounciness = bounciness,
+            frictionCombine = PhysicMaterialCombine.Minimum,
+            bounceCombine = PhysicMaterialCombine.Maximum
+        };
         //PhysicMaterial.frictionCombine确定摩擦力的组合方式
         //PhysicMaterial.bounceCombine表面的弹性有多大？值为0时不会反弹。值为1将反弹而不会损失任何能量
 
         //应用物理材质设置
         GetComponent<Collider>().material = _physicsMaterial;
-        tr = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-        grenadeMesh = GetComponent<MeshRenderer>();
 
         //设置重力使用
         rb.useGravity = useGravity;
     }
 
-    private void OnEnable()
+    public override void OnGet()
     {
-        if (grenadeMesh != null && grenadeMesh.enabled == false)
-        {
-            grenadeMesh.enabled = true;
-        }
         StartCoroutine(DelyToExplode());
+    }
+
+    public override void OnRecycle()
+    {
+        audioSource.Stop();
+        target = null;
+        collisions = 0;
     }
 
     private void Update()
@@ -90,14 +86,14 @@ public class ExplosionBulletSet : MonoBehaviour
             if (target != null)
             {
                 // 获取目标方向
-                Vector3 _direction = (target.position - tr.position).normalized;
+                Vector3 _direction = (target.position - transform.position).normalized;
                 //当前方向与目标方向的角度差
-                float _angle = Vector3.Angle(tr.forward, _direction);
+                float _angle = Vector3.Angle(transform.forward, _direction);
                 float _needTime = _angle / turnSpeed;
                 if (_needTime < 0.02f)
-                    tr.forward = _direction;
+                    transform.forward = _direction;
                 else
-                    tr.forward = Vector3.Slerp(tr.forward, _direction, Time.deltaTime / _needTime).normalized;
+                    transform.forward = Vector3.Slerp(transform.forward, _direction, Time.deltaTime / _needTime).normalized;
             }
         }
 
@@ -105,12 +101,12 @@ public class ExplosionBulletSet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isTraceable)
-        {
-            //向前移动
-            Vector3 _targetPos = tr.position + moveSpeed * Time.deltaTime * tr.forward;
-            rb.MovePosition(_targetPos);
-        }
+        // if (isTraceable && target != null)
+        // {
+        //     //向前移动
+        //     Vector3 _targetPos = target.position + moveSpeed * Time.fixedDeltaTime * transform.forward;
+        //     rb.MovePosition(_targetPos);
+        // }
 
         //爆炸方式
         //碰撞次数达到最大
@@ -129,9 +125,9 @@ public class ExplosionBulletSet : MonoBehaviour
         collisions++;
 
         //碰撞到敌人立刻爆炸，当碰撞爆炸设置为true时
-        if (collision.collider.CompareTag("Enemy") && explodeOnTuch) Explode();
+        if (collision.collider.TryGetComponent(out IDamageable _) && explodeOnTuch) Explode();
     }
-    
+
     private IEnumerator DelyToExplode()
     {
         yield return new WaitForSeconds(maxLifetime);
@@ -143,42 +139,42 @@ public class ExplosionBulletSet : MonoBehaviour
     /// </summary>
     private void Explode()
     {
-        //关闭子弹渲染
-        grenadeMesh.enabled = false;
-        //实例化爆炸效果
-        if (explosionFX != null)
-        {
-            GameObject _vfx = GameObjectPoolManager.SpawnObject(explosionFX, tr.position, Quaternion.Euler(-90f, 0f, 0f));
-            GameObjectPoolManager.DelyReturnToPoolBySeconds(_vfx, VFX_Time);
-        }
-        //播放爆炸声音
+        PlayVFX();
         PlayExplodeSound();
 
-        //检测爆炸范围内是否有敌人，实现伤害
-        Collider[] enemies = Physics.OverlapSphere(tr.position, explosionRange, whatIsEnemies);
-        for (int i = 0; i < enemies.Length; i++)
+        // 爆炸范围检测
+        Physics.OverlapSphereNonAlloc(transform.position, explosionRange, colliders, interactableLayer);
+        foreach (var col in colliders)
         {
-            //获取敌人脚本并调用其中的受伤函数中受爆炸伤害部分
+            // 爆炸伤害
             //if (enemies[i].GetComponent<Health>())
             //    enemies[i].GetComponent<Health>().TakeExplosionDamage(explosionDamage);
 
-            //实现爆炸推动敌人或物体效果（如果存在rigidbody）
+            //实现爆炸推动
             if (enableExplosionForce)
             {
-                if (enemies[i].GetComponent<Rigidbody>())
-                    enemies[i].GetComponent<Rigidbody>().AddExplosionForce(explosionForce, tr.position, explosionRange);
+                if (col.TryGetComponent(out Rigidbody rb))
+                    rb.AddExplosionForce(explosionForce, transform.position, explosionRange);
+                if (col.TryGetComponent(out CharacterControl cc))
+                {
+                    // 让你飞起来！
+                    var dir = cc.Motor.CharacterTransformToCapsuleCenter - transform.position;
+                    cc.InternalVelocity = dir.normalized * explosionForce;
+                }
             }
         }
-        GameObjectPoolManager.DelyReturnToPoolBySeconds(gameObject, VFX_Time);
+
+        GameObjectPoolManager.RecycleItem(name, this);
     }
 
-    /// <summary>
-    /// 绘制子弹伤害范围
-    /// </summary>
-    private void OnDrawGizmosSelected()
+    private void PlayVFX()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRange);
+        if (explosionFX != null)
+        {
+            var vfx = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(explosionFX);
+            vfx.transform.position = transform.position;
+            TimerManager.CreateTimeOut(VFX_Time, () => GameObjectPoolManager.RecycleItem(explosionFX.name, vfx));
+        }
     }
 
     public void GetTarget(Transform target)
@@ -191,4 +187,12 @@ public class ExplosionBulletSet : MonoBehaviour
         audioSource.clip = explosionSounds[Random.Range(0, explosionSounds.Length)];
         audioSource.Play();
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRange);
+    }
+#endif
 }

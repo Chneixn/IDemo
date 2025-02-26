@@ -9,7 +9,7 @@ public class Grenade : MonoBehaviour
     [SerializeField] private float throwDely;
     public float timeToHolster;
     [SerializeField] private Transform spawnPoint;
-    [SerializeField] private GameObject grenadePrefab;
+    [SerializeField] private IPoolableObject grenadePrefab;
     [SerializeField] private AudioClip pullPinSound;
     [SerializeField] private AudioClip throwGrenadeSound;
     [SerializeField] private SkinnedMeshRenderer grenadeMesh;
@@ -67,7 +67,7 @@ public class Grenade : MonoBehaviour
         grenadeMesh.enabled = false;
         if (grenadePrefab != null && spawnPoint != null)
         {
-            GameObject _grenade = GameObjectPoolManager.SpawnObject(grenadePrefab, spawnPoint.position, Quaternion.identity);
+            ExplosionBulletSet _grenade = GameObjectPoolManager.GetItem<ExplosionBulletSet>(grenadePrefab.GetComponent<ExplosionBulletSet>());
             _grenade.GetComponent<Rigidbody>().AddForce(spawnPoint.transform.forward * throwForce, ForceMode.Impulse);
         }
         

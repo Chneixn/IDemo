@@ -29,9 +29,9 @@ MonoBehaviour:
   defaultFireMod: 0
   hasAuto: 0
   hasBrust: 0
-  fireIsHit: 1
+  fireIsHit: 0
   timeToHolster: 0
-  bulletData: {fileID: 0}
-  needInstantiate: 0
-  shootVelocity: 400
+  bulletData: {fileID: 655246057560633698, guid: a7ab49fded1c17948a3c705aedb607cc, type: 2}
+  needInstantiate: 1
+  shootVelocity: 0.5
   isTraceableBullet: 0
