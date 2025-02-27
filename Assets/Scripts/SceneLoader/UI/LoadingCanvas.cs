@@ -16,9 +16,9 @@ public class LoadingCanvas : MonoBehaviour
     private void OnEnable() => Reset();
     private void OnDisable() => Reset();
 
-    private void Update()
+    public void Update()
     {
-        while (percentCompleted < targetPercent)
+        if (!IsDone)
         {
             percentCompleted += Time.deltaTime;
             _slider.value = Mathf.Clamp01(percentCompleted / targetPercent);

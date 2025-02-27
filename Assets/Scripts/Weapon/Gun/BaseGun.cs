@@ -224,7 +224,6 @@ public class BaseGun : IWeapon
 
     protected virtual GameObject InstantiateBullet()
     {
-        // TODO: 接入对象池系统
         if (set.bulletData.prefab == null)
         {
             Debug.LogWarning("未指定子弹预制体！");

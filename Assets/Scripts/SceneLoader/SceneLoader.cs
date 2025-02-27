@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityUtils;
 
@@ -19,33 +19,13 @@ namespace System.SceneManagement
 
         public readonly SceneGroupManager Manager = new();
 
-        async void Start()
+        private void Start()
         {
-            await LoadSceneGroup(0);
+            // fire and forget 在同步方法中调用异步方法的一种方式
+            LoadSceneGroup(0).Forget();
         }
 
-        private void Update()
-        {
-            if (isLoading)
-            {
-                if (!fadeCanvas.IsDone) return;
-                else EnableLoadingCanvas();
-                if (!loadingCanvas.IsDone) loadingCanvas.SetTargetPercent(loadingProgress);
-                else
-                {
-                    EnableLoadingCanvas(false);
-                    DisableFadeCanvas();
-                    isLoading = false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 加载新场景组
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        private async Task LoadSceneGroup(int index)
+        private async UniTaskVoid LoadSceneGroup(int index, bool unloadUnusedAssets = true)
         {
             if (index < 0 || index >= sceneGroups.Length)
             {
@@ -53,47 +33,55 @@ namespace System.SceneManagement
                 return;
             }
             EnableFadeCanvas();
-            isLoading = true;
-            LoadingProgress progress = new();
-            progress.Progressed += p => loadingProgress = p;
-
-            await Manager.LoadScenes(sceneGroups[index], progress);
+            await UniTask.WaitUntil(() => fadeCanvas.IsDone);
+            EnableLoadingCanvas();
+            var progress = new LoadingProgress(p => loadingCanvas.SetTargetPercent(p));
+            await Manager.LoadScenes(sceneGroups[index], progress, unloadUnusedAssets);
+            await UniTask.WaitUntil(() => loadingCanvas.IsDone);
+            EnableLoadingCanvas(false);
+            DisableFadeCanvas();
         }
 
         private void EnableFadeCanvas()
         {
+            Debug.Log("开始淡入");
             fadeCanvas.gameObject.SetActive(true);
             fadeCanvas.FadeIn(fadeDuration);
         }
 
         private void DisableFadeCanvas()
         {
+            Debug.Log("开始淡出");
             fadeCanvas.gameObject.SetActive(true);
             fadeCanvas.FadeOut(fadeDuration);
         }
 
-        /// <summary>
-        /// 启用/禁用加载画布
-        /// </summary>
-        /// <param name="enable"></param>
         private void EnableLoadingCanvas(bool enable = true)
         {
+            if (enable)
+                Debug.Log("开始加载动画");
+            else Debug.Log("结束加载动画");
             loadingCanvas.gameObject.SetActiveSafe(enable);
         }
 
 
 #if UNITY_EDITOR
         [ContextMenu("加载第二个场景组")]
-        public async Task LoadNextSceneGroup()
+        public void LoadNextSceneGroup()
         {
-            await LoadSceneGroup(1);
+            LoadSceneGroup(1).Forget();
         }
     }
 #endif
 
     public class LoadingProgress : IProgress<float>
     {
-        public event Action<float> Progressed;
+        public LoadingProgress(Action<float> report)
+        {
+            Progressed += report;
+        }
+
+        public Action<float> Progressed;
 
         const float ratio = 1f;
         public void Report(float value)

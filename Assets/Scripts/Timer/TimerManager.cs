@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.SceneManagement;
 using UnityEngine;
 
 public class TimerManager : MonoBehaviour
@@ -18,12 +17,10 @@ public class TimerManager : MonoBehaviour
         StartCoroutine(UpdateTimers());
     }
 
-    void Start()
-    {
-        SceneLoader.Instance.Manager.OnSceneReadyToUnloaded += FinishAllTimers;
-    }
-
-    private void FinishAllTimers()
+    /// <summary>
+    /// 立即停止所有计时器, 调用计时器的OnCompleted回调
+    /// </summary>
+    public void StopAllTimers()
     {
         foreach (var t in timers)
         {

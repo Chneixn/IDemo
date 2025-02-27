@@ -1,27 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Eflatun.SceneReference;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
-using UnityUtils;
 
 namespace System.SceneManagement
 {
     public class SceneGroupManager
     {
-        public event Action<string> OnSceneLoaded;
-        public event Action<string> OnSceneUnloaded;
-        public event Action OnSceneReadyToUnloaded;
-        public event Action OnSceneGroupLoaded;
+        public Action<string> OnSceneLoaded;
+        public Action<string> OnSceneUnloaded;
+        public Action OnSceneGroupLoaded;
 
         private readonly AsyncOperationHandleGroup handleGroup = new(10);
 
-        SceneGroup ActiveSceneGroup;
+        private SceneGroup ActiveSceneGroup;
 
         /// <summary>
         /// 加载场景组
@@ -30,13 +28,13 @@ namespace System.SceneManagement
         /// <param name="progress"></param>
         /// <param name="reloadDupScenes">是否重新加载存在的场景</param>
         /// <returns></returns>
-        public async Task LoadScenes(SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false)
+        public async UniTask LoadScenes(SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false, bool unloadUnusedAssets = true)
         {
             ActiveSceneGroup = group;
             var loadedScenes = new List<string>();
 
             // 等待卸载场景
-            await UnLoadScenes();
+            await UnLoadScenes(unloadUnusedAssets);
 
             // 获取当前加载的所有场景的名字
             int sceneCount = SceneManager.sceneCount;
@@ -73,7 +71,7 @@ namespace System.SceneManagement
             do
             {
                 progress?.Report((operationGroup.Progress + handleGroup.Progress) / 2);
-                await Task.Delay(100);
+                await UniTask.Delay(100);
             } while (!operationGroup.IsDone || !handleGroup.IsDone);
 
             progress?.Report(1);
@@ -87,7 +85,7 @@ namespace System.SceneManagement
 
             OnSceneGroupLoaded?.Invoke();
         }
-        public async Task UnLoadScenes()
+        public async UniTask UnLoadScenes(bool unloadUnusedAssets)
         {
             // 记录应当卸载的所有场景名
             List<string> unloadScenes = new();
@@ -122,24 +120,23 @@ namespace System.SceneManagement
                 OnSceneUnloaded?.Invoke(scene);
             }
 
-            OnSceneReadyToUnloaded?.Invoke();
-
             foreach (var handle in handleGroup.Handles)
             {
                 if (handle.IsValid())
                 {
-                    Addressables.UnloadSceneAsync(handle);
+                    await Addressables.UnloadSceneAsync(handle);
                 }
             }
             handleGroup.Handles.Clear();
 
             while (!operationGroup.IsDone)
             {
-                await Task.Delay(100);
+                await UniTask.Delay(100);
             }
 
             // Optional: 卸载未使用的资源
-            await AsyncOperationExtensions.AsTask(UnityEngine.Resources.UnloadUnusedAssets());
+            if (unloadUnusedAssets)
+                await UnityEngine.Resources.UnloadUnusedAssets();
         }
     }
 

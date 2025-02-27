@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
+using System.Threading.Tasks;
+using UnityUtils;
 
 public class FadeCanvas : MonoBehaviour
 {
@@ -32,7 +33,11 @@ public class FadeCanvas : MonoBehaviour
     private void Fade(float duration, float target)
     {
         this.target = target;
-        group.DOFade(target, duration);
+        group.alpha = Mathf.Abs(target - 1);
+        while (!IsDone)
+        {
+            group.alpha = Mathf.MoveTowards(group.alpha, target, Time.deltaTime / duration);
+        }
     }
 }
 
