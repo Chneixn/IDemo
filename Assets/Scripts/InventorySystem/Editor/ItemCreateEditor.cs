@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using InventorySystem;
 
-// TODO:按下apply按键后不保存修改
 public class ItemCreateEditor : EditorWindow
 {
     public InventorySystemEditor editor;

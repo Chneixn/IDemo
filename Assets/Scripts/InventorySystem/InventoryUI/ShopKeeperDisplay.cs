@@ -38,7 +38,7 @@ public class ShopKeeperDisplay : MonoBehaviour
     private bool _isPlayerSell;
 
     private ShopSystem _shopSystem;
-    private PlayerInventoryHolder _playerInv;
+    private PlayerInventoryHolder playerInv;
 
     //记录购物车内物品数据与物品数量字典
     private Dictionary<ItemData, int> _shoppingCart = new();
@@ -48,7 +48,7 @@ public class ShopKeeperDisplay : MonoBehaviour
     public void WhenDisplayShopWindow(ShopSystem shopSystem, PlayerInventoryHolder playerInventory)
     {
         _shopSystem = shopSystem;
-        _playerInv = playerInventory;
+        playerInv = playerInventory;
 
         _isPlayerSell = false;
 
@@ -92,7 +92,7 @@ public class ShopKeeperDisplay : MonoBehaviour
             _shopSystem.SellItem(kvp.Key, kvp.Value, price);
 
             // _playerInv.PrimaryInventorySystem.GainGold(price);
-            _playerInv.PrimaryStorage.RemoveItemsFromInventory(kvp.Key, kvp.Value, out int _);
+            playerInv.PrimaryStorage.RemoveItemsFromInventory(kvp.Key, kvp.Value, out int _);
         }
 
         RefreshDisplay();
@@ -106,12 +106,12 @@ public class ShopKeeperDisplay : MonoBehaviour
         // 当金额不足以购买，返回
         // if (_playerInv.PrimaryInventorySystem.Gold < _basketTotalValue) return;
         // 当库存空间不足以全部装入，返回
-        if (!_playerInv.PrimaryStorage.CheckInventoryRemaining(_shoppingCart)) return;
+        if (!CheckPlayerInventoryRemaining(_shoppingCart)) return;
 
         foreach (var kvp in _shoppingCart)
         {
             _shopSystem.PurchaseItem(kvp.Key, kvp.Value);
-            _playerInv.PrimaryStorage.AddToInventory(kvp.Key, kvp.Value);
+            playerInv.PrimaryStorage.AddToInventory(kvp.Key, kvp.Value);
         }
 
         _shopSystem.GainGold(_basketTotalValue);
@@ -132,9 +132,7 @@ public class ShopKeeperDisplay : MonoBehaviour
 
     private void DisPlayPlayerInventory()
     {
-        var itemsRecord = _playerInv.PrimaryStorage.ItemsRecord; //缓存玩家库存
-        if (itemsRecord.Count <= 0) return; //判定库存是否为空
-        foreach (var item in itemsRecord)
+        foreach (var item in playerInv.PrimaryStorage.ItemsRecord)
         {
             ShopSlot _slot = new();
             _slot.AssignItem(item.Key, item.Value);
@@ -299,13 +297,27 @@ public class ShopKeeperDisplay : MonoBehaviour
         #endregion
 
         #region 库存空间判断交易能否完成
-        if (_isPlayerSell || _playerInv.PrimaryStorage.CheckInventoryRemaining(_shoppingCart)) return;
+        if (_isPlayerSell || CheckPlayerInventoryRemaining(_shoppingCart)) return;
         else
         {
             _basketTotalText.text = "你背包装不下！";
             _basketTotalText.color = Color.red;
         }
         #endregion
+    }
+
+    public bool CheckPlayerInventoryRemaining(Dictionary<ItemData, int> itemsForCheck)
+    {
+        //复制玩家库存
+        var cloned = playerInv.PrimaryStorage.Clone();
+
+        //遍历库存是否能装入物品
+        foreach (var kvp in itemsForCheck)
+        {
+            if (cloned.AddToInventory(kvp.Key, kvp.Value) > 0) return false;
+        }
+
+        return true;
     }
 
     public void OnBuyTabPressed()

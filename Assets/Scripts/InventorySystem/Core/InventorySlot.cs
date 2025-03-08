@@ -13,7 +13,7 @@ namespace InventorySystem
         public InventorySlot(ItemData source, int amount)
         {
             itemDate = source;
-            _itemID = itemDate.ID;
+            itemID = itemDate.ID;
             stackSize = amount;
         }
 
@@ -30,11 +30,29 @@ namespace InventorySystem
         /// </summary>
         /// <param name="newDate"></param>
         /// <param name="amount"></param>
-        public void UpdateInventorySlot(ItemData newDate, int amount)
+        public void UpdateSlot(ItemData newDate, int amount)
         {
             itemDate = newDate;
-            _itemID = newDate.ID;
+            itemID = newDate.ID;
             stackSize = amount;
+        }
+
+        /// <summary>
+        /// 访问当前插槽内物品并与传入的插槽物品是否相同
+        /// 相同：增加当前插槽物品数量
+        /// 不同：将当前插槽换为传入插槽
+        /// </summary>
+        /// <param name="invSlot">传入的插槽</param>
+        public void AssignItem(InventorySlot invSlot)
+        {
+            if (itemDate == invSlot.itemDate) AddToStack(invSlot.stackSize);
+            else
+            {
+                itemDate = invSlot.itemDate;
+                itemID = itemDate.ID;
+                stackSize = 0;
+                AddToStack(invSlot.stackSize);
+            }
         }
 
         /// <summary>
@@ -57,7 +75,7 @@ namespace InventorySystem
         /// <returns></returns>
         public bool HasEnoughRoomLeftInStack(int amoutnToAdd)
         {
-            if (stackSize + amoutnToAdd <= itemDate.max_stack_size) { return true; }
+            if (stackSize + amoutnToAdd <= itemDate.max_stack_size) return true;
             else return false;
         }
 

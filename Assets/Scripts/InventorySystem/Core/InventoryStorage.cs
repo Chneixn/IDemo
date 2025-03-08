@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using System.Linq;
 
 namespace InventorySystem
@@ -9,13 +8,13 @@ namespace InventorySystem
     [Serializable]
     public class InventoryStorage
     {
-        [SerializeField] private List<InventorySlot> inventorySlots;
-        public List<InventorySlot> InventorySlots => inventorySlots;
-        public int InventorySize => inventorySlots.Count;   // 库存容量大小
+        [SerializeField] private List<InventorySlot> slots;
+        public List<InventorySlot> InventorySlots => slots;
+        public int StorgeSize => slots.Count;   // 库存容量大小
         private readonly Dictionary<ItemData, int> itemsRecord = new();
         public Dictionary<ItemData, int> ItemsRecord => itemsRecord;
 
-        public UnityAction<InventorySlot> OnInventorySlotChanged;
+        public Action<InventorySlot> OnSlotChanged;
 
         /// <summary>
         /// 创建一个插槽列表，输入所需的插槽数量
@@ -23,85 +22,133 @@ namespace InventorySystem
         /// <param name="size"></param>
         public InventoryStorage(int size)
         {
-            inventorySlots = new List<InventorySlot>(size);
+            slots = new List<InventorySlot>(size);
 
             for (int i = 0; i < size; i++)
             {
-                inventorySlots.Add(new InventorySlot());
+                slots.Add(new InventorySlot());
             }
+        }
+
+        private InventoryStorage(List<InventorySlot> slots)
+        {
+            var news = new List<InventorySlot>(slots.Count);
+
+            for (int i = 0; i < slots.Count; i++)
+            {
+                news.Add(new InventorySlot(slots[i].ItemDate, slots[i].StackSize));
+            }
+        }
+
+        public InventoryStorage Clone()
+        {
+            return new InventoryStorage(slots);
         }
 
         /// <summary>
         /// 添加物品进入插槽列表
         /// </summary>
-        /// <param name="itemToAdd"></param>
-        /// <param name="amountToAdd"></param>
+        /// <param name="item"></param>
+        /// <param name="amount"></param>
         /// <returns>剩余未进入库存的物品数量</returns>
-        public int AddToInventory(ItemData itemToAdd, int amountToAdd)
+        public int AddToInventory(ItemData item, int amount)
         {
-            // 用于记录是否有未能放进库存的物品数量
-            int left = amountToAdd;
+            // 记录未能进库的数量
+            int left = amount;
 
-            // 检查物品是否已存在库存中，优先将物品放入已存有该物品的插槽
-            if (ContainItem(itemToAdd, out List<InventorySlot> invSlot))
+            // 优先将物品放入已存有该物品的插槽
+            if (ContainItem(item, out List<InventorySlot> invSlot))
             {
                 foreach (var slot in invSlot)
                 {
-                    if (slot.HasEnoughRoomLeftInStack(amountToAdd, out int stackLeft))
+                    if (slot.HasEnoughRoomLeftInStack(left, out int stackLeft))
                     {
-                        //该插槽装得下
-                        slot.AddToStack(amountToAdd);
-                        OnInventorySlotChanged?.Invoke(slot);
+                        // 该插槽装得下
+                        slot.AddToStack(left);
+                        OnSlotChanged?.Invoke(slot);
                         left = 0;
                         return left;
                     }
                     else
                     {
-                        //该插槽装不下
+                        // 该插槽装不下
                         slot.AddToStack(stackLeft);
-                        OnInventorySlotChanged?.Invoke(slot);
-                        amountToAdd -= stackLeft;
+                        OnSlotChanged?.Invoke(slot);
+                        left -= stackLeft;
                     }
                 }
             }
-            left = amountToAdd; // 更新剩余未放入的物品数
 
-
-            while (amountToAdd > 0)
+            while (left > 0)
             {
                 // 获取空插槽进行放入
-                if (HasFreeSlot(out InventorySlot freeSlot))
+                if (HasFreeSlot(out InventorySlot free))
                 {
-                    if (amountToAdd > itemToAdd.max_stack_size)
+                    if (left > item.max_stack_size)
                     {
                         // 当剩余要加入物品数大于单个插槽的容量时
-                        freeSlot.UpdateInventorySlot(itemToAdd, itemToAdd.max_stack_size);
-                        amountToAdd -= itemToAdd.max_stack_size;
-                        OnInventorySlotChanged?.Invoke(freeSlot);
+                        free.UpdateSlot(item, item.max_stack_size);
+                        left -= item.max_stack_size;
+                        OnSlotChanged?.Invoke(free);
                     }
                     else
                     {
                         // 当剩余要加入物品数小于单个插槽的容量时
-                        freeSlot.UpdateInventorySlot(itemToAdd, amountToAdd);
-                        amountToAdd = 0;
-                        OnInventorySlotChanged?.Invoke(freeSlot);
+                        free.UpdateSlot(item, left);
+                        left = 0;
+                        OnSlotChanged?.Invoke(free);
                     }
+                }
+                else break;
+            }
+
+            var had = GetItemCountFormInventory(item);
+            UpdateItemsRecord(item, had + amount - left);
+            return left;
+        }
+
+        /// <summary>
+        /// 从库存中移除物品(有保护)
+        /// </summary>
+        /// <param name="item">要移除的物品</param>
+        /// <param name="amount">要移除的数量</param>
+        /// <param name="left">库存中该物品剩余数量</param>
+        /// <returns>是否移除成功</returns>
+        public bool RemoveItemsFromInventory(ItemData item, int amount, out int left)
+        {
+            left = 0;
+            if (itemsRecord.TryGetValue(item, out int l)) left = l;
+            else return false;  // 库存中不存在该物品
+
+            // 库存中物品数量少于移除数，不移除
+            if (left < amount) return false;
+            if (amount == 0) return true;
+
+            // 逐个插槽进行物品删除
+            ContainItem(item, out var slots);
+            foreach (InventorySlot slot in slots)
+            {
+                int size = slot.StackSize;
+
+                if (size < amount)
+                {
+                    // 单插槽中存量不够移除
+                    slot.RemoveFromStack(size);
+                    amount -= size;
+                    left -= size;
                 }
                 else
                 {
-                    // 没有空插槽放入
-                    left = amountToAdd;
-                    return left;
+                    // 单插槽中存量足够移除
+                    slot.RemoveFromStack(amount);
+                    left -= amount;
+                    UpdateItemsRecord(item, left);
+                    return true;
                 }
+                OnSlotChanged?.Invoke(slot);
             }
-#if UNITY_EDITOR
-            if (amountToAdd != 0) Debug.LogWarning($"移动物品时发生计数错误！剩余未处理物品{itemToAdd.displayName}，数量为{amountToAdd}");
-#endif
-            left = amountToAdd;
 
-            UpdateItemsRecord();
-
-            return left;
+            return false;
         }
 
         /// <summary>
@@ -110,7 +157,7 @@ namespace InventorySystem
         /// <param name="itemToAdd"></param>
         /// <param name="invSlot"></param>
         /// <returns></returns>
-        public bool ContainItem(ItemData itemToAdd, out List<InventorySlot> invSlot)
+        private bool ContainItem(ItemData itemToAdd, out List<InventorySlot> invSlot)
         {
             invSlot = InventorySlots.Where(i => i.ItemDate == itemToAdd).ToList();
 
@@ -128,76 +175,29 @@ namespace InventorySystem
             return freeSlot != null;
         }
 
-        private void UpdateItemsRecord()
-        {
-            itemsRecord.Clear();
-
-            foreach (var slot in InventorySlots)
-            {
-                if (slot.ItemDate == null) continue;
-
-                //该字典仅计算所持有物品的数量，不考虑最大可堆叠数
-                if (!itemsRecord.ContainsKey(slot.ItemDate))
-                {
-                    itemsRecord.Add(slot.ItemDate, slot.StackSize);
-                }
-                else
-                {
-                    itemsRecord[slot.ItemDate] += slot.StackSize;
-                }
-            }
-        }
-
         /// <summary>
-        /// 从库存中移除物品(有保护)
+        /// 更新物品库记录, count 为 item 的准确数量
         /// </summary>
-        /// <param name="data">要移除的物品</param>
-        /// <param name="amountToRemove">要移除的数量</param>
-        /// <param name="left">库存中该物品数量</param>
-        /// <returns>是否移除成功</returns>
-        public bool RemoveItemsFromInventory(ItemData data, int amountToRemove, out int left)
+        /// <param name="item"></param>
+        /// <param name="count"></param>
+        private void UpdateItemsRecord(ItemData item, int count)
         {
-            //获取当前库存中该物品的数量
-            left = itemsRecord.TryGetValue(data, out left) ? left : 0;
-
-            // 当可移除的物品少于当前库存中物品时，不允许移除
-            if (left < amountToRemove) return false;
-            if (amountToRemove == 0) return true;
-
-            // 逐个插槽进行物品删除
-            ContainItem(data, out var slots);
-            foreach (InventorySlot slot in slots)
+            //该字典仅计算所持有物品的数量，不考虑最大可堆叠数
+            if (!itemsRecord.ContainsKey(item))
             {
-                int stackSize = slot.StackSize;
-
-                if (stackSize >= amountToRemove)
-                {
-                    //单插槽中存量足够移除
-                    slot.RemoveFromStack(amountToRemove);
-                    left -= amountToRemove;
-                    UpdateItemsRecord();
-                    return true;
-                }
-                else
-                {
-                    //单插槽中存量不够移除
-                    slot.RemoveFromStack(stackSize);
-                    amountToRemove -= stackSize;
-                    left -= stackSize;
-                }
-                OnInventorySlotChanged?.Invoke(slot);
+                if (count > 0) itemsRecord.Add(item, count);
             }
-
-            return false;
+            else
+            {
+                itemsRecord[item] += count;
+            }
         }
 
         public int GetItemCountFormInventory(ItemData item)
         {
             if (item == null)
             {
-#if UNITY_EDITOR
                 Debug.LogWarning($"获取物品数量时发生错误！传入物品为空！返回数值 0");
-#endif
                 return 0;
             }
             else if (itemsRecord.TryGetValue(item, out int count))
@@ -205,37 +205,8 @@ namespace InventorySystem
                 //Debug.Log($"物品[{item.displayName}]剩余{count}个");
                 return count;
             }
-            else
-            {
-                //Debug.Log($"该库存中不存在[{item.displayName}]!");
-                return 0;
-            }
-        }
-
-        /// <summary>
-        /// 以字典形式检测多种物品能否放入库存(Shop System Support)
-        /// </summary>
-        /// <param name="itemsForCheck"></param>
-        /// <returns></returns>
-        public bool CheckInventoryRemaining(Dictionary<ItemData, int> itemsForCheck)
-        {
-            //复制玩家库存
-            var clonedSystem = new InventoryStorage(this.InventorySize);
-            for (int i = 0; i < InventorySize; i++)
-            {
-                clonedSystem.InventorySlots[i].AssignItem(this.InventorySlots[i].ItemDate, this.InventorySlots[i].StackSize);
-            }
-
-            //遍历库存是否能装入物品
-            foreach (var kvp in itemsForCheck)
-            {
-                for (int i = 0; i < kvp.Value; i++)
-                {
-                    if (clonedSystem.AddToInventory(kvp.Key, kvp.Value) > 0) return false;
-                }
-            }
-
-            return true;
+            //Debug.Log($"该库存中不存在[{item.displayName}]!");
+            return 0;
         }
     }
 }

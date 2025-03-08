@@ -36,7 +36,7 @@ public class StaticInventoryDisplay : InventoryDisplay
         {
             // 获取库存系统，注册库存变更时事件
             inventorySystem = playerInventory.PrimaryStorage;
-            inventorySystem.OnInventorySlotChanged += UpdateSlot;
+            inventorySystem.OnSlotChanged += UpdateSlot;
         }
         else Debug.LogWarning($"No Player's Inventory assigned to {this.gameObject}");
 
