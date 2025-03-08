@@ -35,7 +35,11 @@ public class GunSetting : ScriptableObject
     public bool hasBrust;
 
     public bool fireIsHit;
-    public float timeToHolster;         // 收起武器的时间
+    [Header("动画延迟")]
+    [Tooltip("拿起武器的时间")]
+    public float timeToDraw;
+    [Tooltip("收起武器的时间")]
+    public float timeToHolster;
 
     [Header("BulletParameter子弹参数")]
     public ItemData bulletData;

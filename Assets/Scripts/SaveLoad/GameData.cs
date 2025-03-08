@@ -10,7 +10,6 @@ public class GameData : ISaveData
     public string FileName => Name;
 
     //  在此处添加需要序列化保存的数据
-    public List<string> collectedItems;
     public SerializableDictionary<string, ItemPickUpSaveData> activeItems;
     public SerializableDictionary<string, ShopSaveData> _shopKeeperDictionary;
 

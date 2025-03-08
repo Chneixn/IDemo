@@ -24,20 +24,20 @@ TagManager:
   - Water
   - UI
   - Invisible
-  - Wall
-  - Ground
+  - 
+  - Environment
   - Enemy
   - Bullet
   - PlayerHands
   - Post-process
   - Interactable
   - PlayerBody
-  - Grabable
-  - MiniMap
-  - MovemenntPlatform
-  - PickUpItem
-  - Environment
   - RunableWall
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

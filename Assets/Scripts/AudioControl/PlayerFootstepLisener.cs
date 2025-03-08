@@ -34,7 +34,6 @@ public class PlayerFootstepLisener : MonoBehaviour
 
         nextPlayTime += Time.deltaTime;
 
-        //TODO:获取地面信息从而决定使用那种脚步声音
         if (nextPlayTime >= audioDelay)
         {
             //播放移动声音

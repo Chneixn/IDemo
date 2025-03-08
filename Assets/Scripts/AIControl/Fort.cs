@@ -190,7 +190,7 @@ public class Fort : MonoBehaviour
 
             for (int i = 0; i < bullet_count; i++)
             {
-                var bullet = GameObjectPoolManager.GetItem<Bullet>(bullet_Prefab);
+                // var bullet = GameObjectPoolManager.GetItem<Bullet>(bullet_Prefab);
                 
             }
 

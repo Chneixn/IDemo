@@ -3,16 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityUtils;
-//Bug:换弹时切换武器，在切换武器后上一武器扔在换弹
-//Bug:瞄准动画播放时可以开火
+using InventorySystem;
 
 public abstract class IWeapon : MonoBehaviour
 {
+    public WeaponHolder holder;
     public GameObject visualModel;
-    /// <summary>
-    /// 控制武器模型显示
-    /// </summary>
-    /// <param name="state"></param>
     public void SetVisualModel(bool state)
     {
         if (visualModel == null)
@@ -22,7 +18,8 @@ public abstract class IWeapon : MonoBehaviour
         }
         visualModel.SetActiveSafe(state);
     }
-    public abstract void EnableWeapon(Camera cam);
+    public abstract void ActivateWeapon();
+    public abstract bool EnableWeapon();
     public abstract void DisableWeapon();
     public abstract void HandleInput(ref WeaponInput input);
 }
@@ -43,6 +40,7 @@ public struct WeaponInput
 
 public class WeaponHolder : MonoBehaviour
 {
+    public InventoryStorage playerInventory;
     [Header("Weapons")]
     public List<IWeapon> weapons = new();
     public Action<IWeapon> OnWeaponChanged;
@@ -53,6 +51,7 @@ public class WeaponHolder : MonoBehaviour
     private int lastIndex = -1;
 
     private Camera cam;
+    public Camera Cam => cam;
 
     private void Awake()
     {
@@ -62,20 +61,17 @@ public class WeaponHolder : MonoBehaviour
 
     void Start()
     {
+        playerInventory = PlayerManager.Instance.PlayerInventory.PrimaryStorage;
         IWeapon[] list = GetComponentsInChildren<IWeapon>();
         foreach (IWeapon i in list)
         {
-            weapons.Add(i);
-            i.SetVisualModel(false);
+            AddWeapon(i);
         }
 
-        if (weapons.Count != 0)
-        {
-            curIndex = 0;
-            lastIndex = 0;
-            curWeapon = weapons[0];
-            curWeapon.EnableWeapon(cam);
-        }
+        // if (weapons.Count != 0)
+        // {
+        //     SwitchWeaponByIndex(0);
+        // }
     }
 
     public void SetWeaponHolderState(bool active)
@@ -96,6 +92,9 @@ public class WeaponHolder : MonoBehaviour
     public void AddWeapon(IWeapon newWeapon)
     {
         weapons.Add(newWeapon);
+        newWeapon.holder = this;
+        newWeapon.ActivateWeapon();
+        newWeapon.SetVisualModel(false);
     }
 
     public void ReMoveWeapon(IWeapon weaponToRemove)
@@ -112,11 +111,16 @@ public class WeaponHolder : MonoBehaviour
         lastIndex = curIndex;
         // 关闭当前的武器
         if (curWeapon != null)
+        {
             curWeapon.DisableWeapon();
+            curWeapon.SetVisualModel(false);
+        }
+
         // 激活请求的武器
         curIndex = index;
         curWeapon = weapons[curIndex];
-        curWeapon.EnableWeapon(cam);
+        curWeapon.EnableWeapon();
+        curWeapon.SetVisualModel(true);
         OnWeaponChanged?.Invoke(curWeapon);
     }
 

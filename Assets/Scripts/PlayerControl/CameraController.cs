@@ -45,8 +45,9 @@ public class CameraController : CinemachineCameraManagerBase
     private float _mouseX;
     private float _mouseY;
 
-    public CinemachineVirtualCameraBase f_cam;
-    private CinemachinePanTilt f_POV;
+    public CinemachineVirtualCameraBase F_cam;
+    public InputAxis F_Input = new();
+    private CinemachinePanTilt F_POV;
     public CinemachineVirtualCameraBase t_cam;
     private bool isFreeLook = false;
     public CinemachineVirtualCameraBase free_cam;
@@ -67,9 +68,9 @@ public class CameraController : CinemachineCameraManagerBase
             var cam = ChildCameras[i];
             if (!cam.isActiveAndEnabled)
                 continue;
-            if (f_cam == null && cam.TryGetComponent<CinemachinePanTilt>(out _))
+            if (F_cam == null && cam.TryGetComponent<CinemachinePanTilt>(out _))
             {
-                f_cam = cam;
+                F_cam = cam;
             }
             else if (t_cam == null && cam.TryGetComponent<CinemachineThirdPersonAim>(out _))
                 t_cam = cam;
@@ -80,7 +81,7 @@ public class CameraController : CinemachineCameraManagerBase
             }
         }
 
-        f_POV = f_cam.GetComponent<CinemachinePanTilt>();
+        F_POV = F_cam.GetComponent<CinemachinePanTilt>();
     }
 
     public void ApplyInput(ref CameraInput inputs)
@@ -105,10 +106,13 @@ public class CameraController : CinemachineCameraManagerBase
 
         switch (currentCamState)
         {
+            // FIXME: 摄像机输入没有限制
             case CamState.FPS:
                 {
-                    f_POV.TiltAxis.Value = _mouseY;
-                    f_POV.PanAxis.Value = _mouseX;
+                    F_POV.TiltAxis.Value = _mouseY;
+                    F_POV.PanAxis.Value = _mouseX;
+                    F_POV.PanAxis.Validate();
+                    F_POV.TiltAxis.Validate();
                 }
                 break;
             case CamState.TPS:
@@ -144,7 +148,7 @@ public class CameraController : CinemachineCameraManagerBase
     {
         var newCam = currentCamState switch
         {
-            CamState.FPS => f_cam,
+            CamState.FPS => F_cam,
             CamState.TPS => t_cam,
             CamState.FreeLook => free_cam,
             _ => null

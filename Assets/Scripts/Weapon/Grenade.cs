@@ -2,86 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class Grenade : ExplosionBullet
 {
-    [SerializeField] private float throwForce;
-    [SerializeField] private float pullPinDely;
-    [SerializeField] private float throwDely;
-    public float timeToHolster;
-    [SerializeField] private Transform spawnPoint;
-    [SerializeField] private IPoolableObject grenadePrefab;
-    [SerializeField] private AudioClip pullPinSound;
-    [SerializeField] private AudioClip throwGrenadeSound;
-    [SerializeField] private SkinnedMeshRenderer grenadeMesh;
+    [Header("弹力")]
+    [Range(0f, 1f), Tooltip("子弹弹力")]
+    public float bounciness;
+    public bool useGravity = true;
 
-    public void Enable()
+    [Tooltip("是否允许碰撞次数引爆")]
+    public bool allowCollisionsToExplode;
+    [Tooltip("最大弹跳次数")]
+    public int maxCollisions;
+    private Rigidbody rb;
+    int collisions = 0; //当前碰撞次数
+    PhysicMaterial _physicsMaterial;
+
+    protected override void Awake()
     {
-        if (grenadeMesh.enabled != true)
-            grenadeMesh.enabled = true;
-    }
-
-    //void Explode()
-    //{
-    //    //Apply camera shake
-    //    GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-
-    //    //Get all other colliders inside contact radius
-    //    Collider[] collidersToDestroy = Physics.OverlapSphere(transform.position, radius);
-
-    //    foreach(Collider nearbyObject in collidersToDestroy)
-    //    {
-    //        DestructibleObject destructible = nearbyObject.GetComponent<DestructibleObject>();
-
-    //        if(destructible != null)
-    //        {
-    //            //Instantiate shattered object version that was been hit
-    //            destructible.FractureObject();
-    //        }
-    //    }
-
-    //    Collider[] collidersToMove = Physics.OverlapSphere(transform.position, radius);
-
-    //    foreach(Collider nearbyObject in collidersToMove)
-    //    {
-    //        if(nearbyObject.gameObject.tag == "Destructible" || nearbyObject.gameObject.tag == "Barrel")
-    //        {
-    //            Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
-
-    //            if (rb != null)
-    //            {
-    //                //Apply physics in all other object parts that was been hit
-    //                rb.isKinematic = false;
-    //                rb.AddExplosionForce(force, transform.position, radius);
-    //            }
-    //        }
-    //    }
-
-    //    //Disable granade mesh on player's hand after throw it
-    //    grenadeMesh.enabled = false;
-    //    Destroy(gameObject, 2.5f);
-    //}
-
-    public IEnumerator SpawnGrenade()
-    {
-        yield return new WaitForSeconds(throwDely);
-        grenadeMesh.enabled = false;
-        if (grenadePrefab != null && spawnPoint != null)
+        base.Awake();
+        //创建新物理材质，初始化材质设置
+        _physicsMaterial = new PhysicMaterial
         {
-            ExplosionBulletSet _grenade = GameObjectPoolManager.GetItem<ExplosionBulletSet>(grenadePrefab.GetComponent<ExplosionBulletSet>());
-            _grenade.GetComponent<Rigidbody>().AddForce(spawnPoint.transform.forward * throwForce, ForceMode.Impulse);
-        }
-        
-        yield break;
+            bounciness = bounciness,
+            frictionCombine = PhysicMaterialCombine.Minimum,
+            bounceCombine = PhysicMaterialCombine.Maximum
+        };
+        //PhysicMaterial.frictionCombine确定摩擦力的组合方式
+        //PhysicMaterial.bounceCombine表面的弹性有多大？值为0时不会反弹。值为1将反弹而不会损失任何能量
+
+        //应用物理材质设置
+        GetComponent<Collider>().material = _physicsMaterial;
+        rb = GetComponent<Rigidbody>();
+        //设置重力使用
+        rb.useGravity = useGravity;
     }
 
-    public IEnumerator PlayGrenadeSound(AudioSource audioSource)
+    public override void OnGet()
     {
-        yield return new WaitForSeconds(pullPinDely);
-        audioSource.clip = pullPinSound;
-        audioSource.Play();
-        yield return new WaitForSeconds(throwDely - pullPinDely);
-        audioSource.clip = throwGrenadeSound;
-        audioSource.Play();
-        yield break;
+        base.OnGet();
+        collisions = 0;
+    }
+
+    protected void OnCollisionEnter(Collision other)
+    {//记录每次碰撞
+        collisions++;
+        // 碰撞次数达到最大
+        if (allowCollisionsToExplode)
+        {
+            if (collisions > maxCollisions)
+            {
+                Explode();
+            }
+        }
     }
 }

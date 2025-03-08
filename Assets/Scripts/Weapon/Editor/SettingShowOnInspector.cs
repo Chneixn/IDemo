@@ -1,23 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-[CustomEditor(typeof(BaseGun))]
+[CustomEditor(typeof(BaseGun), true)]
 public class GunSettingShowOnInspector : Editor
 {
-    public override void OnInspectorGUI()
+    public override VisualElement CreateInspectorGUI()
     {
-        // Update the serializedProperty - always do this in the beginning of OnInspectorGUI.
-        serializedObject.Update();
-        base.OnInspectorGUI();
+        var gun = (BaseGun)target;
+        var root = new VisualElement();
+        root.Add(new IMGUIContainer(OnInspectorGUI));
 
-        GunSetting set = ((BaseGun)target).set;
-        if (set != null)
+        if (gun.setting != null)
         {
-            var settingEditor = Editor.CreateEditor(set);
-            settingEditor.OnInspectorGUI();
+            SerializedObject obj = new(gun.setting);
+            var title = new Label()
+            {
+                text = "Gun Settings"
+            };
+            root.Add(title);
+            root.Add(new InspectorElement(obj));
+            root.Bind(obj);
         }
+
+        return root;
     }
 }
 

@@ -33,16 +33,20 @@ public class TimerManager : MonoBehaviour
         while (true)
         {
             // 将即将计时的计时器从缓存取出
-            if (timersCache.Count != 0)
+            if (timersCache.Count > 0)
             {
                 timers.AddRange(timersCache);
                 timersCache.Clear();
             }
 
             // 回收所有空闲计时器
-            var needRemove = timers.FindAll(timer => timer.ReadyToRemove == true);
-            if (needRemove.Count > 0)
-                RemoveTimers(needRemove);
+            var ready = timers.FindAll(timer => timer.ReadyToRemove == true);
+            foreach (var t in ready)
+            {
+                t.ClearTimer();
+                timers.Remove(t);
+                freeTimers.Enqueue(t);
+            }
 
             // 循环调用未结束的计时器
             foreach (Timer timer in timers)
@@ -139,7 +143,7 @@ public class TimerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 通过计时器本身移除计时器，会在下一帧时移除
+    /// 回收计时器
     /// </summary>
     /// <param name="timer"></param>
     /// <returns></returns>
@@ -183,12 +187,10 @@ public class TimerManager : MonoBehaviour
     /// <param name="timersToRemove"></param>
     public static void RemoveTimers(List<Timer> timersToRemove)
     {
-        timersToRemove?.ForEach(t =>
+        foreach (var t in timersToRemove)
         {
-            t.ClearTimer();
-            timers.Remove(t);
-            freeTimers.Enqueue(t);
-        });
+            t.EndTimer();
+        }
     }
 
     #endregion

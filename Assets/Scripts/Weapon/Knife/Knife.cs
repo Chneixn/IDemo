@@ -5,7 +5,6 @@ using UnityUtils;
 public class Knife : IWeapon
 {
     public KnifeSetting setting;
-    private Camera cam;
     private Timer cdTimer;
 
     #region Action
@@ -19,14 +18,8 @@ public class Knife : IWeapon
 
     #endregion
 
-    private bool activated = false;
-
-    protected virtual void ActivateWeapon(Camera cam)
+    public override void ActivateWeapon()
     {
-        if (activated) return;
-        activated = true;
-        this.cam = cam;
-
         cdTimer = TimerManager.CreateTimer();
         if (visualModel == null) Debug.LogError("ViusalModel not set!");
         if (setting == null) Debug.LogError("没有武器设置！", gameObject);
@@ -34,13 +27,12 @@ public class Knife : IWeapon
 
     public override void DisableWeapon()
     {
-        SetVisualModel(false);
+
     }
 
-    public override void EnableWeapon(Camera cam)
+    public override bool EnableWeapon()
     {
-        ActivateWeapon(cam);
-        SetVisualModel(true);
+        return true;
     }
 
     public override void HandleInput(ref WeaponInput input)
@@ -68,14 +60,14 @@ public class Knife : IWeapon
     private void Attack(float damage)
     {
         // 以屏幕中心为射线起始点
-        Ray aimRay = cam.ScreenPointToRay(new(0.5f, 0.5f, 0f));
-        aimRay.direction = cam.transform.forward;
+        Ray aimRay = holder.Cam.ScreenPointToRay(new(0.5f, 0.5f, 0f));
+        aimRay.direction = holder.Cam.transform.forward;
 
         if (Physics.Raycast(aimRay, out RaycastHit _hitInfo, setting.attackRange))
         {
             if (_hitInfo.collider.TryGetComponent(out IDamageable target))
             {
-                target.TakeDamage(damage, DamageType.Knife, cam.transform.forward);
+                target.TakeDamage(damage, DamageType.Knife, holder.Cam.transform.forward);
             }
             SpawnDecal(_hitInfo);
         }

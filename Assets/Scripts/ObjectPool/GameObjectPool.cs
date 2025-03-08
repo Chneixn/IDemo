@@ -32,29 +32,33 @@ public class GameObjectPool
     public GameObject Get()
     {
         GameObject item = objects.Count == 0 ? CreateObject() : objects.Pop();
-        if (item is GameObject obj)
-        {
-            obj.SetActive(true);
-            obj.transform.parent = null;
-        }
+        item.transform.parent = null;
         return item;
     }
 
     private GameObject CreateObject()
     {
         if (_curCount >= MaxPoolSize) return default;
-
-        var newObject = UnityEngine.Object.Instantiate(ItemPrefab);
-        newObject.SetActiveSafe(true);
+        var obj = UnityEngine.Object.Instantiate(ItemPrefab);
         _curCount++;
-        return newObject;
+        return obj;
     }
 
-    public void Recycle(GameObject item)
+    /// <summary>
+    /// 若返回false 可能有 1.item为空 2.item已经在池内
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool Recycle(GameObject item)
     {
-        if (item == null) return;
-        if (!objects.Contains(item)) item.SetActiveSafe(false);
-        objects.Push(item);
+        if (item == null) return false;
+        else if (!objects.Contains(item))
+        {
+            item.SetActiveSafe(false);
+            objects.Push(item); // 当stack已满，会自动扩容，每次添加都会是O(n)操作
+            return true;
+        }
+        return false;
     }
 
 

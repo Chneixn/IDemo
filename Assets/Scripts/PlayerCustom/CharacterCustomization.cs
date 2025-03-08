@@ -72,8 +72,7 @@ public class CharacterCustomization : MonoBehaviour
 
     private void OnDisable()
     {
-        //SaveLoad.OnLoadGame -= LoadSkinData;
-        //SaveLoad.OnSaveGame -= SaveSkinData;
+        PlayerManager.Instance.PlayerCam.OnCamStateChange -= ChangeModelVisibility;
     }
 
     public void ChangeModelVisibility(CamState camState)

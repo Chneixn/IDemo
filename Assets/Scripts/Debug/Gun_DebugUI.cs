@@ -19,9 +19,14 @@ public class Gun_DebugUI : MonoBehaviour
     {
         if (weapon is BaseGun gun)
         {
+            this.gun = gun;
             ammoText.enabled = true;
         }
-        else ammoText.enabled = false;
+        else
+        {
+            this.gun = null;
+            ammoText.enabled = false;
+        }
     }
 
     private void Update()

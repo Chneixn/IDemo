@@ -41,10 +41,9 @@ public class GunVFX : MonoBehaviour
 
         if (hitParticle != null)
         {
-            var obj = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(hitParticle);
-            obj.transform.position = hit.point;
+            var obj = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(hitParticle, hit.point, Quaternion.identity);
             obj.system.Play();
-            TimerManager.CreateTimeOut(hitParticleTime, () => GameObjectPoolManager.RecycleItem(hitParticle.name, obj));
+            TimerManager.CreateTimeOut(hitParticleTime, () => GameObjectPoolManager.RecycleItem(obj));
         }
     }
 

@@ -19,30 +19,50 @@ public class GameObjectPoolManager : MonoBehaviour
         return pool;
     }
 
-    public static T GetItem<T>(IPoolableObject poolObject) where T : IPoolableObject
+    /// <summary>
+    /// 获取可池化物品
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="poolObject">预制体搭载的脚本</param>
+    /// <param name="position">生成的世界位置</param>
+    /// <param name="quaternion"></param>
+    /// <returns></returns>
+    public static T GetItem<T>(IPoolableObject poolObject, Vector3 position, Quaternion quaternion) where T : IPoolableObject
     {
         GameObject obj = poolObject.gameObject;
         string name = obj.name + "(Clone)";
         T result;
         if (_pools.TryGetValue(name, out GameObjectPool pool))
         {
-            result = pool.Get() as T;
+            result = pool.Get().GetComponent<T>();
         }
         else
         {
-            result = CreatPool(obj, name, 0, 500).Get() as T;
+            result = CreatPool(obj, name, 0, 500).Get().GetComponent<T>();
         }
+        result.transform.SetPositionAndRotation(position, quaternion);
+        result.gameObject.SetActiveSafe(true);
         result.OnGet();
         return result;
     }
-    public static bool RecycleItem(string itemName, IPoolableObject returnObject)
-    {
-        if (returnObject == null) return false;
 
-        if (_pools.TryGetValue(itemName, out var pool))
+    public static bool RecycleItem(IPoolableObject item)
+    {
+        if (item == null) return false;
+
+        if (_pools.TryGetValue(item.name, out var pool))
         {
-            pool.Recycle(returnObject.gameObject);
-            returnObject.OnRecycle();
+            if (pool.Recycle(item.gameObject))
+            {
+                item.OnRecycle();
+                return true;
+            }
+        }
+        else
+        {
+            var newPool = CreatPool(item.gameObject, item.name + "(Clone)", 0, 500);
+            newPool.Recycle(item.gameObject);
+            item.OnRecycle();
             return true;
         }
         return false;

@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using InventorySystem;
 
-[RequireComponent(typeof(SphereCollider))]
 public class TouchToPickUp : MonoBehaviour
 {
     [SerializeField] private InventoryStorage holderStorge;
     [SerializeField] private LayerMask interactableLayer;
 
-    private new SphereCollider collider;
+    public bool enableDetect = true;
+    public float radius = 0.3f;
+    public Vector3 Offest = Vector3.zero;
+    public int Cache = 32;
+    [SerializeField] private Collider[] colliders;
 
     void Start()
     {
         holderStorge = PlayerManager.Instance.PlayerInventory.PrimaryStorage;
-        collider = GetComponent<SphereCollider>();
+        colliders = new Collider[Cache];
     }
 
     void Update()
     {
-        DetectCollider();
+        if (enableDetect) DetectCollider();
     }
 
     public void DetectCollider()
     {
-        // FIXME: 无法检测到碰撞体
-        var colliders = Physics.OverlapSphere(transform.position + collider.center, collider.radius, interactableLayer);
+        var length = Physics.OverlapSphereNonAlloc(transform.position + Offest, radius, colliders, interactableLayer);
 
-        for (int i = 0; i < colliders.Length; i++)
+        for (int i = 0; i < length; i++)
         {
             // Debug.Log("检测到碰撞体: " + colliders[i].name);
             if (colliders[i].TryGetComponent(out ItemPickUp item))
@@ -57,9 +59,8 @@ public class TouchToPickUp : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmosSelected()
     {
-        var collider = GetComponent<SphereCollider>();
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position + collider.center, collider.radius);
+        Gizmos.DrawWireSphere(transform.position + Offest, radius);
     }
 #endif
 }

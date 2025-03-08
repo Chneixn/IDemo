@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DRockInputBridge;
 using UnityEngine;
 
-
+// TODO: REMOVE 打包时要去掉
 public class TestPlayerScene : MonoBehaviour
 {
     public PlayerManager manager;
@@ -12,13 +13,13 @@ public class TestPlayerScene : MonoBehaviour
     void Start()
     {
         manager = PlayerManager.Instance;
-        manager.PlayerInventory.AddToInventory(manager.ItemDatabase.GetItem(0), 100);
         InputManager.Instance.Push(manager.PlayerInput);
+
     }
 
-    // Update is called once per frame
-    void Update()
+    [ContextMenu("Test")]
+    private void Test()
     {
-
+        manager.PlayerInventory.AddToInventory(manager.ItemDatabase.GetItem(0), 100);
     }
 }

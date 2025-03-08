@@ -15,6 +15,7 @@ namespace InventorySystem
         public Dictionary<ItemData, int> ItemsRecord => itemsRecord;
 
         public Action<InventorySlot> OnSlotChanged;
+        public Action OnStorageUpdated;
 
         /// <summary>
         /// 创建一个插槽列表，输入所需的插槽数量
@@ -189,8 +190,9 @@ namespace InventorySystem
             }
             else
             {
-                itemsRecord[item] += count;
+                itemsRecord[item] = count;
             }
+            OnStorageUpdated?.Invoke();
         }
 
         public int GetItemCountFormInventory(ItemData item)

@@ -44,34 +44,31 @@ public class GunAnimation : MonoBehaviour
     {
         animator.SetBool("Shot", false);
         animator.SetBool("ShotWithAim", false);
-        if (isEmpty)
-            animator.SetBool("Empty", true);
+        if (isEmpty) animator.SetBool("Empty", true);
     }
 
     public void ShotStart(bool aimState)
     {
-        if (!aimState)
-            animator.SetBool("Shot", true);
-        else
+        if (animator.GetBool("Aiming"))
             animator.SetBool("ShotWithAim", true);
+        else
+            animator.SetBool("Shot", true);
     }
 
     public void ReloadEnd()
     {
-        animator.SetBool("EmptyReload", false);
-        animator.SetBool("Reloading", false);
         animator.SetBool("Empty", false);
     }
 
-    public void ReloadStart(bool isEmpty)
+    public void ReloadStart(bool empty)
     {
-        if (!isEmpty)
+        if (!animator.GetBool("Empty"))
         {
-            animator.SetBool("EmptyReload", true);
+            animator.SetTrigger("ReloadEmpty");
         }
         else
         {
-            animator.SetBool("Reloading", true);
+            animator.SetTrigger("Reloading");
         }
     }
 

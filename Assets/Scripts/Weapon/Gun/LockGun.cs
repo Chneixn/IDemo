@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO:锁定模式视觉反馈
 public class LockGun : BaseGun
 {
     [Header("Gun Setting")]
@@ -17,14 +16,12 @@ public class LockGun : BaseGun
     public LayerMask scanLayer;
 
     private RaycastHit[] hitInfos;
-    /// <summary>
+
     /// 正在锁定的目标
-    /// </summary>
-    private List<LockInfo> lockingTarget = new();
-    /// <summary>
+    private readonly List<LockInfo> lockingTarget = new();
+
     /// 已经被锁定的目标
-    /// </summary>
-    private List<Transform> lockedTargets = new();
+    private readonly List<Transform> lockedTargets = new();
     private Coroutine lockingCoroutine;
 
     /// <summary>
@@ -37,9 +34,9 @@ public class LockGun : BaseGun
         public float Progress;
     }
 
-    protected override void ActivateWeapon(Camera cam)
+    public override void ActivateWeapon()
     {
-        base.ActivateWeapon(cam);
+        base.ActivateWeapon();
         hitInfos ??= new RaycastHit[50];
     }
 
@@ -59,12 +56,12 @@ public class LockGun : BaseGun
     private IEnumerator LockingTarget()
     {
         //从屏幕中间射出射线
-        Ray _aimRay = cam.ViewportPointToRay(centerPoint);
-        _aimRay.direction = cam.transform.forward;
+        Ray _aimRay = holder.Cam.ViewportPointToRay(centerPoint);
+        _aimRay.direction = holder.Cam.transform.forward;
 
         if (multilock)
         {
-            int _lockCount = Physics.SphereCastNonAlloc(_aimRay, lockRange, hitInfos, set.weaponRange, scanLayer);
+            int _lockCount = Physics.SphereCastNonAlloc(_aimRay, lockRange, hitInfos, setting.weaponRange, scanLayer);
             for (int i = 0; i < _lockCount; i++)
             {
                 LockInfo info = lockingTarget.Find((l) => { return l.Target == hitInfos[i].collider.transform; });
@@ -94,7 +91,7 @@ public class LockGun : BaseGun
         }
         else
         {
-            if (!Physics.SphereCast(_aimRay, lockRange, out var hitInfo, set.weaponRange, scanLayer))
+            if (!Physics.SphereCast(_aimRay, lockRange, out var hitInfo, setting.weaponRange, scanLayer))
             {
                 // 视野中没有能锁定的物体
                 lockingTarget.Clear();
@@ -135,11 +132,11 @@ public class LockGun : BaseGun
         yield return null;
     }
 
-    // TODO:实现追踪子弹发生功能
+    // TODO:实现追踪子弹发射功能
     protected override void Shoot()
     {
         if (!readyToShoot) return;
-        else if (set.autoReloadWhenEmpty && currentBulletsCount <= 0)
+        else if (setting.autoReloadWhenEmpty && currentBulletsCount <= 0)
         {
             Reload();
         }
@@ -148,43 +145,40 @@ public class LockGun : BaseGun
         readyToReload = false;
 
         //从屏幕中间射出射线
-        Ray ray = cam.ViewportPointToRay(centerPoint);
-        ray.direction = cam.transform.forward;
+        Ray ray = holder.Cam.ViewportPointToRay(centerPoint);
+        ray.direction = holder.Cam.transform.forward;
 
         // 初始化击中点
         Vector3 _targetPoint = Vector3.zero;
 
-        _targetPoint += ray.GetPoint(set.weaponRange);
+        _targetPoint += ray.GetPoint(setting.weaponRange);
 
         // 攻击已经锁定的敌人
         if (lockedTargets.Count > 0)
         {
             for (int i = lockedTargets.Count; i > 0; i--)
             {
-                var bullet = InstantiateBullet();
-                if (bullet.TryGetComponent(out ExplosionBulletSet t))
-                    t.GetTarget(lockedTargets[i].transform);
-                else
-                {
-                    Debug.LogError("子弹缺失追踪控制脚本!", bullet);
-                }
+                InstantiateBullet(lockedTargets[i].transform);
             }
         }
 
-        // 霰弹枪功能
-        if (set.isShotgun && bulletsShotted < set.bulletsPerTap)
+        if (setting.isShotgun && bulletsShotted < setting.bulletsPerTap)
         {
-            bulletsShotted++;  // 记录弹丸数
+            bulletsShotted++;
             readyToShoot = true;
             Shoot();
         }
         else
         {
-            currentBulletsCount--;  // 每次射击，剩余子弹-1
+            currentBulletsCount--;
             fireTimer.StartTiming(timeBetweenShoot, repeateTime: 1, onCompleted: ShootFinished);
             OnShot?.Invoke(isAiming);
         }
+    }
 
-
+    protected void InstantiateBullet(Transform transform)
+    {
+        if (setting.bulletData.prefab == null) Debug.LogError("bullet prefab is null");
+        // var bullet = set.bulletData.prefab.GetComponent
     }
 }

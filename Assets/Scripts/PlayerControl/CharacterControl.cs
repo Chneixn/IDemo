@@ -91,6 +91,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     public GravityConfig Gravity = new();
 
     [Header("Colliders碰撞体")]
+    public LayerMask IgnoredCollidersMask;
     public List<Collider> IgnoredColliders = new(); //忽视碰撞体的列表
     [SerializeField] private Transform meshRoot;
 
@@ -163,7 +164,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
     public bool IsColliderValidForCollisions(Collider coll)
     {
-        //处理碰撞：在列表中的物体不计算物体碰撞
+        if (coll.gameObject.layer == IgnoredCollidersMask) return true;
         return CurrentState.IsColliderValidForCollisions(coll);
     }
 
