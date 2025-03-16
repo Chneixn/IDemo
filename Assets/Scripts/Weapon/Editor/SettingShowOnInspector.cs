@@ -16,14 +16,15 @@ public class GunSettingShowOnInspector : Editor
 
         if (gun.setting != null)
         {
-            SerializedObject obj = new(gun.setting);
             var title = new Label()
             {
                 text = "Gun Settings"
             };
             root.Add(title);
-            root.Add(new InspectorElement(obj));
-            root.Bind(obj);
+            SerializedObject obj = new(gun.setting);
+            var element = new InspectorElement(obj);
+            element.Bind(obj);
+            root.Add(element);
         }
 
         return root;

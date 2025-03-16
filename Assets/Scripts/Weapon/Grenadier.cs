@@ -18,10 +18,13 @@ public class Grenadier : IWeapon
     public AudioClip pullPinSound;
     public AudioClip throwGrenadeSound;
     public SkinnedMeshRenderer grenadeMesh;
-    private bool animationRunning = false;
+
+    private AudioSource audioSource;
+    private bool readToThrow = false;
 
     public override void ActivateWeapon()
     {
+        audioSource = GetComponent<AudioSource>();
         UpdateCount();
     }
 
@@ -31,18 +34,13 @@ public class Grenadier : IWeapon
         if (Count <= 0) return false;
 
         grenadeMesh.enabled = true;
-        animationRunning = false;
+        readToThrow = true;
         return true;
-    }
-
-    private void AutoUpdateCount(InventorySlot slot)
-    {
-        if (slot.ItemDate == grenadeData) UpdateCount();
     }
 
     private void UpdateCount()
     {
-        Count = holder.playerInventory.GetItemCountFormInventory(grenadeData);
+        Count = holder.playerStorage.GetItemCountFormInventory(grenadeData);
     }
 
     public override void DisableWeapon()
@@ -52,10 +50,13 @@ public class Grenadier : IWeapon
 
     public override void HandleInput(ref WeaponInput input)
     {
-        if (input.fire && !animationRunning)
+        if (input.fire && !readToThrow)
         {
             SpawnGrenade().Forget();
-            animationRunning = true;
+            PlayGrenadeSound().Forget();
+            readToThrow = false;
+
+            GetComponentInChildren<Animator>().SetTrigger("Throw");
         }
     }
 
@@ -71,14 +72,11 @@ public class Grenadier : IWeapon
         holder.SwitchLastWeapon();
     }
 
-    public IEnumerator PlayGrenadeSound(AudioSource audioSource)
+    public async UniTaskVoid PlayGrenadeSound()
     {
-        yield return new WaitForSeconds(pullPinDely);
-        audioSource.clip = pullPinSound;
-        audioSource.Play();
-        yield return new WaitForSeconds(throwDely - pullPinDely);
-        audioSource.clip = throwGrenadeSound;
-        audioSource.Play();
-        yield break;
+        await UniTask.WaitForSeconds(pullPinDely);
+        audioSource.PlayOneShot(pullPinSound);
+        await UniTask.WaitForSeconds(throwDely - pullPinDely);
+        if (throwGrenadeSound != null) audioSource.PlayOneShot(throwGrenadeSound);
     }
 }

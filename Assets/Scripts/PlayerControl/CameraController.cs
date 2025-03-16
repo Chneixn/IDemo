@@ -157,14 +157,14 @@ public class CameraController : CinemachineCameraManagerBase
     }
 
     /// <summary>
-    /// 改变相机状态，有同状态切换保护
+    /// 改变相机状态，若同状态不切换
     /// </summary>
-    /// <param name="newstate"></param>
-    public void UpdateCamState(CamState newstate)
+    /// <param name="state"></param>
+    public void UpdateCamState(CamState state)
     {
-        if (currentCamState == newstate) return;
-        if (newstate == CamState.FreeLook) lastLookDirection = transform.forward;
-        currentCamState = newstate;
+        if (currentCamState == state) return;
+        if (state == CamState.FreeLook) lastLookDirection = transform.forward;
+        currentCamState = state;
         OnCamStateChange?.Invoke(currentCamState);
     }
 }

@@ -12,10 +12,6 @@ public class InAir : IMovementState
     public Vector3 groundLeavePosition = new(0, 0, 0);
     public float fall_time;
     public float fall_high;
-    public InAir()
-    {
-        airTimer = TimerManager.CreateTimer();
-    }
 
     public override void HandleStateChange(ref PlayerCharacterInput inputs)
     {
@@ -24,6 +20,7 @@ public class InAir : IMovementState
 
     public override void OnStateEnter()
     {
+        airTimer ??= TimerManager.CreateTimer();
         if (!airTimer.IsActive)
         {
             airTimer.StartCounting();
@@ -43,13 +40,8 @@ public class InAir : IMovementState
     public override void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         //空中移动
-        if (CC.MoveDirection.sqrMagnitude > 0.01f)
-        {
-            var targetMovementVelocity = CC.MoveDirection * maxAirSpeed;
-            currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity,
-            1 - Mathf.Exp(-airMovementSharpness * deltaTime)
-        );
-        }
+        var targetMovementVelocity = CC.MoveDirection * maxAirSpeed;
+        currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1 - Mathf.Exp(-airMovementSharpness * deltaTime));
     }
 
     public override void PostGroundingUpdate(float deltaTime)

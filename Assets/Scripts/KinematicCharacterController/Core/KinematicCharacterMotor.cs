@@ -481,6 +481,7 @@ namespace KinematicCharacterController
         private Quaternion _transientRotation;
         /// <summary>
         /// The character's goal rotation in its movement calculations (always up-to-date during the character update phase)
+        /// 角色在移动计算中的目标旋转（总是在角色更新阶段更新）
         /// </summary>
         public Quaternion TransientRotation
         {

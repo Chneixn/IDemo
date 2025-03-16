@@ -7,12 +7,18 @@ using UnityEngine;
 
 public class ITarget : MonoBehaviour, IDamageable
 {
-    public float downDuraction = 0.5f;
-    public float upDuraction = 2f;
+    public float downDuraction = 1f;
+    public float upDuraction = 1f;
     public float cd = 2f;
     public Transform model;
 
     [SerializeField] private bool isDowned = false;
+
+    public AudioClip s_down;
+    public AudioClip s_up;
+
+    private new AudioSource audio;
+
     private CancellationTokenSource cancelRecovery;
     private const float DELTA = 0.02f;
 
@@ -28,6 +34,7 @@ public class ITarget : MonoBehaviour, IDamageable
 #endif
     private void TryDown()
     {
+        if (audio == null) audio = GetComponent<AudioSource>();
         if (isDowned) return;
         if (cancelRecovery != null)
         {
@@ -41,6 +48,7 @@ public class ITarget : MonoBehaviour, IDamageable
     private async UniTaskVoid Down()
     {
         isDowned = true;
+        audio.PlayOneShot(s_down);
         float delta = -90f * DELTA / downDuraction;
         float timer = 0f;
         while (timer < downDuraction)
@@ -59,6 +67,7 @@ public class ITarget : MonoBehaviour, IDamageable
 
     private async UniTask Recovery(CancellationToken cancelToken)
     {
+        audio.PlayOneShot(s_up);
         float delta = 90f * DELTA / upDuraction;
         float timer = 0f;
         while (timer < upDuraction)

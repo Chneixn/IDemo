@@ -28,20 +28,19 @@ public class ShopKeeper : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact(Interactor interactor, out bool interactSuccessful)
+    public bool Interact(Interactor interactor)
     {
         PlayerInventoryHolder playerInv = PlayerManager.Instance.PlayerInventory;
 
         if (playerInv)
         {
             OnShopWindowRequested?.Invoke(_shopSystem, playerInv);
-            interactSuccessful = true;
-            return;
+            return true;
         }
         else
         {
-            interactSuccessful = false;
             Debug.LogError("PlayerInv not found!");
+            return false;
         }
     }
 

@@ -92,7 +92,7 @@ public class ShopKeeperDisplay : MonoBehaviour
             _shopSystem.SellItem(kvp.Key, kvp.Value, price);
 
             // _playerInv.PrimaryInventorySystem.GainGold(price);
-            playerInv.PrimaryStorage.RemoveItemsFromInventory(kvp.Key, kvp.Value, out int _);
+            playerInv.Storage.RemoveItemsFromInventory(kvp.Key, kvp.Value, out int _);
         }
 
         RefreshDisplay();
@@ -111,7 +111,7 @@ public class ShopKeeperDisplay : MonoBehaviour
         foreach (var kvp in _shoppingCart)
         {
             _shopSystem.PurchaseItem(kvp.Key, kvp.Value);
-            playerInv.PrimaryStorage.AddToInventory(kvp.Key, kvp.Value);
+            playerInv.Storage.AddToInventory(kvp.Key, kvp.Value);
         }
 
         _shopSystem.GainGold(_basketTotalValue);
@@ -132,7 +132,7 @@ public class ShopKeeperDisplay : MonoBehaviour
 
     private void DisPlayPlayerInventory()
     {
-        foreach (var item in playerInv.PrimaryStorage.ItemsRecord)
+        foreach (var item in playerInv.Storage.ItemsRecord)
         {
             ShopSlot _slot = new();
             _slot.AssignItem(item.Key, item.Value);
@@ -309,7 +309,7 @@ public class ShopKeeperDisplay : MonoBehaviour
     public bool CheckPlayerInventoryRemaining(Dictionary<ItemData, int> itemsForCheck)
     {
         //复制玩家库存
-        var cloned = playerInv.PrimaryStorage.Clone();
+        var cloned = playerInv.Storage.Clone();
 
         //遍历库存是否能装入物品
         foreach (var kvp in itemsForCheck)

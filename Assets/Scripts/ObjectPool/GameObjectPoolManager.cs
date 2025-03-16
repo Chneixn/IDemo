@@ -25,9 +25,9 @@ public class GameObjectPoolManager : MonoBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="poolObject">预制体搭载的脚本</param>
     /// <param name="position">生成的世界位置</param>
-    /// <param name="quaternion"></param>
+    /// <param name="rotation"></param>
     /// <returns></returns>
-    public static T GetItem<T>(IPoolableObject poolObject, Vector3 position, Quaternion quaternion) where T : IPoolableObject
+    public static T GetItem<T>(IPoolableObject poolObject, Vector3 position, Quaternion rotation) where T : IPoolableObject
     {
         GameObject obj = poolObject.gameObject;
         string name = obj.name + "(Clone)";
@@ -40,7 +40,7 @@ public class GameObjectPoolManager : MonoBehaviour
         {
             result = CreatPool(obj, name, 0, 500).Get().GetComponent<T>();
         }
-        result.transform.SetPositionAndRotation(position, quaternion);
+        result.transform.SetPositionAndRotation(position, rotation);
         result.gameObject.SetActiveSafe(true);
         result.OnGet();
         return result;
@@ -49,6 +49,7 @@ public class GameObjectPoolManager : MonoBehaviour
     public static bool RecycleItem(IPoolableObject item)
     {
         if (item == null) return false;
+        if (!item.name.Contains("Clone")) item.name += "(Clone)";
 
         if (_pools.TryGetValue(item.name, out var pool))
         {
@@ -60,10 +61,8 @@ public class GameObjectPoolManager : MonoBehaviour
         }
         else
         {
-            var newPool = CreatPool(item.gameObject, item.name + "(Clone)", 0, 500);
-            newPool.Recycle(item.gameObject);
-            item.OnRecycle();
-            return true;
+            CreatPool(item.gameObject, item.name, 0, 500);
+            RecycleItem(item);
         }
         return false;
     }

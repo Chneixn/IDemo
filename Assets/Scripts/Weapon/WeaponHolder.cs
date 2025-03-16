@@ -40,8 +40,9 @@ public struct WeaponInput
 
 public class WeaponHolder : MonoBehaviour
 {
-    public InventoryStorage playerInventory;
+    public InventoryStorage playerStorage;
     [Header("Weapons")]
+    public bool AutoEnableWeaponOnGet = false;
     public List<IWeapon> weapons = new();
     public Action<IWeapon> OnWeaponChanged;
     private IWeapon curWeapon;
@@ -61,7 +62,7 @@ public class WeaponHolder : MonoBehaviour
 
     void Start()
     {
-        playerInventory = PlayerManager.Instance.PlayerInventory.PrimaryStorage;
+        playerStorage = PlayerManager.Instance.PlayerInventory.Storage;
         IWeapon[] list = GetComponentsInChildren<IWeapon>();
         foreach (IWeapon i in list)
         {
@@ -89,12 +90,22 @@ public class WeaponHolder : MonoBehaviour
         }
     }
 
-    public void AddWeapon(IWeapon newWeapon)
+    /// <summary>
+    /// 传入带有手部模型的武器预制体
+    /// </summary>
+    /// <param name="weapon"></param>
+    public void AddWeapon(IWeapon weapon)
     {
+        // 防止重复武器的加入, 可以修改
+        if (weapons.Find(i => i.name == weapon.name + "(Clone)") != null) return;
+
+        var newWeapon = Instantiate(weapon);
         weapons.Add(newWeapon);
+        newWeapon.transform.SetParent(transform);
         newWeapon.holder = this;
         newWeapon.ActivateWeapon();
-        newWeapon.SetVisualModel(false);
+        if (AutoEnableWeaponOnGet) SwitchWeaponByClass(newWeapon);
+        else newWeapon.SetVisualModel(false);
     }
 
     public void ReMoveWeapon(IWeapon weaponToRemove)
@@ -103,10 +114,21 @@ public class WeaponHolder : MonoBehaviour
     }
 
     #region 武器切换
+
+    public void SwitchWeaponByClass(IWeapon weapon)
+    {
+        if (weapons.Contains(weapon))
+        {
+            SwitchWeaponByIndex(weapons.FindIndex(i => i == weapon));
+        }
+    }
+
     public void SwitchWeaponByIndex(int index)
     {
         // 检测请求的武器是否为当前武器
         if (index < 0 || index >= weapons.Count || curIndex == index) return;
+
+        if (!curWeapon.EnableWeapon()) return;
 
         lastIndex = curIndex;
         // 关闭当前的武器
@@ -119,7 +141,6 @@ public class WeaponHolder : MonoBehaviour
         // 激活请求的武器
         curIndex = index;
         curWeapon = weapons[curIndex];
-        curWeapon.EnableWeapon();
         curWeapon.SetVisualModel(true);
         OnWeaponChanged?.Invoke(curWeapon);
     }
@@ -170,7 +191,7 @@ public class WeaponHolder : MonoBehaviour
         else if (inputs.scrollSwitch > 0f) SwitchUpperWeapon();
         else if (inputs.scrollSwitch < 0f) SwitchLowerWeapon();
 
-        curWeapon?.HandleInput(ref inputs);
+        if (curIndex != -1) curWeapon.HandleInput(ref inputs);
     }
 }
 

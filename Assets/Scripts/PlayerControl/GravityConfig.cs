@@ -11,7 +11,7 @@ public class GravityConfig
     public bool UsePhysics = false;
     public Vector3 Default = new(0, -15f, 0);
     [SerializeField] private Vector3 gravity = Vector3.zero;
-    public Vector3 Velue
+    public Vector3 Value
     {
         get
         {

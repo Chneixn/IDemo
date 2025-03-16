@@ -28,7 +28,6 @@ public class Rocket : ExplosionBullet
                 transform.forward = _direction;
             else
                 transform.forward = Vector3.Slerp(transform.forward, _direction, Time.deltaTime / _needTime).normalized;
-            SetRigiBodyVelocity(velocity);
         }
     }
 }

@@ -20,7 +20,7 @@ public class GameObjectPool
         MaxPoolSize = maxPoolSize;
         InitialPoolSize = initialPoolSize;
         objects = new Stack<GameObject>(MaxPoolSize);
-        _curCount = 0;
+        _curCount = initialPoolSize;
         for (int i = 0; i < InitialPoolSize; i++)
         {
             GameObject obj = UnityEngine.Object.Instantiate(itemPrefab);
@@ -32,7 +32,7 @@ public class GameObjectPool
     public GameObject Get()
     {
         GameObject item = objects.Count == 0 ? CreateObject() : objects.Pop();
-        item.transform.parent = null;
+        if (item.transform.parent != null) item.transform.parent = null;
         return item;
     }
 

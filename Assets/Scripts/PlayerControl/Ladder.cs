@@ -16,7 +16,7 @@ public class Ladder : MonoBehaviour, IInteractable
     public Transform bottomReleasePoint;
     public Transform topReleasePoint;
 
-    public void Interact(Interactor interactor, out bool interactSuccessful)
+    public bool Interact(Interactor interactor)
     {
         //if ((GameManager.Instance.CharacterControl.transform.position - transform.position).magnitude <= allowInteractDistance)
         //{
@@ -24,7 +24,7 @@ public class Ladder : MonoBehaviour, IInteractable
         //    return false;
         //}
 
-        interactSuccessful = false;
+        return false;
     }
 
     public void EndInteraction()

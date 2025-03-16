@@ -6,17 +6,17 @@ using InventorySystem;
 public class TouchToPickUp : MonoBehaviour
 {
     [SerializeField] private InventoryStorage holderStorge;
+    [SerializeField] private SphereCollider detectCollider;
     [SerializeField] private LayerMask interactableLayer;
 
     public bool enableDetect = true;
-    public float radius = 0.3f;
-    public Vector3 Offest = Vector3.zero;
+    // public float radius = 0.3f;
     public int Cache = 32;
     [SerializeField] private Collider[] colliders;
 
     void Start()
     {
-        holderStorge = PlayerManager.Instance.PlayerInventory.PrimaryStorage;
+        holderStorge = PlayerManager.Instance.PlayerInventory.Storage;
         colliders = new Collider[Cache];
     }
 
@@ -27,7 +27,7 @@ public class TouchToPickUp : MonoBehaviour
 
     public void DetectCollider()
     {
-        var length = Physics.OverlapSphereNonAlloc(transform.position + Offest, radius, colliders, interactableLayer);
+        var length = Physics.OverlapSphereNonAlloc(detectCollider.transform.position, detectCollider.radius, colliders, interactableLayer);
 
         for (int i = 0; i < length; i++)
         {
@@ -60,7 +60,8 @@ public class TouchToPickUp : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position + Offest, radius);
+        if (detectCollider != null)
+            Gizmos.DrawWireSphere(detectCollider.transform.position, detectCollider.radius);
     }
 #endif
 }

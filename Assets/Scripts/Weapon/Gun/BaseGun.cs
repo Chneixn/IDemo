@@ -67,7 +67,7 @@ public class BaseGun : IWeapon
 
     public override bool EnableWeapon()
     {
-        holder.playerInventory.OnStorageUpdated += UpdateBulletCount;
+        holder.playerStorage.OnStorageUpdated += UpdateBulletCount;
         UpdateBulletCount();
         OnEnableWeapon?.Invoke();
         if (setting.autoReloadWhenEmpty && currentBulletsCount == 0)
@@ -82,7 +82,7 @@ public class BaseGun : IWeapon
 
     public override void DisableWeapon()
     {
-        holder.playerInventory.OnStorageUpdated -= UpdateBulletCount;
+        holder.playerStorage.OnStorageUpdated -= UpdateBulletCount;
         // 在换弹匣时切换武器,重新换子弹
         if (!readyToReload && reloadTimer.IsActive) reloadTimer.PauseTimer();
 
@@ -94,7 +94,10 @@ public class BaseGun : IWeapon
     {
         if (!readyToInput) return;
         if (inputs.reload) Reload();
-        else if (inputs.fire) Shoot();
+        else if (inputs.fire)
+        {
+            Shoot();
+        }
         else if (inputs.aim)
         {
             AimStart();
@@ -210,10 +213,9 @@ public class BaseGun : IWeapon
     {
         if (setting.bulletData.prefab == null) return null;
 
-        var bullet = setting.bulletData.prefab.GetComponent<Bullet>();
-        var obj = GameObjectPoolManager.GetItem<Bullet>(bullet, muzzlePoint.position, muzzlePoint.rotation);
-        bullet.Velocity = setting.shootVelocity;
-        return obj.gameObject;
+        var bullet = GameObjectPoolManager.GetItem<Bullet>(setting.bulletData.prefab.GetComponent<Bullet>(), muzzlePoint.position, muzzlePoint.rotation);
+        bullet.SetRigiBodyVelocity(setting.shootVelocity);
+        return bullet.gameObject;
     }
 
     protected virtual void ShootFinished()
@@ -272,7 +274,7 @@ public class BaseGun : IWeapon
     {
         if (currentBulletsCount > 0)
         {
-            currentBulletsCount = holder.playerInventory.AddToInventory(setting.bulletData, currentBulletsCount);
+            currentBulletsCount = holder.playerStorage.AddToInventory(setting.bulletData, currentBulletsCount);
         }
     }
 
@@ -281,7 +283,7 @@ public class BaseGun : IWeapon
     /// </summary>
     protected virtual void UpdateBulletCount()
     {
-        totalBulletsLeft = holder.playerInventory.GetItemCountFormInventory(setting.bulletData);
+        totalBulletsLeft = holder.playerStorage.GetItemCountFormInventory(setting.bulletData);
         //Debug.Log($"update bullet count! total bullet left {totalBulletsLeft}");
     }
 
@@ -291,7 +293,7 @@ public class BaseGun : IWeapon
     /// <param name="amount"></param>
     protected virtual bool RemoveBulletFormInventory(int amount)
     {
-        return holder.playerInventory.RemoveItemsFromInventory(setting.bulletData, amount, out _);
+        return holder.playerStorage.RemoveItemsFromInventory(setting.bulletData, amount, out _);
         //if (!success)
         //{
         //    Debug.Log($"Remove ammo [{set.bulletData.displayName}] failed!");

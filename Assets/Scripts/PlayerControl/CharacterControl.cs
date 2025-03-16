@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using KinematicCharacterController;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public enum ForwardModes { Camera, Player, World };
@@ -39,21 +40,9 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     [SerializeField, ReadOnly] private float camMoveTime;
 
     [Header("Direction")]
-    [ReadOnly] public Quaternion CamRotation;
     [ReadOnly] public Vector3 MoveDirection;
     [ReadOnly] public Vector3 FaceDirection;
     [ReadOnly] public Vector3 MoveDirectionInput;
-
-    // These are part of a strategy to combat input gimbal lock when controlling a player
-    // that can move freely on surfaces that go upside-down relative to the camera.
-    // This is only used in the specific situation where the character is upside-down relative to the input frame,
-    // and the input directives become ambiguous.
-    // If the camera and input frame are travelling along with the player, then these are not used.
-    private ForwardModes inputForward;
-    bool m_InTopHemisphere = true;
-    float m_TimeInHemisphere = 100;
-    Vector3 m_LastRawInput;
-    Quaternion m_Upsidedown = Quaternion.AngleAxis(180, Vector3.left);
 
     #region State
     private FSM<IMovementState> FSM;
@@ -119,9 +108,9 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         FSM.AddState(freeze);
     }
 
-    public void ChangeMovementState(System.Type newState)
+    public void ChangeMovementState(System.Type stateType)
     {
-        FSM.ChangeState(newState);
+        FSM.ChangeState(stateType);
         OnMovementStateChanged?.Invoke(CurrentState);
     }
 
@@ -217,15 +206,16 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     {
         CurrentState.UpdateRotation(ref currentRotation, deltaTime);
 
-        // 在其他重力平台自适应重力进行胶囊体旋转
+        // 控制相对于 Gravity.Value 的旋转
         if (Gravity.walkOnAnyGround)
         {
-            float angleBetweenUpDirections = Vector3.Angle(Gravity.Velue, Motor.CharacterUp);
-            //float angleThreshold = 0.001f;
-
-            if (angleBetweenUpDirections < 0.001f) { return; }
-
-            Quaternion retationDifference = Quaternion.FromToRotation(Motor.CharacterUp, Gravity.Velue);
+            // 当前 CharacterUp 与 Gravity.value 是否存在角度, 
+            float angleBetweenUpDirections = Vector3.Angle(Gravity.Value, Motor.CharacterUp);
+            // float angleThreshold = 0.001f;
+            // 角度计算存在误差
+            if (angleBetweenUpDirections < 0.001f) return;
+            // 这里的转向不考虑旋转的方向
+            Quaternion retationDifference = Quaternion.FromToRotation(Motor.CharacterUp, Gravity.Value);
             currentRotation = retationDifference * currentRotation;
         }
     }
@@ -249,7 +239,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
         //重力实现
         if (!IsAnyGround && Gravity.Enable)
         {
-            currentVelocity += Gravity.Velue * deltaTime;
+            currentVelocity += Gravity.Value * deltaTime;
         }
 
         //获取当前直观速度大小
@@ -263,22 +253,22 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     /// <param name="inputs"></param>
     public void HandleInput(ref PlayerCharacterInput inputs)
     {
-        // 玩家输入的世界坐标下移动向量
+        // 玩家想要移动的按键输入方向
         MoveDirectionInput = new Vector3(inputs.MoveDirection.x, 0f, inputs.MoveDirection.y);
-        CamRotation = inputs.CamRotation;
 
-        var forwardMode = inputs.CameraState;
-        // 弃元模式赋值
-        var frame = forwardMode switch
+        switch (inputs.CameraState)
         {
-            CamState.FPS => CamRotation,
-            CamState.TPS => CamRotation,
-            CamState.FreeLook => Motor.TransientRotation,
-            _ => Quaternion.identity
-        };
+            case CamState.FPS:
+                FaceDirection = inputs.LookDirection.ProjectOntoPlane(Motor.CharacterUp).normalized;
+                break;
+            case CamState.TPS: goto case CamState.FPS;
+            case CamState.FreeLook:
+                FaceDirection = Motor.CharacterForward;
+                break;
+        }
 
-        //玩家在自身视角坐标系下的移动向量
-        MoveDirection = frame * MoveDirectionInput;
+        // 玩家移动向量为当前
+        MoveDirection = Motor.TransientRotation * MoveDirectionInput;
 
         if (inputs.TryFly && fly.allowFly)
         {
@@ -287,95 +277,5 @@ public class CharacterControl : MonoBehaviour, ICharacterController
 
         CurrentState.HandleStateChange(ref inputs);
     }
-
-    // TODO: 应用控制角色在非正常重力状态下的控制代码
-
-    // Get the reference frame for the input.  The idea is to map camera fwd/right
-    // to the player's XZ plane.  There is some complexity here to avoid
-    // gimbal lock when the player is tilted 180 degrees relative to the input frame.
-    Quaternion GetInputFrame(bool inputDirectionChanged)
-    {
-        // Get the raw input frame, depending of forward mode setting
-        var frame = Quaternion.identity;
-        switch (inputForward)
-        {
-            case ForwardModes.Camera: frame = CamRotation; break;
-            case ForwardModes.Player: return transform.rotation;
-            case ForwardModes.World: break;
-        }
-
-        // Map the raw input frame to something that makes sense as a direction for the player
-        var playerUp = Motor.CharacterUp;
-        var up = frame * Vector3.up;
-
-        // Is the player in the top or bottom hemisphere?  This is needed to avoid gimbal lock,
-        // but only when the player is upside-down relative to the input frame.
-        const float BlendTime = 2f;
-        m_TimeInHemisphere += Time.deltaTime;
-        bool inTopHemisphere = Vector3.Dot(up, playerUp) >= 0;
-        if (inTopHemisphere != m_InTopHemisphere)
-        {
-            m_InTopHemisphere = inTopHemisphere;
-            m_TimeInHemisphere = Mathf.Max(0, BlendTime - m_TimeInHemisphere);
-        }
-
-        // If the player is untilted relative to the input frmae, then early-out with a simple LookRotation
-        var axis = Vector3.Cross(up, playerUp);
-        if (axis.sqrMagnitude < 0.001f && inTopHemisphere)
-            return frame;
-
-        // Player is tilted relative to input frame: tilt the input frame to match
-        var angle = SignedAngle(up, playerUp, axis);
-        var frameA = Quaternion.AngleAxis(angle, axis) * frame;
-
-        // If the player is tilted, then we need to get tricky to avoid gimbal-lock
-        // when player is tilted 180 degrees.  There is no perfect solution for this,
-        // we need to cheat it :/
-        Quaternion frameB = frameA;
-        if (!inTopHemisphere || m_TimeInHemisphere < BlendTime)
-        {
-            // Compute an alternative reference frame for the bottom hemisphere.
-            // The two reference frames are incompatible where they meet, especially
-            // when player up is pointing along the X axis of camera frame. 
-            // There is no one reference frame that works for all player directions.
-            frameB = frame * m_Upsidedown;
-            var axisB = Vector3.Cross(frameB * Vector3.up, playerUp);
-            if (axisB.sqrMagnitude > 0.001f)
-                frameB = Quaternion.AngleAxis(180f - angle, axisB) * frameB;
-        }
-        // Blend timer force-expires when user changes input direction
-        if (inputDirectionChanged)
-            m_TimeInHemisphere = BlendTime;
-
-        // If we have been long enough in one hemisphere, then we can just use its reference frame
-        if (m_TimeInHemisphere >= BlendTime)
-            return inTopHemisphere ? frameA : frameB;
-
-        // Because frameA and frameB do not join seamlessly when player Up is along X axis,
-        // we blend them over a time in order to avoid degenerate spinning.
-        // This will produce weird movements occasionally, but it's the lesser of the evils.
-        if (inTopHemisphere)
-            return Quaternion.Slerp(frameB, frameA, m_TimeInHemisphere / BlendTime);
-        return Quaternion.Slerp(frameA, frameB, m_TimeInHemisphere / BlendTime);
-    }
-
-    public static float SignedAngle(Vector3 v1, Vector3 v2, Vector3 up)
-    {
-        float num = Angle(v1, v2);
-        if (Mathf.Sign(Vector3.Dot(up, Vector3.Cross(v1, v2))) < 0f)
-        {
-            return 0f - num;
-        }
-
-        return num;
-    }
-
-    public static float Angle(Vector3 v1, Vector3 v2)
-    {
-        v1.Normalize();
-        v2.Normalize();
-        return Mathf.Atan2((v1 - v2).magnitude, (v1 + v2).magnitude) * 57.29578f * 2f;
-    }
-
     #endregion
 }

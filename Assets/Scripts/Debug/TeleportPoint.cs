@@ -13,16 +13,16 @@ public class TeleportPoint : MonoBehaviour, IInteractable
         OnInteractionComplete?.Invoke(this);
     }
 
-    public void Interact(Interactor interactor, out bool interactSuccessful)
+    public bool Interact(Interactor interactor)
     {
         if (isChangeScene)
         {
             TeleportToNewScene();
-            interactSuccessful = true;
+            
             EndInteraction();
-            return;
+            return true;
         }
-        interactSuccessful = false;
+        return false;
     }
 
     public void TeleportToNewScene()

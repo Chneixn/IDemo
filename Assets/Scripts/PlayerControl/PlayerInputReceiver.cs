@@ -8,7 +8,6 @@ public class PlayerInputReceiver : UnityInputReceiver
     [SerializeField] private bool holdToCrouch = false;
     [SerializeField] private bool holdToJump = false;
     [SerializeField] private bool holdToRun = false;
-    [SerializeField] private bool allowFly = false;
 
     [Header("武器控制")]
     [SerializeField] private bool holdToAim = false;
@@ -92,7 +91,7 @@ public class PlayerInputReceiver : UnityInputReceiver
         var input = userInput.SourceInput.PlayerInput;
         characterInputs.MoveDirection = input.Movement.ReadValue<Vector2>();
 
-        characterInputs.LookDirection = playerCam.brain.transform.position;
+        characterInputs.LookDirection = playerCam.brain.transform.forward;
         characterInputs.CamRotation = playerCam.brain.transform.rotation;
         characterInputs.CameraState = playerCam.CurrentCamState;
 

@@ -52,7 +52,7 @@ public class Grabbing : IMovementState
 
     public override void OnStateEnter()
     {
-        gcache = CC.Gravity.Velue;
+        gcache = CC.Gravity.Value;
         vcache = CC.MaxSpeed;
         // swing_lr = cc.AddComponent<LineRenderer>();
         rope = new(this, rope_lr, swing_lr, affectCurve);
@@ -132,7 +132,7 @@ public class Grabbing : IMovementState
 
         allowStop = false;
         needDraw = false;
-        CC.Gravity.Velue = gcache;    //恢复重力
+        CC.Gravity.Value = gcache;    //恢复重力
         CC.MaxSpeed = vcache;    //恢复空速
         rope.ClearDraw();
         joint.active = false;   // 停止弹簧计算器

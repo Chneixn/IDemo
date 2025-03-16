@@ -9,7 +9,7 @@ namespace InventorySystem
         [SerializeField] private int storageSize;
         [SerializeField] protected InventoryStorage primaryStorage;
 
-        public InventoryStorage PrimaryStorage => primaryStorage;
+        public InventoryStorage Storage => primaryStorage;
 
         //Inv System to Display, amount to offest display by
         public static UnityAction<InventoryStorage, int> OnDisplayRequested;
