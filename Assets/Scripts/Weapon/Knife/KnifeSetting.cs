@@ -1,6 +1,7 @@
 using System;
 using InventorySystem;
 using UnityEngine;
+using UnityGameObjectPool;
 
 [Serializable]
 [CreateAssetMenu(menuName = "Weapon/Create new KnifeSetting", fileName = "New KnifeSetting")]
@@ -16,5 +17,5 @@ public class KnifeSetting : ScriptableObject
     public bool allowButtonHold;
     public float timeToHolster;
     [Header("AttackEffect刀痕预制体")]
-    public GameObject attackEffect;
+    public IPoolableDecal attackEffect;
 }

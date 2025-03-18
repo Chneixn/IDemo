@@ -15,7 +15,7 @@ public class Health : ICharacterState
     [SerializeField][ReadOnly] private bool isDead = false;
     public bool IsDead => isDead;
     public Action<Vector3> OnCharacterDead;
-    public event OnStateChange OnStateUpdate;
+    public event Action OnStateUpdate;
 
     /// <summary>
     /// 增加防御系数

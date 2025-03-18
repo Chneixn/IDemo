@@ -106,13 +106,12 @@ public class CameraController : CinemachineCameraManagerBase
 
         switch (currentCamState)
         {
-            // FIXME: 摄像机输入没有限制
             case CamState.FPS:
                 {
-                    F_POV.TiltAxis.Value = _mouseY;
-                    F_POV.PanAxis.Value = _mouseX;
-                    F_POV.PanAxis.Validate();
-                    F_POV.TiltAxis.Validate();
+                    F_POV.TiltAxis.Value = F_POV.TiltAxis.ClampValue(_mouseY);
+                    _mouseY = F_POV.TiltAxis.Value;
+                    F_POV.PanAxis.Value = F_POV.PanAxis.ClampValue(_mouseX);
+                    _mouseX = F_POV.PanAxis.Value;
                 }
                 break;
             case CamState.TPS:

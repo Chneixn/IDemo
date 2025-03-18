@@ -8,7 +8,8 @@ public class AmmoBox : MonoBehaviour, IInteractable
 {
     public GameObject visualModel;
     public ItemData ammoData;
-    public int AmmoCount = 0;
+    public int AmmoCount = 100;
+    public int AmmoCountPerInteracted = 0;
 
     public float InteractionCD = 0f;
 
@@ -22,14 +23,31 @@ public class AmmoBox : MonoBehaviour, IInteractable
     public bool Interact(Interactor interactor)
     {
         var inv = PlayerManager.Instance.PlayerInventory.Storage;
-        inv.AddToInventory(ammoData, AmmoCount);
+        inv.AddToInventory(ammoData, AmmoCountPerInteracted);
+        AmmoCount -= AmmoCountPerInteracted;
         if (AmmoCount == 0) OnEmpty();
         EndInteraction();
         return true;
     }
 
+    public void OnHoverEnter(Interactor interactor)
+    {
+        if (TryGetComponent(out Outline outline))
+        {
+            outline.enabled = true;
+        }
+    }
+
+    public void OnHoverExit(Interactor interactor)
+    {
+        if (TryGetComponent(out Outline outline))
+        {
+            outline.enabled = false;
+        }
+    }
+
     private void OnEmpty()
     {
-
+        gameObject.SetActive(false);
     }
 }

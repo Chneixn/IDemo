@@ -1,29 +1,15 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityGameObjectPool;
 
 public class Bullet : IPoolableObject
 {
-    protected float damage;
-    public float Damage
-    {
-        get { return damage; }
-        set { damage = value; }
-    }
-    [SetProperty("LifeTime")] protected float lifeTime = 2f;
-    public float LifeTime
-    {
-        get { return lifeTime; }
-        set
-        {
-            lifeTime = value;
-            if (lifeTimer != null)
-                TimerManager.RemoveTimer(lifeTimer);
-            lifeTimer = TimerManager.CreateTimeOut(lifeTime, () => GameObjectPoolManager.RecycleItem(this));
-        }
-    }
-    protected float velocity;
-
+    [SerializeField] protected float damage;
+    public float Damage => damage;
+    [SerializeField] protected float lifeTime = 2f;
+    public float LifeTime => lifeTime;
+    [SerializeField] protected float velocity;
     public float Velocity
     {
         get { return velocity; }
@@ -43,20 +29,44 @@ public class Bullet : IPoolableObject
     [SerializeField] protected DecalProjector decal;
     [SerializeField] protected float EffectLifeTime = 3f;
 
+    public virtual void SetDamage(float damage) => this.damage = damage;
+
+    public virtual void SetLifeTime(float time)
+    {
+        lifeTime = time;
+        if (lifeTimer != null)
+            TimerManager.RemoveTimer(lifeTimer);
+        lifeTimer = TimerManager.CreateTimeOut(lifeTime, () => GameObjectPoolManager.RecycleItem(this));
+    }
+
+    public virtual void SetVelocity(float velocity)
+    {
+        rb.AddForce(transform.forward * velocity, ForceMode.Impulse);
+        this.velocity = velocity;
+    }
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    protected virtual void Update()
+    protected virtual void Update() { }
+
+    // TODO: 依据教程修改子弹的移动方法和碰撞检测方法，使其不依赖于 Unity 的物理系统
+    protected virtual void OnFixedUpdate()
     {
         ColliderDetect();
     }
 
-    public virtual void SetRigiBodyVelocity(float velocity)
+    protected virtual void OnCollisionEnter(Collision other)
     {
-        rb.AddForce(transform.forward * velocity, ForceMode.Impulse);
-        this.velocity = velocity;
+        if (other.collider.TryGetComponent(out IDamageable target))
+        {
+            target.TakeDamage(damage, DamageType.Bullet, transform.forward);
+        }
+        var contact = other.contacts[0];
+        OnHit(contact.point, contact.normal);
+        GameObjectPoolManager.RecycleItem(this);
     }
 
     public override void OnGet()
@@ -83,23 +93,23 @@ public class Bullet : IPoolableObject
                 target.TakeDamage(damage, DamageType.Bullet, transform.forward);
             }
 
-            OnHit(hit);
+            OnHit(hit.point, hit.normal);
             GameObjectPoolManager.RecycleItem(this);
         }
     }
 
-    protected virtual void OnHit(RaycastHit hit)
+    protected virtual void OnHit(Vector3 point, Vector3 normal)
     {
         if (decal != null)
         {
-            var obj = Instantiate(decal, hit.point, Quaternion.LookRotation(-hit.normal));
-            obj.transform.localPosition -= hit.normal * 0.01f; // 贴花偏移, 避免重叠时产生闪烁
+            var obj = Instantiate(decal, point, Quaternion.LookRotation(-normal));
+            obj.transform.localPosition -= normal * 0.01f; // 贴花偏移, 避免重叠时产生闪烁
         }
 
         if (hitVFX != null)
         {
-            var obj = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(hitVFX, hit.point, Quaternion.identity);
-            obj.system.Play();
+            var obj = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(hitVFX, point, Quaternion.identity);
+            obj.particle.Play();
             TimerManager.CreateTimeOut(EffectLifeTime, () => GameObjectPoolManager.RecycleItem(obj));
         }
     }

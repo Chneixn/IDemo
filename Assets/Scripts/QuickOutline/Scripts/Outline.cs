@@ -12,14 +12,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 [DisallowMultipleComponent]
 
 public class Outline : MonoBehaviour
 {
-  private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
+  private static HashSet<Mesh> registeredMeshes = new();
 
   public enum Mode
   {
@@ -72,6 +70,9 @@ public class Outline : MonoBehaviour
   private float outlineWidth = 10f;
 
   [SerializeField]
+  private bool autoUnable = false;
+
+  [SerializeField]
   private float timeToUnable = 2f;
 
   [Header("Optional")]
@@ -96,7 +97,15 @@ public class Outline : MonoBehaviour
     // Cache renderers
     renderers = GetComponentsInChildren<Renderer>();
 
-    LoadMaterial().Forget();
+    // Instantiate outline materials
+    outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));
+    outlineFillMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineFill"));
+
+    // Retrieve or generate smooth normals
+    LoadSmoothNormals();
+
+    // Apply material properties immediately
+    needsUpdate = true;
   }
 
   void OnEnable()
@@ -113,34 +122,7 @@ public class Outline : MonoBehaviour
       renderer.materials = materials.ToArray();
     }
 
-    StartCoroutine(CountToUnable());
-  }
-
-  private async UniTaskVoid LoadMaterial()
-  {
-    // Instantiate outline materials
-    // outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));
-    // outlineFillMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineFill"));
-
-    // 使用 Addressable 加载资源
-    // FIXME: 使用 Addressable 加载资源
-    await Addressables.LoadAssetAsync<Material>("OutlineMask").Completed += (obj) =>
-    {
-      outlineMaskMaterial = Instantiate(obj.Result);
-      outlineMaskMaterial.name = "OutlineMask (Instance)";
-    };
-
-    await Addressables.LoadAssetAsync<Material>("OutlineFill").Completed += (obj) =>
-        {
-          outlineFillMaterial = Instantiate(obj.Result);
-          outlineFillMaterial.name = "OutlineFill (Instance)";
-        };
-
-    // Retrieve or generate smooth normals
-    LoadSmoothNormals();
-
-    // Apply material properties immediately
-    needsUpdate = true;
+    if (autoUnable) StartCoroutine(CountToUnable());
   }
 
   private IEnumerator CountToUnable()

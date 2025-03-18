@@ -1,47 +1,39 @@
 using UnityEngine;
+using UnityGameObjectPool;
 
 public class TerrainScanner : MonoBehaviour
 {
-    [SerializeField] private GameObject _terrainScannerPrefab;
-    [Tooltip("持续时间")][SerializeField] private float _duration = 10f;
-    [Tooltip("范围大小")][SerializeField] private float _size = 500f;
+    [SerializeField] private IPoolableParticleSystem _terrainScannerPrefab;
+    [Tooltip("持续时间")][SerializeField] private float duration = 10f;
+    [Tooltip("范围大小")][SerializeField] private float size = 500f;
 
     /// <summary>
     /// 生成地形扫描器
     /// </summary>
     public void SpawnTerrainScanner()
     {
-        GameObject _scanner = Instantiate(_terrainScannerPrefab, transform.position, Quaternion.identity);
-        ParticleSystem particleSystem = _scanner.GetComponentInChildren<ParticleSystem>();
+        var scanner = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(_terrainScannerPrefab, transform.position, Quaternion.identity);
+        ParticleSystem particle = scanner.particle;
 
-        if (particleSystem != null)
-        {
-            var main = particleSystem.main;
-            main.startLifetime = _duration;
-            main.startSize = _size;
-            particleSystem.Play();
-        }
-        else
-            Debug.LogError($"ParticleSystem not found! {gameObject.name}");
-        // TODO:接入对象池
-        Destroy(_scanner, _duration + 1f);
+        // 设置粒子系统参数时, 获取的 module 只是一个接口, 其始终对应着其 ParticleSystem, 而无需赋值回去
+        var main = particle.main;
+        main.startLifetime = duration;
+        main.startSize = size;
+        particle.Play();
+
+        TimerManager.CreateTimeOut(duration + 0.1f, () => GameObjectPoolManager.RecycleItem(scanner));
     }
 
     public void SpawnTerrainScanner(Transform spawnPosition)
     {
-        GameObject _scanner = Instantiate(_terrainScannerPrefab, spawnPosition.position, Quaternion.identity);
-        ParticleSystem particleSystem = _scanner.GetComponentInChildren<ParticleSystem>();
+        var scanner = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(_terrainScannerPrefab, spawnPosition.position, spawnPosition.rotation);
+        ParticleSystem particleSystem = scanner.particle;
 
-        if (particleSystem != null)
-        {
-            var main = particleSystem.main;
-            main.startLifetime = _duration;
-            main.startSize = _size;
-            particleSystem.Play();
-        }
-        else
-            Debug.LogError($"ParticleSystem not found! {gameObject}");
+        var main = particleSystem.main;
+        main.startLifetime = duration;
+        main.startSize = size;
+        particleSystem.Play();
 
-        Destroy(_scanner, _duration + 1f);
+        TimerManager.CreateTimeOut(duration + 0.1f, () => GameObjectPoolManager.RecycleItem(scanner));
     }
 }

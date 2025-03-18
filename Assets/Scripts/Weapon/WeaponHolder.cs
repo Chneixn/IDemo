@@ -48,8 +48,8 @@ public class WeaponHolder : MonoBehaviour
     private IWeapon curWeapon;
 
     // 当前武器的在武器列表的位置，-1为尚未初始化
-    private int curIndex = -1;
-    private int lastIndex = -1;
+    [SerializeField] private int curIndex = -1;
+    [SerializeField] private int lastIndex = -1;
 
     private Camera cam;
     public Camera Cam => cam;
@@ -99,9 +99,8 @@ public class WeaponHolder : MonoBehaviour
         // 防止重复武器的加入, 可以修改
         if (weapons.Find(i => i.name == weapon.name + "(Clone)") != null) return;
 
-        var newWeapon = Instantiate(weapon);
+        var newWeapon = Instantiate(weapon, transform);
         weapons.Add(newWeapon);
-        newWeapon.transform.SetParent(transform);
         newWeapon.holder = this;
         newWeapon.ActivateWeapon();
         if (AutoEnableWeaponOnGet) SwitchWeaponByClass(newWeapon);
@@ -128,7 +127,8 @@ public class WeaponHolder : MonoBehaviour
         // 检测请求的武器是否为当前武器
         if (index < 0 || index >= weapons.Count || curIndex == index) return;
 
-        if (!curWeapon.EnableWeapon()) return;
+        // 尝试启用新的武器
+        if (!weapons[index].EnableWeapon()) return;
 
         lastIndex = curIndex;
         // 关闭当前的武器
@@ -138,7 +138,7 @@ public class WeaponHolder : MonoBehaviour
             curWeapon.SetVisualModel(false);
         }
 
-        // 激活请求的武器
+        // 显示请求的武器
         curIndex = index;
         curWeapon = weapons[curIndex];
         curWeapon.SetVisualModel(true);

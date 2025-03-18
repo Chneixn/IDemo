@@ -16,7 +16,7 @@ public class Walking : IMovementState
         }
         else if (inputs.TryRun) // Walk
         {
-            CC.ChangeMovementState(typeof(Run));
+            CC.ChangeMovementState(typeof(Running));
         }
         else if (inputs.TryCrouch && CC.IsStableGround) // Crouch
         {

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using InventorySystem;
+using UnityGameObjectPool;
 
 [RequireComponent(typeof(SphereCollider))]
 public class ItemPickUp : IPoolableObject

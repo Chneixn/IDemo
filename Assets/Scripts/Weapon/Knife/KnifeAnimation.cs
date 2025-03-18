@@ -32,7 +32,7 @@ public class KnifeAnimation : MonoBehaviour
             animator.SetBool("isWalking", true);
             animator.SetBool("isRunning", false);
         }
-        else if (state is Run)
+        else if (state is Running)
         {
             animator.SetBool("isRunning", true);
             animator.SetBool("isWalking", false);

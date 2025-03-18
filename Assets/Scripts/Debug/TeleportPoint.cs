@@ -25,6 +25,16 @@ public class TeleportPoint : MonoBehaviour, IInteractable
         return false;
     }
 
+    public void OnHoverEnter(Interactor interactor)
+    {
+        
+    }
+
+    public void OnHoverExit(Interactor interactor)
+    {
+        
+    }
+
     public void TeleportToNewScene()
     {
         Debug.Log("开始传送！");

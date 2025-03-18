@@ -44,7 +44,7 @@ public class InventorySystemEditor : EditorWindow
     /// <summary>
     /// 打开 InventorySystemEditor 视图
     /// </summary>
-    [MenuItem("CustomSystem/InventorySystemEditor")]
+    [MenuItem("Tools/InventorySystemEditor")]
     public static void OpenWindow()
     {
         window = GetWindow<InventorySystemEditor>("InventorySystemEditor");

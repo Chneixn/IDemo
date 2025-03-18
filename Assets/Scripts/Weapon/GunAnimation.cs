@@ -5,11 +5,11 @@ using UnityEngine;
 public class GunAnimation : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
-    protected BaseGun Gun;
+    protected Gun Gun;
 
     public void Awake()
     {
-        if (Gun == null) Gun = GetComponent<BaseGun>();
+        if (Gun == null) Gun = GetComponent<Gun>();
 
         if (animator == null) GetComponentInChildren<Animation>(true);
     }

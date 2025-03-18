@@ -58,9 +58,9 @@ public static class MyCustomSettingsUIElementsRegister
         // 第一个参数是设置窗口中的路径。
         // Second parameter is the scope of this setting: it only appears in the Settings window for the Project scope.
         // 第二个参数是此设置的作用域：它仅出现在项目范围内的设置窗口中。
-        var provider = new SettingsProvider("Project/MyCustomUIElementsSettings", SettingsScope.Project)
+        var provider = new SettingsProvider("Project/Inventory System", SettingsScope.Project)
         {
-            label = "InventorySystem",
+            label = "Inventory System",
             // activateHandler is called when the user clicks on the Settings item in the Settings window.
             // 当用户点击设置窗口中的设置项时，调用activateHandler。
             activateHandler = (searchContext, rootElement) =>
@@ -73,7 +73,7 @@ public static class MyCustomSettingsUIElementsRegister
                 // 因为 SettingsProvider 使用 UIElements 绘图框架。
                 var title = new Label()
                 {
-                    text = "InventorySystem Editor Settings"
+                    text = "InventorySystem Settings"
                 };
                 title.AddToClassList("title");
                 rootElement.Add(title);

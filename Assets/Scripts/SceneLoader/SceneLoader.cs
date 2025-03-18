@@ -15,7 +15,6 @@ namespace System.SceneManagement
         [SerializeField] private SceneGroup[] sceneGroups;
 
         [SerializeField] private float loadingProgress;
-        [SerializeField] bool isLoading = false;
 
         public readonly SceneGroupManager Manager = new();
 
@@ -35,9 +34,16 @@ namespace System.SceneManagement
             EnableFadeCanvas();
             await UniTask.WaitUntil(() => fadeCanvas.IsDone);
             EnableLoadingCanvas();
-            var progress = new LoadingProgress(p => loadingCanvas.SetTargetPercent(p));
+            float forceWaitTimer = Time.time;
+            var progress = new LoadingProgress(p =>
+            {
+                loadingCanvas.SetTargetPercent(p);
+                loadingProgress = p;
+            });
             await Manager.LoadScenes(sceneGroups[index], progress, unloadUnusedAssets);
             await UniTask.WaitUntil(() => loadingCanvas.IsDone);
+            if (Time.time - forceWaitTimer < forceWaitTime)
+                await UniTask.WaitForSeconds(forceWaitTime - Time.time - forceWaitTimer);
             EnableLoadingCanvas(false);
             DisableFadeCanvas();
         }

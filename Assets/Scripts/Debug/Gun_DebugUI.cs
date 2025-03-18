@@ -7,7 +7,7 @@ using UnityEngine;
 public class Gun_DebugUI : MonoBehaviour
 {
     public TextMeshProUGUI ammoText;
-    private BaseGun gun;
+    private Gun gun;
 
     private void Start()
     {
@@ -17,7 +17,7 @@ public class Gun_DebugUI : MonoBehaviour
 
     private void OnWeaponChange(IWeapon weapon)
     {
-        if (weapon is BaseGun gun)
+        if (weapon is Gun gun)
         {
             this.gun = gun;
             ammoText.enabled = true;

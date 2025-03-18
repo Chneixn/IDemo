@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockGun : BaseGun
+public class LockGun : Gun
 {
     [Header("Gun Setting")]
     [Header("锁定模式")]
@@ -61,7 +61,7 @@ public class LockGun : BaseGun
 
         if (multilock)
         {
-            int _lockCount = Physics.SphereCastNonAlloc(_aimRay, lockRange, hitInfos, setting.weaponRange, scanLayer);
+            int _lockCount = Physics.SphereCastNonAlloc(_aimRay, lockRange, hitInfos, set.weaponRange, scanLayer);
             for (int i = 0; i < _lockCount; i++)
             {
                 LockInfo info = lockingTarget.Find((l) => { return l.Target == hitInfos[i].collider.transform; });
@@ -91,7 +91,7 @@ public class LockGun : BaseGun
         }
         else
         {
-            if (!Physics.SphereCast(_aimRay, lockRange, out var hitInfo, setting.weaponRange, scanLayer))
+            if (!Physics.SphereCast(_aimRay, lockRange, out var hitInfo, set.weaponRange, scanLayer))
             {
                 // 视野中没有能锁定的物体
                 lockingTarget.Clear();
@@ -136,7 +136,7 @@ public class LockGun : BaseGun
     protected override void Shoot()
     {
         if (!readyToShoot) return;
-        else if (setting.autoReloadWhenEmpty && currentBulletsCount <= 0)
+        else if (set.autoReloadWhenEmpty && currentBulletsCount <= 0)
         {
             Reload();
         }
@@ -151,7 +151,7 @@ public class LockGun : BaseGun
         // 初始化击中点
         Vector3 _targetPoint = Vector3.zero;
 
-        _targetPoint += ray.GetPoint(setting.weaponRange);
+        _targetPoint += ray.GetPoint(set.weaponRange);
 
         // 攻击已经锁定的敌人
         if (lockedTargets.Count > 0)
@@ -162,7 +162,7 @@ public class LockGun : BaseGun
             }
         }
 
-        if (setting.isShotgun && bulletsShotted < setting.bulletsPerTap)
+        if (set.isShotgun && bulletsShotted < set.bulletsPerTap)
         {
             bulletsShotted++;
             readyToShoot = true;
@@ -178,7 +178,7 @@ public class LockGun : BaseGun
 
     protected void InstantiateBullet(Transform transform)
     {
-        if (setting.bulletData.prefab == null) Debug.LogError("bullet prefab is null");
+        if (set.bulletData.prefab == null) Debug.LogError("bullet prefab is null");
         // var bullet = set.bulletData.prefab.GetComponent
     }
 }

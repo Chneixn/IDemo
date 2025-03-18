@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityGameObjectPool;
 
 public class GunVFX : MonoBehaviour
 {
-    private BaseGun gun;
+    private Gun gun;
 
     [Header("GunVFX视觉效果")]
     public ParticleSystem muzzleFlash;
@@ -21,7 +22,7 @@ public class GunVFX : MonoBehaviour
     {
         if (gun == null)
         {
-            if (gameObject.TryGetComponent(out BaseGun gun))
+            if (gameObject.TryGetComponent(out Gun gun))
             {
                 this.gun = gun;
             }
@@ -42,7 +43,7 @@ public class GunVFX : MonoBehaviour
         if (hitParticle != null)
         {
             var obj = GameObjectPoolManager.GetItem<IPoolableParticleSystem>(hitParticle, hit.point, Quaternion.identity);
-            obj.system.Play();
+            obj.particle.Play();
             TimerManager.CreateTimeOut(hitParticleTime, () => GameObjectPoolManager.RecycleItem(obj));
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityGameObjectPool;
 
 [RequireComponent(typeof(AudioSource))]
 public class ExplosionBullet : Bullet
@@ -60,7 +61,7 @@ public class ExplosionBullet : Bullet
                 {
                     // 爆炸伤害
                     if (damagables[i].TryGetComponent(out IDamageable target))
-                        target.TakeDamage(Damage, DamageType.Explosion, damagables[i].transform.position - transform.position);
+                        target.TakeDamage(damage, DamageType.Explosion, damagables[i].transform.position - transform.position);
 
                     // 爆炸推动
                     if (enableExplosionForce)

@@ -15,19 +15,23 @@ public class Interactor : MonoBehaviour
     [SerializeField] private LayerMask interactionLayer;
 
     [SerializeField] private bool isInteracting;
+    private IInteractable interactingObject;
+
+    [SerializeField] private bool Log;
+    private string lastObject;
 
     private void Start()
     {
         if (UsingCam == null)
         {
-            Debug.LogWarning("Cam missing!" + name);
-            enabled = false;
+            if (Log) Debug.LogWarning("Auto set UsingCam to PlayerCam.brain.OutputCamera");
+            UsingCam = PlayerManager.Instance.PlayerCam.brain.OutputCamera;
         }
     }
 
     public void ApplyInput(ref InteractionInput inputs)
     {
-        if (enabled != true) return;
+        if (!enabled) return;
         bool _tryInteraction = inputs.tryInteraction;
 
         // 射线检测可交互物品
@@ -35,34 +39,54 @@ public class Interactor : MonoBehaviour
 
         if (Physics.Raycast(_aimRay, out RaycastHit _hitInfo, interactionRange, interactionLayer))
         {
-            // 高亮描边
-            if (_hitInfo.collider.TryGetComponent(out Outline outline))
+            // if (Log) Debug.Log("检测到物体: " + _hitInfo.collider.name);
+            // 当检测到可交互物品时
+            if (!isInteracting && _hitInfo.collider.TryGetComponent(out IInteractable interactable))
             {
-                if (outline.enabled != true) outline.enabled = true;
-            }
-
-            if (_tryInteraction && !isInteracting)
-            {
-                if (_hitInfo.collider.TryGetComponent(out IInteractable interactable))
+                if (interactingObject != interactable)
                 {
+                    if (interactingObject != null)
+                    {
+                        interactingObject?.OnHoverExit(this);
+                        Debug.Log("物体: " + lastObject + " 失去焦点");
+                    }
+                    interactingObject = interactable;
+                    interactable.OnHoverEnter(this);
+                    if (Log)
+                    {
+                        lastObject = _hitInfo.collider.name;
+                        Debug.Log("物体: " + lastObject + " 获取焦点");
+                    }
+                }
+
+                if (_tryInteraction)
+                {
+                    if (Log) Debug.Log("尝试与物体交互: " + _hitInfo.collider.name);
                     StartInteraction(interactable);
                 }
+            }
+        }
+        else
+        {
+            if (interactingObject != null)
+            {
+                interactingObject?.OnHoverExit(this);
+                Debug.Log("物体: " + lastObject + " 失去焦点");
+                interactingObject = null;
             }
         }
     }
 
     private void StartInteraction(IInteractable interactable)
     {
-        isInteracting = interactable.Interact(this);
-        if (isInteracting)
-        {
-            interactable.OnInteractionComplete += EndInteraction;
-
-        }
+        isInteracting = true;
+        interactable.OnInteractionComplete += EndInteraction;
+        interactable.Interact(this);
     }
 
     public void EndInteraction(IInteractable interactable)
     {
+        if (Log) Debug.Log("结束与物体的交互");
         isInteracting = false;
         interactable.OnInteractionComplete -= EndInteraction;
     }

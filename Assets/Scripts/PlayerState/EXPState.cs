@@ -7,7 +7,7 @@ using System;
 [Serializable]
 public class EXPState : ICharacterState
 {
-    public event OnStateChange OnStateUpdate;
+    public event Action OnStateUpdate;
 
     [Header("经验值")]
     [SerializeField][ReadOnly] private int currentLevel = 0;

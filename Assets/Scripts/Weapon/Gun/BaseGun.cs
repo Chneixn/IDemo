@@ -1,10 +1,9 @@
 using UnityEngine;
 using InventorySystem;
 using System;
-using UnityUtils;
 using Random = UnityEngine.Random;
-using Cysharp.Threading.Tasks;
-using System.Threading;
+using UnityGameObjectPool;
+using System.Collections;
 
 public enum GunFireMode
 {
@@ -13,9 +12,10 @@ public enum GunFireMode
     Burst
 }
 
-public class BaseGun : IWeapon
+public class Gun : IWeapon
 {
-    public GunSetting setting;
+    [SerializeField] protected GunSetting set;
+    public GunSetting Setting => set;
 
     [SerializeField, ReadOnly] protected int totalBulletsLeft = 0;        // 背包中剩余弹药数
     [SerializeField, ReadOnly] protected int currentBulletsCount = 0;     // 当前弹匣剩余子弹
@@ -23,11 +23,12 @@ public class BaseGun : IWeapon
     public int TotalBulletsLeft => totalBulletsLeft;
     public int CurrentBulletsCount => currentBulletsCount;
 
-    protected GunFireMode currentFireMod;
+    protected GunFireMode fireMod;
     [SerializeField, ReadOnly] protected float timeBetweenShoot; // 依据每分钟射速计算每次最低开火间隔
 
     [Header("控制参数")]
     protected bool isAiming = false;
+    protected bool triggerPressed = false;
     [SerializeField, ReadOnly] protected bool readyToInput = false;
     [SerializeField, ReadOnly] protected bool readyToAim = true;
     [SerializeField, ReadOnly] protected bool readyToReload = true;
@@ -43,6 +44,7 @@ public class BaseGun : IWeapon
     public Action OnEnableWeapon;
     public Action OnDisableWeapon;
     public Action<bool> OnShot;
+    public Action OnShotEmpty;
     public Action<bool> OnShotFinshed;
     public Action<RaycastHit> OnHit;
     public Action OnAim;
@@ -60,9 +62,9 @@ public class BaseGun : IWeapon
         reloadTimer = TimerManager.CreateTimer();
 
         // 检查GunSet
-        if (setting == null) Debug.LogError("没有武器设置！", gameObject);
-        currentFireMod = setting.defaultFireMod;
-        timeBetweenShoot = setting.RPM / 3600f;
+        if (set == null) Debug.LogError("没有武器设置！", gameObject);
+        fireMod = set.defaultFireMod;
+        timeBetweenShoot = set.RPM / 3600f;
     }
 
     public override bool EnableWeapon()
@@ -70,13 +72,13 @@ public class BaseGun : IWeapon
         holder.playerStorage.OnStorageUpdated += UpdateBulletCount;
         UpdateBulletCount();
         OnEnableWeapon?.Invoke();
-        if (setting.autoReloadWhenEmpty && currentBulletsCount == 0)
+        if (set.autoReloadWhenEmpty && currentBulletsCount == 0)
         {
             // 在换起武器时，若当前弹匣为空，自动尝试换弹匣
             readyToReload = true;
             Reload();
         }
-        DelayEnableInput(setting.timeToDraw);
+        DelayEnableInput(set.timeToDraw);
         return true;
     }
 
@@ -96,8 +98,29 @@ public class BaseGun : IWeapon
         if (inputs.reload) Reload();
         else if (inputs.fire)
         {
-            Shoot();
+            switch (fireMod)
+            {
+                case GunFireMode.SemiAutomatic:
+                    {
+                        if (!triggerPressed)
+                        {
+                            Shoot();
+                            triggerPressed = true;
+                        }
+                    }
+                    break;
+                case GunFireMode.Automatic:
+                    Shoot();
+                    break;
+                case GunFireMode.Burst:
+                    {
+                        StartCoroutine(BrustShoot());
+                        OnDisableWeapon += StopAllCoroutines;
+                    }
+                    break;
+            }
         }
+        else if (!inputs.fire) triggerPressed = false;
         else if (inputs.aim)
         {
             AimStart();
@@ -109,6 +132,19 @@ public class BaseGun : IWeapon
         else if (inputs.switchFireMod) ChangeFireMode();
     }
 
+    protected virtual IEnumerator BrustShoot()
+    {
+        readyToInput = false;
+        int count = set.burstBulletCount;
+        while (currentBulletsCount > 0 && count > 0)
+        {
+            Shoot();
+            count--;
+            yield return new WaitForSeconds(set.timeBetweenShootOnBrust);
+        }
+        readyToInput = true;
+    }
+
     protected virtual void DelayEnableInput(float duration)
     {
         readyToInput = false;
@@ -117,17 +153,16 @@ public class BaseGun : IWeapon
 
     protected virtual void ChangeFireMode()
     {
-        if (currentFireMod == GunFireMode.SemiAutomatic && setting.hasAuto)
-            currentFireMod = GunFireMode.Automatic;
-        else if (currentFireMod == GunFireMode.Burst && setting.hasBrust)
-            currentFireMod = GunFireMode.Burst;
+        if (fireMod == GunFireMode.SemiAutomatic && set.hasAuto)
+            fireMod = GunFireMode.Automatic;
+        else if (fireMod == GunFireMode.Burst && set.hasBrust)
+            fireMod = GunFireMode.Burst;
         else
-            currentFireMod = GunFireMode.SemiAutomatic;
+            fireMod = GunFireMode.SemiAutomatic;
     }
     #endregion
 
     #region Handle Aim
-    // FIXME:瞄准动画播放时可以开火
     protected virtual void AimStart()
     {
         isAiming = true;
@@ -147,7 +182,7 @@ public class BaseGun : IWeapon
         if (!readyToShoot) return;
         else if (currentBulletsCount <= 0)
         {
-            if (setting.autoReloadWhenEmpty) Reload();
+            ShootEmpty();
             return;
         }
 
@@ -161,32 +196,32 @@ public class BaseGun : IWeapon
         // 初始化击中点
         Vector3 _targetPoint = Vector3.zero;
 
-        _targetPoint += ray.GetPoint(setting.weaponRange);
+        _targetPoint += ray.GetPoint(set.weaponRange);
 
-        if (setting.allowSpread)
+        if (set.allowSpread)
         {
             //当玩家尝试移动时计算扩散后的射击方向
             _targetPoint += (Vector3)CalculateSpread();
             ray.direction = (_targetPoint - ray.origin).normalized;
         }
 
-        if (setting.fireIsHit)
+        if (set.fireIsHit)
         {
-            if (Physics.Raycast(ray, out RaycastHit _hitInfo, setting.weaponRange))
+            if (Physics.Raycast(ray, out RaycastHit _hitInfo, set.weaponRange))
             {
                 //以射击即击中的方式传入伤害，忽略子弹飞行时间
                 if (_hitInfo.collider.TryGetComponent(out IDamageable t))
                 {
-                    t.TakeDamage(setting.weaponDamage, DamageType.Bullet, ray.direction);
+                    t.TakeDamage(set.weaponDamage, DamageType.Bullet, ray.direction);
                     OnHit?.Invoke(_hitInfo);
                 }
             }
         }
 
-        if (setting.needInstantiate) InstantiateBullet(ray.direction);
+        if (set.needInstantiate) InstantiateBullet(ray.direction);
 
-        // 霰弹枪功能
-        if (setting.isShotgun && bulletsShotted < setting.bulletsPerTap)
+        // 霰弹枪功能, 同一帧内多发弹丸
+        if (set.isShotgun && bulletsShotted < set.bulletsPerTap)
         {
             bulletsShotted++;  // 记录弹丸数
             readyToShoot = true;
@@ -200,31 +235,38 @@ public class BaseGun : IWeapon
         }
     }
 
+    protected virtual void ShootFinished()
+    {
+        readyToShoot = true;
+        readyToReload = true;
+        bulletsShotted = 0;
+        bool isEmpty = currentBulletsCount == 0;
+        if (isEmpty && set.autoReloadWhenEmpty) Reload();
+        OnShotFinshed?.Invoke(isEmpty);
+    }
+
+    protected virtual void ShootEmpty()
+    {
+        if (set.autoReloadWhenEmpty) Reload();
+        OnShotEmpty?.Invoke();
+    }
+
     protected virtual Vector2 CalculateSpread()
     {
         // 增加击中点的偏移值
-        float x = Random.Range(-setting.spread, setting.spread);
-        float y = Random.Range(-setting.spread, setting.spread);
+        float x = Random.Range(-set.spread, set.spread);
+        float y = Random.Range(-set.spread, set.spread);
 
         return new Vector2(x, y);
     }
 
     protected virtual GameObject InstantiateBullet(Vector3 direction)
     {
-        if (setting.bulletData.prefab == null) return null;
+        if (set.bulletData.prefab == null) return null;
 
-        var bullet = GameObjectPoolManager.GetItem<Bullet>(setting.bulletData.prefab.GetComponent<Bullet>(), muzzlePoint.position, muzzlePoint.rotation);
-        bullet.SetRigiBodyVelocity(setting.shootVelocity);
+        var bullet = GameObjectPoolManager.GetItem<Bullet>(set.bulletData.prefab.GetComponent<Bullet>(), muzzlePoint.position, muzzlePoint.rotation);
+        bullet.SetVelocity(set.shootVelocity);
         return bullet.gameObject;
-    }
-
-    protected virtual void ShootFinished()
-    {
-        readyToShoot = true;
-        readyToReload = true;
-        bool isEmpty = currentBulletsCount == 0;
-        if (isEmpty && setting.autoReloadWhenEmpty) Reload();
-        OnShotFinshed?.Invoke(isEmpty);
     }
 
     #endregion
@@ -234,14 +276,14 @@ public class BaseGun : IWeapon
     protected virtual void Reload()
     {
         if (!readyToReload || totalBulletsLeft <= 0) return;
-        else if (currentBulletsCount >= setting.defaultMagazineSize) return;
+        else if (currentBulletsCount >= set.defaultMagazineSize) return;
 
         readyToReload = false;
         readyToShoot = false;
         bool isEmpty = currentBulletsCount == 0;
 
         // 换子弹计时器
-        reloadTimer.StartTiming(setting.reloadTime, repeateTime: 1, onCompleted: ReloadFinished);
+        reloadTimer.StartTiming(set.reloadTime, repeateTime: 1, onCompleted: ReloadFinished);
 
         //Debug.Log("reload!");
         OnReloadBegin?.Invoke(isEmpty);
@@ -249,7 +291,7 @@ public class BaseGun : IWeapon
 
     protected virtual void ReloadFinished()
     {
-        int need = setting.defaultMagazineSize - currentBulletsCount;
+        int need = set.defaultMagazineSize - currentBulletsCount;
         if (totalBulletsLeft < need)
         {
             // 剩余子弹不足补充满整个弹匣
@@ -274,7 +316,7 @@ public class BaseGun : IWeapon
     {
         if (currentBulletsCount > 0)
         {
-            currentBulletsCount = holder.playerStorage.AddToInventory(setting.bulletData, currentBulletsCount);
+            currentBulletsCount = holder.playerStorage.AddToInventory(set.bulletData, currentBulletsCount);
         }
     }
 
@@ -283,7 +325,7 @@ public class BaseGun : IWeapon
     /// </summary>
     protected virtual void UpdateBulletCount()
     {
-        totalBulletsLeft = holder.playerStorage.GetItemCountFormInventory(setting.bulletData);
+        totalBulletsLeft = holder.playerStorage.GetItemCountFormInventory(set.bulletData);
         //Debug.Log($"update bullet count! total bullet left {totalBulletsLeft}");
     }
 
@@ -293,7 +335,7 @@ public class BaseGun : IWeapon
     /// <param name="amount"></param>
     protected virtual bool RemoveBulletFormInventory(int amount)
     {
-        return holder.playerStorage.RemoveItemsFromInventory(setting.bulletData, amount, out _);
+        return holder.playerStorage.RemoveItemsFromInventory(set.bulletData, amount, out _);
         //if (!success)
         //{
         //    Debug.Log($"Remove ammo [{set.bulletData.displayName}] failed!");

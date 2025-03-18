@@ -49,6 +49,15 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     }
 
+    public void OnHoverEnter(Interactor interactor)
+    {
+        
+    }
+
+    public void OnHoverExit(Interactor interactor)
+    {
+        
+    }
 }
 
 [System.Serializable]

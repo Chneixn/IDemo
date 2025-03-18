@@ -4,7 +4,6 @@ using Cysharp.Threading.Tasks;
 using DRockInputBridge;
 using UnityEngine;
 
-// TODO: REMOVE 打包时要去掉
 public class TestPlayerScene : MonoBehaviour
 {
     public PlayerManager manager;

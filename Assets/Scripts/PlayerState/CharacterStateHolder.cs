@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void OnStateChange();
-
 public interface ICharacterState
 {
-    public event OnStateChange OnStateUpdate;
+    public event Action OnStateUpdate;
 }
 
 public class CharacterStateHolder : MonoBehaviour

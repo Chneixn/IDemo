@@ -12,7 +12,7 @@ public class EnergyPower : ICharacterState
     [SerializeField][ReadOnly] private float currentPower = 100f;
     public float CurrentPower => currentPower;
 
-    public event OnStateChange OnStateUpdate;
+    public event Action OnStateUpdate;
 
     public void LowerPower(float amount)
     {

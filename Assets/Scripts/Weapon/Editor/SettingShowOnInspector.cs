@@ -5,23 +5,23 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomEditor(typeof(BaseGun), true)]
+[CustomEditor(typeof(Gun), true)]
 public class GunSettingShowOnInspector : Editor
 {
     public override VisualElement CreateInspectorGUI()
     {
-        var gun = (BaseGun)target;
+        var gun = (Gun)target;
         var root = new VisualElement();
         root.Add(new IMGUIContainer(OnInspectorGUI));
 
-        if (gun.setting != null)
+        if (gun.Setting != null)
         {
             var title = new Label()
             {
                 text = "Gun Settings"
             };
             root.Add(title);
-            SerializedObject obj = new(gun.setting);
+            SerializedObject obj = new(gun.Setting);
             var element = new InspectorElement(obj);
             element.Bind(obj);
             root.Add(element);

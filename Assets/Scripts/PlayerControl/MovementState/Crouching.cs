@@ -10,7 +10,7 @@ public class Crouching : IMovementState
     public float crouchTime; //下蹲动作完成时间
     public float crouchCoolDownf; //下蹲操作的冷却时间
     public float crouchCamHeight; //下蹲后相机的高度相对于原本高度的比例
-    private bool _readyToCrouch = true;
+    // private bool _readyToCrouch = true;
     private readonly Collider[] _probedColliders = new Collider[8]; //取消下蹲前的碰撞体检测缓存
     public bool DebugCrouch;
     public struct CapsuleInfo

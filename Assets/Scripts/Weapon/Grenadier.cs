@@ -4,6 +4,7 @@ using UnityEngine;
 using InventorySystem;
 using System;
 using Cysharp.Threading.Tasks;
+using UnityGameObjectPool;
 
 public class Grenadier : IWeapon
 {

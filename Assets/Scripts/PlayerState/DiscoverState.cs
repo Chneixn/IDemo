@@ -11,7 +11,7 @@ public class DiscoverState : ICharacterState
     [SerializeField][ReadOnly] private bool bediscovered = false;
     public bool Bediscovered => bediscovered;
 
-    public event OnStateChange OnStateUpdate;
+    public event Action OnStateUpdate;
 
     public void OnBeDiscovered(float p)
     {

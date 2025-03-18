@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Idle : IMovementState
+public class Running : IMovementState
 {
+    public float runSpeed;
+
     public override void HandleStateChange(ref PlayerCharacterInput inputs)
     {
-        if (CC.MoveDirection.sqrMagnitude > 0.01f)
+        if (CC.MoveDirection == Vector3.zero)
         {
-            if (inputs.TryRun)
-            {
-                CC.ChangeMovementState(typeof(Running));
-            }
-            else
-            {
-                CC.ChangeMovementState(typeof(Walking));
-            }
+            inputs.TryRun = false;
+            CC.ChangeMovementState(typeof(Idle));
         }
-        else if (inputs.TryCrouch && CC.IsStableGround)
+        else if (!inputs.TryRun) // Walk
+        {
+            CC.ChangeMovementState(typeof(Walking));
+        }
+        else if (inputs.TryCrouch && CC.IsStableGround) // Crouch
         {
             CC.ChangeMovementState(typeof(Crouching));
         }
@@ -31,11 +31,11 @@ public class Idle : IMovementState
 
     public override void OnStateEnter()
     {
-        CC.MaxSpeed = 0f;
+        CC.MaxSpeed = 10f;
     }
 
     public override void OnStateExit(IMovementState newState)
     {
-
+        
     }
 }

@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ParticleSystem))]
-public class IPoolableParticleSystem : IPoolableObject
+namespace UnityGameObjectPool
 {
-    public ParticleSystem system;
-
-    public override void OnGet()
+    [RequireComponent(typeof(ParticleSystem))]
+    public class IPoolableParticleSystem : IPoolableObject
     {
-        if (system == null) system = GetComponent<ParticleSystem>();
-    }
+        public ParticleSystem particle;
 
-    public override void OnRecycle()
-    {
-        system.Stop();
+        public override void OnGet()
+        {
+            if (particle == null) particle = GetComponent<ParticleSystem>();
+        }
+
+        public override void OnRecycle()
+        {
+            particle.Stop();
+        }
     }
 }

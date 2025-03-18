@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using InventorySystem;
+using UnityGameObjectPool;
 
 public class TouchToPickUp : MonoBehaviour
 {

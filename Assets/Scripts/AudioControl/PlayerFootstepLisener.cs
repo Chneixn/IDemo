@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterControl))]
 public class PlayerFootstepLisener : MonoBehaviour
 {
     public bool enableFootstep;
-    public FootStepAudioData AudioData;
+    [SerializeField] private FootStepAudioData AudioData = new();
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private CharacterControl characterControl;
+    [SerializeField] private string audioTag;
 
     private float nextPlayTime;
+    private float audioDelay = 0f;
     [SerializeField, Range(0f, 1f)] private float running_delay = 0.3f;
     [SerializeField, Range(0f, 1f)] private float walking_delay = 0.5f;
     [SerializeField, Range(0f, 1f)] private float crouching_delay = 0.7f;
@@ -19,28 +20,44 @@ public class PlayerFootstepLisener : MonoBehaviour
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        characterControl = PlayerManager.Instance.CharacterControl;
+        PlayerManager.Instance.CharacterControl.OnMovementStateChanged += OnStateChange;
+    }
+
+    private void OnStateChange(IMovementState state)
+    {
+        enableFootstep = true;
+        if (state is Walking)
+        {
+            audioDelay = walking_delay;
+            audioTag = "Walking";
+        }
+        else if (state is Running)
+        {
+            audioDelay = running_delay;
+            audioTag = "Running";
+        }
+        else if (state is Crouching)
+        {
+            audioDelay = crouching_delay;
+            audioTag = "Crouching";
+        }
+        else enableFootstep = false;
     }
 
     private void Update()
     {
-        float audioDelay = 0f;
-
-        //var state = characterControl.CurrentMovementState;
-
-
+        // var state = characterControl.CurrentMovementState;
         if (!enableFootstep) return;
 
         nextPlayTime += Time.deltaTime;
 
         if (nextPlayTime >= audioDelay)
         {
-            //播放移动声音
-            //AudioClip audioClip = AudioData.GetRandomAudio();
-            //audioSource.clip = audioClip;
+            // 播放移动声音
+            AudioClip audioClip = AudioData.GetRandomAudio(audioTag);
+            audioSource.clip = audioClip;
             audioSource.Play();
-            nextPlayTime = 0;   //reset nextPlayTime
+            nextPlayTime = 0;   // reset nextPlayTime
         }
 
     }

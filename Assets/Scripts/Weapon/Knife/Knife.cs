@@ -1,4 +1,5 @@
 using System;
+using UnityGameObjectPool;
 using UnityEngine;
 using UnityUtils;
 
@@ -77,8 +78,7 @@ public class Knife : IWeapon
     {
         if (setting.attackEffect != null)
         {
-            // TODO:接入对象池
-            GameObject spawnedDecal = Instantiate(setting.attackEffect, hit.point, Quaternion.LookRotation(-hit.normal));
+            IPoolableDecal spawnedDecal = GameObjectPoolManager.GetItem<IPoolableDecal>(setting.attackEffect, hit.point, Quaternion.LookRotation(-hit.normal));
             // 贴花偏移, 避免重叠时产生闪烁
             spawnedDecal.transform.localPosition += new Vector3(0f, 0f, -0.02f);
         }

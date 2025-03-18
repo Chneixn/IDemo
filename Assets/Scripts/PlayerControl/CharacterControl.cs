@@ -53,7 +53,7 @@ public class CharacterControl : MonoBehaviour, ICharacterController
     public Freeze freeze = new();
     public Idle idle = new();
     public Walking walking = new();
-    public Run run = new();
+    public Running run = new();
     public Jump jump = new();
     public Crouching crouching = new();
     public InAir inAir = new();

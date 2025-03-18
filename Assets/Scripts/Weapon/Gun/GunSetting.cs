@@ -9,7 +9,6 @@ public class GunSetting : ScriptableObject
     public ItemData gunData;
     [Header("Gun Parameter枪械参数")]
     public float weaponDamage;          //枪械伤害
-    public bool isShotgun;
 
     [Tooltip("每分钟射速Revolutions per minute")]
     public float RPM;
@@ -24,8 +23,6 @@ public class GunSetting : ScriptableObject
     public float reloadTime;            // 弹匣填装时间
     public float reloadEmptyTime;       // 空仓后弹匣填装时间
     public int defaultMagazineSize;     // 弹匣容量
-
-    public int bulletsPerTap;           // 单次射击弹丸数
     public float weaponRange;           // 枪械射程
 
     [Header("枪械射击模式")]
@@ -33,6 +30,12 @@ public class GunSetting : ScriptableObject
     public GunFireMode defaultFireMod;
     public bool hasAuto;
     public bool hasBrust;
+    public int burstBulletCount;
+    public float timeBetweenShootOnBrust;
+
+    public bool isShotgun;
+    [Tooltip("单次射击弹丸数")]
+    public int bulletsPerTap;           // 单次射击弹丸数
 
     public bool fireIsHit;
     [Header("动画延迟")]
