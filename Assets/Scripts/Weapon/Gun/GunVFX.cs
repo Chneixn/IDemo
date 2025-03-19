@@ -16,8 +16,6 @@ public class GunVFX : MonoBehaviour
     public float hitParticleTime = 3f;
     public GameObject bulletHolePrefab;
 
-    private float timer = 0f;
-
     public void Start()
     {
         if (gun == null)
@@ -54,21 +52,14 @@ public class GunVFX : MonoBehaviour
         if (flashLight != null)
         {
             flashLight.enabled = true;
-            timer = flashLightTime;
+            StopAllCoroutines();
+            StartCoroutine(DelayUnenableLight());
         }
     }
 
-    void Update()
+    private IEnumerator DelayUnenableLight()
     {
-        // 延时关闭灯光
-        if (timer > 0f && flashLight != null)
-        {
-            if (flashLight.enabled)
-            {
-                timer -= Time.deltaTime;
-                if (timer <= 0f) flashLight.enabled = false;
-            }
-        }
+        yield return new WaitForSeconds(flashLightTime);
+        flashLight.enabled = false;
     }
-
 }

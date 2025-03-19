@@ -15,6 +15,8 @@ public class AmmoBox : MonoBehaviour, IInteractable
 
     public Action<IInteractable> OnInteractionComplete { get; set; }
 
+    public string InteractionText => $"获取{AmmoCountPerInteracted}个{ammoData.displayName}";
+
     public void EndInteraction()
     {
         OnInteractionComplete?.Invoke(this);

@@ -13,6 +13,8 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     public Action<IInteractable> OnInteractionComplete { get; set; }
 
+    public string InteractionText => $"与 {name} 交易";
+
     private string _id;
     private ShopSaveData _shopSaveData;
 

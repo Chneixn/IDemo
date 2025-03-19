@@ -21,16 +21,12 @@ public class ExplosionBullet : Bullet
 
     private Collider[] damagables;
 
-    protected override void Awake()
+    public override void Initialization(Transform muzzle, float damage, float velocity, float lifeTime = 2f, bool isPhysicBullet = false)
     {
-        base.Awake();
+        base.Initialization(muzzle, damage, velocity, lifeTime, isPhysicBullet);
         audioSource = GetComponent<AudioSource>();
         damagables = new Collider[damagableLimit];
-    }
 
-    public override void OnGet()
-    {
-        base.OnGet();
         if (StartCoutingOnAwake)
             StartCoroutine(DelyToExplode(lifeTime));
     }

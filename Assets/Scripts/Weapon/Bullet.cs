@@ -18,48 +18,66 @@ public class Bullet : IPoolableObject
 
     [SerializeField] protected LayerMask damagableLayer;
 
-    [Tooltip("检测碰撞的大小")]
-    public float radius = 0.1f;
-
+    public bool isPhysicBullet = false;
     protected Rigidbody rb;
     protected Timer lifeTimer;
 
+    protected float startTime = 0;
+    protected Vector3 startPosition;
+    protected Vector3 startDirection;
+
+    [Header("Hit Effect")]
     public bool EnableHitEffect = false;
     [SerializeField] protected IPoolableParticleSystem hitVFX;
-    [SerializeField] protected DecalProjector decal;
+    [SerializeField] protected IPoolableDecal decal;
     [SerializeField] protected float EffectLifeTime = 3f;
 
-    public virtual void SetDamage(float damage) => this.damage = damage;
-
-    public virtual void SetLifeTime(float time)
+    #region Init
+    public virtual void Initialization(Transform muzzle, float damage, float velocity, float lifeTime = 2f, bool isPhysicBullet = false)
     {
-        lifeTime = time;
+        transform.SetPositionAndRotation(muzzle.position, muzzle.rotation);
+        startTime = Time.time;
+        startPosition = transform.position;
+        startDirection = transform.forward;
+        this.damage = damage;
+        this.velocity = velocity;
+
+        this.lifeTime = lifeTime;
         if (lifeTimer != null)
             TimerManager.RemoveTimer(lifeTimer);
         lifeTimer = TimerManager.CreateTimeOut(lifeTime, () => GameObjectPoolManager.RecycleItem(this));
+
+        if (isPhysicBullet)
+        {
+            this.isPhysicBullet = isPhysicBullet;
+            if (TryGetComponent(out Rigidbody rb)) this.rb = rb;
+            else rb = gameObject.AddComponent<Rigidbody>();
+            rb.velocity = transform.forward * velocity;
+        }
     }
 
-    public virtual void SetVelocity(float velocity)
-    {
-        rb.AddForce(transform.forward * velocity, ForceMode.Impulse);
-        this.velocity = velocity;
-    }
+    #endregion
 
-    protected virtual void Awake()
+    public override void OnGet() { }
+
+    public override void OnRecycle()
     {
-        rb = GetComponent<Rigidbody>();
+        if (lifeTimer != null) TimerManager.RemoveTimer(lifeTimer);
+        lifeTimer = null;
+        if (rb != null) rb.velocity = Vector3.zero;
     }
 
     protected virtual void Update() { }
 
-    // TODO: 依据教程修改子弹的移动方法和碰撞检测方法，使其不依赖于 Unity 的物理系统
-    protected virtual void OnFixedUpdate()
+    protected virtual void FixedUpdate()
     {
-        ColliderDetect();
+        if (!isPhysicBullet) UpdatePosition();
     }
 
+    // Unity 物理检测
     protected virtual void OnCollisionEnter(Collision other)
     {
+        if (!isPhysicBullet) return;
         if (other.collider.TryGetComponent(out IDamageable target))
         {
             target.TakeDamage(damage, DamageType.Bullet, transform.forward);
@@ -69,41 +87,53 @@ public class Bullet : IPoolableObject
         GameObjectPoolManager.RecycleItem(this);
     }
 
-    public override void OnGet()
+    protected virtual void UpdatePosition()
     {
-        lifeTimer = TimerManager.CreateTimeOut(lifeTime, () => GameObjectPoolManager.RecycleItem(this));
-    }
+        var curTime = Time.time - startTime;
+        var preTime = curTime - Time.fixedDeltaTime;
+        // var nextTime = curTime + Time.fixedDeltaTime;
+        var curPoint = CalculatePosition(curTime);
 
-    public override void OnRecycle()
-    {
-        if (lifeTimer != null) TimerManager.RemoveTimer(lifeTimer);
-        lifeTimer = null;
-        rb.velocity = Vector3.one;
-    }
+        transform.position = curPoint;
 
-    /// <summary>
-    /// 调用以监测碰撞, 当检测到物体时调用 OnColliderDetect()
-    /// </summary>
-    protected virtual void ColliderDetect()
-    {
-        if (Physics.SphereCast(transform.position, radius, transform.forward, out RaycastHit hit, 0, damagableLayer))
+        if (preTime > 0)
         {
+            var prePoint = CalculatePosition(preTime);
+            if (ColliderDetect(prePoint, curPoint)) GameObjectPoolManager.RecycleItem(this);
+        }
+
+        // var nextPoint = CalculatePoint(nextTime);
+    }
+
+    public virtual Vector3 CalculatePosition(float time)
+    {
+        // 可以重写该函数实现弹道, 添加风速影响等
+        Vector3 point = startPosition + time * velocity * startDirection;
+        return point;
+    }
+
+    protected virtual bool ColliderDetect(Vector3 prePoint, Vector3 nextPoint)
+    {
+        if (Physics.Linecast(prePoint, nextPoint, out RaycastHit hit, damagableLayer))
+        {
+            OnHit(hit.point, hit.normal, hit.collider.transform);
+            Debug.Log("Hit: " + hit.collider.name);
             if (hit.collider.TryGetComponent(out IDamageable target))
             {
                 target.TakeDamage(damage, DamageType.Bullet, transform.forward);
             }
-
-            OnHit(hit.point, hit.normal);
-            GameObjectPoolManager.RecycleItem(this);
+            return true;
         }
+        return false;
     }
 
-    protected virtual void OnHit(Vector3 point, Vector3 normal)
+    protected virtual void OnHit(Vector3 point, Vector3 normal, Transform parent = null)
     {
         if (decal != null)
         {
-            var obj = Instantiate(decal, point, Quaternion.LookRotation(-normal));
-            obj.transform.localPosition -= normal * 0.01f; // 贴花偏移, 避免重叠时产生闪烁
+            var obj = GameObjectPoolManager.GetItem<IPoolableDecal>(decal, point, Quaternion.LookRotation(-normal));
+            if (parent != null) obj.transform.SetParent(parent);
+            obj.transform.localPosition -= normal * 0.001f; // 贴花偏移, 避免重叠时产生闪烁
         }
 
         if (hitVFX != null)
@@ -113,16 +143,4 @@ public class Bullet : IPoolableObject
             TimerManager.CreateTimeOut(EffectLifeTime, () => GameObjectPoolManager.RecycleItem(obj));
         }
     }
-
-#if UNITY_EDITOR
-    void OnDrawGizmosSelected()
-    {
-        if (radius != 0)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, radius);
-        }
-    }
-#endif
-
 }

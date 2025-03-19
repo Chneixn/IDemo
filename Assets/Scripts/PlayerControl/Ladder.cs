@@ -7,6 +7,8 @@ public class Ladder : MonoBehaviour, IInteractable
 {
     public Action<IInteractable> OnInteractionComplete { get; set; }
 
+    public string InteractionText => throw new NotImplementedException();
+
     //定义梯子的攀爬范围
     [SerializeField] private Transform ladderBottomPos;
     [SerializeField] private float ladderHeight;

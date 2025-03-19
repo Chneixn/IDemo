@@ -24,7 +24,7 @@ namespace System.SceneManagement
             LoadSceneGroup(0).Forget();
         }
 
-        private async UniTaskVoid LoadSceneGroup(int index, bool unloadUnusedAssets = true)
+        public async UniTaskVoid LoadSceneGroup(int index, bool unloadUnusedAssets = true)
         {
             if (index < 0 || index >= sceneGroups.Length)
             {

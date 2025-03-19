@@ -14,9 +14,9 @@ public class Grenade : ExplosionBullet
     int collisions = 0; // 当前碰撞次数
     PhysicMaterial _physicsMaterial;
 
-    protected override void Awake()
+    public override void Initialization(Transform muzzle, float damage, float velocity, float lifeTime = 2f, bool isPhysicBullet = true)
     {
-        base.Awake();
+        base.Initialization(muzzle, damage, velocity, lifeTime, isPhysicBullet);
         // 创建新物理材质，初始化材质设置
         _physicsMaterial = new PhysicMaterial
         {
@@ -46,7 +46,7 @@ public class Grenade : ExplosionBullet
         collisions = 0;
     }
 
-    protected void OnCollisionEnter(Collision other)
+    protected override void OnCollisionEnter(Collision other)
     {
         if (allowCollisionsToExplode)
         {

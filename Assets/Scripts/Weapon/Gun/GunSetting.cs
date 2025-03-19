@@ -37,22 +37,18 @@ public class GunSetting : ScriptableObject
     [Tooltip("单次射击弹丸数")]
     public int bulletsPerTap;           // 单次射击弹丸数
 
+    [Header("BulletParameter子弹参数")]
     public bool fireIsHit;
+    public ItemData bulletData;
+    public Bullet bulletPrefab;
+    [Tooltip("子弹初速")]
+    public float shootVelocity;
+    [Tooltip("是否为追踪子弹(不可与霰弹枪功能同用)")]
+    public bool isTraceableBullet;
+
     [Header("动画延迟")]
     [Tooltip("拿起武器的时间")]
     public float timeToDraw;
     [Tooltip("收起武器的时间")]
     public float timeToHolster;
-
-    [Header("BulletParameter子弹参数")]
-    public ItemData bulletData;
-
-    [Tooltip("正常射击时是否需要实例化子弹")]
-    public bool needInstantiate;
-
-    [Tooltip("子弹初速")]
-    public float shootVelocity;
-
-    [Tooltip("是否为追踪子弹(不可与霰弹枪功能同用)")]
-    public bool isTraceableBullet;
 }

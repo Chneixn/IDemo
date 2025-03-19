@@ -7,9 +7,8 @@ using UnityEngine;
 
 public class ITarget : MonoBehaviour, IDamageable
 {
-    public float downDuraction = 1f;
+    public float downDuraction = 0.5f;
     public float upDuraction = 1f;
-    public float cd = 2f;
     public Transform model;
 
     [SerializeField] private bool isDowned = false;
@@ -18,8 +17,6 @@ public class ITarget : MonoBehaviour, IDamageable
     public AudioClip s_up;
 
     private new AudioSource audio;
-
-    private CancellationTokenSource cancelRecovery;
     private const float DELTA = 0.02f;
 
     public virtual void OnTakeDamage(float damage) => TryDown();
@@ -36,12 +33,6 @@ public class ITarget : MonoBehaviour, IDamageable
     {
         if (audio == null) audio = GetComponent<AudioSource>();
         if (isDowned) return;
-        if (cancelRecovery != null)
-        {
-            cancelRecovery.Cancel();
-            cancelRecovery.Dispose();
-        }
-        cancelRecovery = new CancellationTokenSource();
         Down().Forget();
     }
 
@@ -55,17 +46,14 @@ public class ITarget : MonoBehaviour, IDamageable
         {
             model.Rotate(new Vector3(delta, 0, 0));
             timer += DELTA;
-            Debug.Log(model.transform.localEulerAngles.x);
+            if (model.localEulerAngles.x < -90) break;
+            // Debug.Log(model.transform.localEulerAngles.x);
             await UniTask.WaitForSeconds(DELTA);
         }
-
-        await UniTask.WaitForSeconds(cd);
-
-        isDowned = false;
-        Recovery(cancelRecovery.Token).Forget();
+        Recovery().Forget();
     }
 
-    private async UniTask Recovery(CancellationToken cancelToken)
+    private async UniTask Recovery()
     {
         audio.PlayOneShot(s_up);
         float delta = 90f * DELTA / upDuraction;
@@ -74,8 +62,10 @@ public class ITarget : MonoBehaviour, IDamageable
         {
             model.Rotate(new Vector3(delta, 0, 0));
             timer += DELTA;
-            Debug.Log(model.transform.localEulerAngles.x);
-            await UniTask.WaitForSeconds(DELTA, cancellationToken: cancelToken);
+            // Debug.Log(model.transform.localEulerAngles.x);
+            await UniTask.WaitForSeconds(DELTA);
         }
+        model.localEulerAngles = Vector3.zero;
+        isDowned = false;
     }
 }

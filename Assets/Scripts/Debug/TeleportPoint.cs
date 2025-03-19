@@ -8,6 +8,8 @@ public class TeleportPoint : MonoBehaviour, IInteractable
 
     public Action<IInteractable> OnInteractionComplete { get; set; }
 
+    public string InteractionText => "交互以传送";
+
     public void EndInteraction()
     {
         OnInteractionComplete?.Invoke(this);

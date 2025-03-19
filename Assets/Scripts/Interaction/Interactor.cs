@@ -1,3 +1,4 @@
+using System;
 using Unity.Collections;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ public struct InteractionInput
 public class Interactor : MonoBehaviour
 {
     public Camera UsingCam;
+
+    public Action<IInteractable> OnHoverEnter;
+    public Action<IInteractable> OnHoverExit;
 
     [Header("交互设置")]
     [SerializeField] private float interactionRange = 3f;
@@ -47,8 +51,9 @@ public class Interactor : MonoBehaviour
                 {
                     if (interactingObject != null)
                     {
-                        interactingObject?.OnHoverExit(this);
-                        Debug.Log("物体: " + lastObject + " 失去焦点");
+                        interactingObject.OnHoverExit(this);
+                        OnHoverExit?.Invoke(interactingObject);
+                        if (Log) Debug.Log("物体: " + lastObject + " 失去焦点");
                     }
                     interactingObject = interactable;
                     interactable.OnHoverEnter(this);
@@ -70,8 +75,9 @@ public class Interactor : MonoBehaviour
         {
             if (interactingObject != null)
             {
-                interactingObject?.OnHoverExit(this);
-                Debug.Log("物体: " + lastObject + " 失去焦点");
+                interactingObject.OnHoverExit(this);
+                OnHoverExit?.Invoke(interactingObject);
+                if (Log) Debug.Log("物体: " + lastObject + " 失去焦点");
                 interactingObject = null;
             }
         }

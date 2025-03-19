@@ -8,16 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Bootstrapper.unity
     guid: 989dc3c97f440fc4e89b61e74ed3a3ff
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Player.unity
     guid: 3fd433cfbc1788a43a9977fc602a4da1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu_Env.unity
     guid: 51e900be28f66d94d8393ce679289807
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ClimbTest_Map.unity
     guid: 8dacf06c730675847b9e00f0510b79f1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FPS_Map.unity
     guid: 5df9e3bba8a01e744a8686e6f1314498
   m_configObjects:

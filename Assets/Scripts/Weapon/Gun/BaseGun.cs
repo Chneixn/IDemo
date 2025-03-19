@@ -72,12 +72,6 @@ public class Gun : IWeapon
         holder.playerStorage.OnStorageUpdated += UpdateBulletCount;
         UpdateBulletCount();
         OnEnableWeapon?.Invoke();
-        if (set.autoReloadWhenEmpty && currentBulletsCount == 0)
-        {
-            // 在换起武器时，若当前弹匣为空，自动尝试换弹匣
-            readyToReload = true;
-            Reload();
-        }
         DelayEnableInput(set.timeToDraw);
         return true;
     }
@@ -95,6 +89,7 @@ public class Gun : IWeapon
     public override void HandleInput(ref WeaponInput inputs)
     {
         if (!readyToInput) return;
+        if (set.autoReloadWhenEmpty && currentBulletsCount == 0) Reload();
         if (inputs.reload) Reload();
         else if (inputs.fire)
         {
@@ -120,7 +115,6 @@ public class Gun : IWeapon
                     break;
             }
         }
-        else if (!inputs.fire) triggerPressed = false;
         else if (inputs.aim)
         {
             AimStart();
@@ -130,6 +124,8 @@ public class Gun : IWeapon
             AimEnd();
         }
         else if (inputs.switchFireMod) ChangeFireMode();
+
+        if (!inputs.fire) triggerPressed = false;
     }
 
     protected virtual IEnumerator BrustShoot()
@@ -217,8 +213,7 @@ public class Gun : IWeapon
                 }
             }
         }
-
-        if (set.needInstantiate) InstantiateBullet(ray.direction);
+        else InstantiateBullet(ray.direction);
 
         // 霰弹枪功能, 同一帧内多发弹丸
         if (set.isShotgun && bulletsShotted < set.bulletsPerTap)
@@ -260,13 +255,12 @@ public class Gun : IWeapon
         return new Vector2(x, y);
     }
 
-    protected virtual GameObject InstantiateBullet(Vector3 direction)
+    protected virtual void InstantiateBullet(Vector3 direction)
     {
-        if (set.bulletData.prefab == null) return null;
+        if (set.bulletPrefab == null) return;
 
-        var bullet = GameObjectPoolManager.GetItem<Bullet>(set.bulletData.prefab.GetComponent<Bullet>(), muzzlePoint.position, muzzlePoint.rotation);
-        bullet.SetVelocity(set.shootVelocity);
-        return bullet.gameObject;
+        var bullet = GameObjectPoolManager.GetItem<Bullet>(set.bulletPrefab, muzzlePoint.position, muzzlePoint.rotation);
+        bullet.Initialization(muzzlePoint, set.weaponDamage, set.shootVelocity);
     }
 
     #endregion
@@ -275,8 +269,7 @@ public class Gun : IWeapon
 
     protected virtual void Reload()
     {
-        if (!readyToReload || totalBulletsLeft <= 0) return;
-        else if (currentBulletsCount >= set.defaultMagazineSize) return;
+        if (!readyToReload || totalBulletsLeft <= 0 || currentBulletsCount >= set.defaultMagazineSize) return;
 
         readyToReload = false;
         readyToShoot = false;

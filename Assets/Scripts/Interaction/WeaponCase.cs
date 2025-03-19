@@ -11,6 +11,14 @@ public class WeaponCase : MonoBehaviour, IInteractable
 
     public Action<IInteractable> OnInteractionComplete { get; set; }
 
+    public string InteractionText
+    {
+        get
+        {
+            if (isOpen) return "关闭武器箱";
+            else return "打开武器箱";
+        }
+    }
     [SerializeField] private Animator animator;
     [SerializeField] private float animationTime = 0.15f;
     [SerializeField] private bool isAnimating = false;

@@ -12,7 +12,7 @@ namespace UnityGameObjectPool
         private const int DefaultPoolSize = 50;
         private const int DefaultPoolMaxSize = 500;
 
-        private static GameObjectPool CreatPool(GameObject itemPrefab, string itemName, int initialPoolSize = DefaultPoolSize, int maxPoolSize = DefaultPoolMaxSize)
+        private static GameObjectPool CreatPool(IPoolableObject itemPrefab, string itemName, int initialPoolSize = DefaultPoolSize, int maxPoolSize = DefaultPoolMaxSize)
         {
             var pool = new GameObjectPool(itemPrefab, initialPoolSize, maxPoolSize);
             _pools.Add(itemName, pool);
@@ -29,8 +29,7 @@ namespace UnityGameObjectPool
         /// <returns></returns>
         public static T GetItem<T>(IPoolableObject poolObject, Vector3 position, Quaternion rotation) where T : IPoolableObject
         {
-            GameObject obj = poolObject.gameObject;
-            string name = obj.name + "(Clone)";
+            string name = poolObject.name + "(Clone)";
             T result;
             if (_pools.TryGetValue(name, out GameObjectPool pool))
             {
@@ -38,7 +37,7 @@ namespace UnityGameObjectPool
             }
             else
             {
-                result = CreatPool(obj, name, 0, 500).Get().GetComponent<T>();
+                result = CreatPool(poolObject, name, 0, 500).Get().GetComponent<T>();
             }
             result.transform.SetPositionAndRotation(position, rotation);
             result.gameObject.SetActiveSafe(true);
@@ -53,7 +52,7 @@ namespace UnityGameObjectPool
 
             if (_pools.TryGetValue(item.name, out var pool))
             {
-                if (pool.Recycle(item.gameObject))
+                if (pool.Recycle(item))
                 {
                     item.OnRecycle();
                     return true;
@@ -61,7 +60,7 @@ namespace UnityGameObjectPool
             }
             else
             {
-                CreatPool(item.gameObject, item.name, 0, 500);
+                CreatPool(item, item.name, 0, 500);
                 RecycleItem(item);
             }
             return false;

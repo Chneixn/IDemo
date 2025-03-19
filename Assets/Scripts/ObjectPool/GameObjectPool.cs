@@ -9,36 +9,38 @@ namespace UnityGameObjectPool
     public class GameObjectPool
     {
         // Object 预制体
-        public GameObject ItemPrefab;
+        public IPoolableObject ItemPrefab;
         public int InitialPoolSize = 0;
         public readonly int MaxPoolSize = 500;
         private int _curCount = 0;
         // 空闲的 Object
-        private readonly Stack<GameObject> objects;
+        private readonly Stack<IPoolableObject> objects;
 
-        public GameObjectPool(GameObject itemPrefab, int initialPoolSize = 0, int maxPoolSize = 500)
+        public GameObjectPool(IPoolableObject itemPrefab, int initialPoolSize = 0, int maxPoolSize = 500)
         {
             ItemPrefab = itemPrefab;
             MaxPoolSize = maxPoolSize;
             InitialPoolSize = initialPoolSize;
-            objects = new Stack<GameObject>(MaxPoolSize);
+            objects = new Stack<IPoolableObject>(MaxPoolSize);
             _curCount = initialPoolSize;
             for (int i = 0; i < InitialPoolSize; i++)
             {
-                GameObject obj = UnityEngine.Object.Instantiate(itemPrefab);
-                if (obj != null)
-                    objects.Push(obj);
+                var obj = UnityEngine.Object.Instantiate(itemPrefab);
+                obj.gameObject.SetActiveSafe(false);
+                objects.Push(obj);
             }
+            // Debug.Log("生成: " + itemPrefab.name + " 对象池, 池内对象数量为: " + _curCount);
         }
 
-        public GameObject Get()
+        public IPoolableObject Get()
         {
-            GameObject item = objects.Count == 0 ? CreateObject() : objects.Pop();
-            if (item.transform.parent != null) item.transform.parent = null;
+            IPoolableObject item = objects.Count == 0 ? CreateObject() : objects.Pop();
+            // if (item == null) Debug.Log("获取对象: " + item.name + "对象为空");
+            // else Debug.Log("获取对象: " + item.name);
             return item;
         }
 
-        private GameObject CreateObject()
+        private IPoolableObject CreateObject()
         {
             if (_curCount >= MaxPoolSize) return default;
             var obj = UnityEngine.Object.Instantiate(ItemPrefab);
@@ -51,12 +53,13 @@ namespace UnityGameObjectPool
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool Recycle(GameObject item)
+        public bool Recycle(IPoolableObject item)
         {
             if (item == null) return false;
             else if (!objects.Contains(item))
             {
-                item.SetActiveSafe(false);
+                if (item.transform.parent != null) item.transform.parent = null;
+                item.gameObject.SetActiveSafe(false);
                 objects.Push(item); // 当stack已满，会自动扩容，每次添加都会是O(n)操作
                 return true;
             }
