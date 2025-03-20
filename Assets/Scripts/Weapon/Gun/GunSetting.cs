@@ -38,7 +38,7 @@ public class GunSetting : ScriptableObject
     public int bulletsPerTap;           // 单次射击弹丸数
 
     [Header("BulletParameter子弹参数")]
-    public bool fireIsHit;
+    public bool hitscan;
     public ItemData bulletData;
     public Bullet bulletPrefab;
     [Tooltip("子弹初速")]

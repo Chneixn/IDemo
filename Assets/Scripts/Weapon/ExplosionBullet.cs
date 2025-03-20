@@ -21,9 +21,9 @@ public class ExplosionBullet : Bullet
 
     private Collider[] damagables;
 
-    public override void Initialization(Transform muzzle, float damage, float velocity, float lifeTime = 2f, bool isPhysicBullet = false)
+    public override void Initialization(float damage, float velocity, float lifeTime = 2f, bool isPhysicBullet = false)
     {
-        base.Initialization(muzzle, damage, velocity, lifeTime, isPhysicBullet);
+        base.Initialization(damage, velocity, lifeTime, isPhysicBullet);
         audioSource = GetComponent<AudioSource>();
         damagables = new Collider[damagableLimit];
 

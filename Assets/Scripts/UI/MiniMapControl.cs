@@ -1,51 +1,44 @@
 using UnityEngine;
 using UnityUtils;
 
-public class MiniMapControl : MonoBehaviour
+
+namespace UISystem
 {
-    [SerializeField] private Transform mapCam;
-    [SerializeField] private Transform characterMark;
-    [SerializeField] private Transform playerPos;
-    [SerializeField] private GameObject miniMapUI;
-    public bool enableMiniMap;
-
-    private void Awake()
+    public class MiniMapControl : IUIView
     {
-        miniMapUI = GameObject.Find("MiniMapUI");
-        if (enableMiniMap && miniMapUI != null)
-        {
-            miniMapUI.SetActiveSafe(true);
-        }
-        else
-        {
-            Debug.LogError("MiniMapUI missing!");
-        }
-    }
+        [SerializeField] private Transform mapCam;
+        [SerializeField] private Transform characterMark;
+        [SerializeField] private Transform playerPos;
+        public bool enableMiniMap;
 
-    private void LateUpdate()
-    {
-        // 角色标记与小地图摄像机在世界坐标中与角色位置同步
-        if (enableMiniMap)
+        private void LateUpdate()
         {
-            if (playerPos != null)
+            // 角色标记与小地图摄像机在世界坐标中与角色位置同步
+            if (!enableMiniMap) return;
+
+            mapCam.position = new Vector3(playerPos.position.x, mapCam.position.y, playerPos.position.z);
+            characterMark.position = new Vector3(playerPos.position.x, characterMark.position.y, playerPos.position.z);
+            
+            Vector3 direction = Vector3.ProjectOnPlane(playerPos.forward, Vector3.up);
+            characterMark.forward = direction;
+        }
+
+        public override void OnInit()
+        {
+            if (!enableMiniMap)
             {
-                Vector3 _direction = Vector3.ProjectOnPlane(playerPos.forward, Vector3.up);
-                if (mapCam != null)
-                {
-                    mapCam.position = new Vector3(playerPos.position.x, mapCam.position.y, playerPos.position.z);
-                }
-                else
-                    Debug.LogError("mapCam missing!");
-                if (characterMark != null)
-                {
-                    characterMark.position = new Vector3(playerPos.position.x, characterMark.position.y, playerPos.position.z);
-                    characterMark.forward = _direction;
-                }
-                else
-                    Debug.LogError("characterMark missing!");
+                gameObject.SetActiveSafe(false);
             }
-            else
-                Debug.LogError("playerPos missing!");
+        }
+
+        public override void OnOpen()
+        {
+            gameObject.SetActiveSafe(true);
+        }
+
+        public override void OnClose()
+        {
+            gameObject.SetActiveSafe(false);
         }
     }
 }

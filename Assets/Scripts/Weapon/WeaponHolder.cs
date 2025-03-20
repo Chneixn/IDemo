@@ -54,14 +54,9 @@ public class WeaponHolder : MonoBehaviour
     private Camera cam;
     public Camera Cam => cam;
 
-    private void Awake()
-    {
-        if (cam == null)
-            cam = GetComponentInChildren<Camera>();
-    }
-
     void Start()
     {
+        if (cam == null) cam = GetComponentInChildren<Camera>();
         playerStorage = PlayerManager.Instance.PlayerInventory.Storage;
         IWeapon[] list = GetComponentsInChildren<IWeapon>();
         foreach (IWeapon i in list)

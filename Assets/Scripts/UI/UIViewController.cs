@@ -8,7 +8,7 @@ namespace UISystem
     {
         public int Index;
         public UILayer UILayer;
-        protected Stack<IUIView> UIViews;
+        protected Stack<IUIView> UIViews = new();
 
         public virtual void OnLoad() { }
 
@@ -24,12 +24,12 @@ namespace UISystem
             UIViews.Push(view);
             view.OnInit();
         }
-        
+
         public virtual void RemoveView()
         {
             if (UIViews.Count > 0)
                 UIViews.Pop();
-            else UIManager.Instance.PopUI();
+            else UIManager.Instance.PopUI(this);
         }
 
         public void SetVisible(bool visible)

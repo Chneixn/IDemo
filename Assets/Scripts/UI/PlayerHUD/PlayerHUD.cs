@@ -1,25 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace UISystem
 {
     public class PlayerHUD : UIViewController
     {
+        public PlayerStateBar playerStateBar;
+        public InteractionInfo interactionInfo;
+        public MiniMapControl miniMap;
+        public CrossHair crossHair;
+
         public override void OnLoad()
         {
-            Addressables.LoadAssetAsync<PlayerStateBar>("PlayerStateBar").Completed += (handle) =>
-            {
-                if (handle.IsDone) AddView(Instantiate(handle.Result, transform));
-                handle.Release();
-            };
+            playerStateBar.OnInit();
+            interactionInfo.OnInit();
+            miniMap.OnInit();
+            crossHair.OnInit();
+        }
 
-            Addressables.LoadAssetAsync<InteractionInfo>("InteractionInfo").Completed += (handle) =>
-            {
-                if (handle.IsDone) AddView(Instantiate(handle.Result, transform));
-                handle.Release();
-            };
+        public override void OnOpen()
+        {
+            playerStateBar.OnOpen();
+            interactionInfo.OnOpen();
+            miniMap.OnOpen();
+            crossHair.OnOpen();
         }
     }
 }

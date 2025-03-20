@@ -9,12 +9,12 @@ public class GunVFX : MonoBehaviour
     private Gun gun;
 
     [Header("GunVFX视觉效果")]
-    public ParticleSystem muzzleFlash;
+    public IPoolableParticleSystem muzzleVFX;
     public Light flashLight;
-    public float flashLightTime = 0.5f;
+    public float flashLightTime = 0.1f;
     public IPoolableParticleSystem hitParticle;
     public float hitParticleTime = 3f;
-    public GameObject bulletHolePrefab;
+    public IPoolableDecal bulletHolePrefab;
 
     public void Start()
     {
@@ -48,7 +48,7 @@ public class GunVFX : MonoBehaviour
 
     private void OnShot(bool isEmpty)
     {
-        if (muzzleFlash != null) muzzleFlash.Play();
+        if (muzzleVFX != null) muzzleVFX.particle.Play();
         if (flashLight != null)
         {
             flashLight.enabled = true;

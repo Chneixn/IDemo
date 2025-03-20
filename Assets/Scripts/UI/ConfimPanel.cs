@@ -30,8 +30,8 @@ namespace UISystem
             descriptionGUI.text = description;
             confimGUI.text = confimText;
             cancelGUI.text = cancelText;
-            confimButton.onClick.AddListener(() => { UIManager.Instance.PopUI(); OnConfim?.Invoke(); });
-            cancelButton.onClick.AddListener(() => { UIManager.Instance.PopUI(); OnCancel?.Invoke(); });
+            confimButton.onClick.AddListener(() => { UIManager.Instance.PopUI(this); OnConfim?.Invoke(); });
+            cancelButton.onClick.AddListener(() => { UIManager.Instance.PopUI(this); OnCancel?.Invoke(); });
         }
 
         public override void OnClose()

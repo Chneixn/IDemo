@@ -201,7 +201,7 @@ public class Gun : IWeapon
             ray.direction = (_targetPoint - ray.origin).normalized;
         }
 
-        if (set.fireIsHit)
+        if (set.hitscan)
         {
             if (Physics.Raycast(ray, out RaycastHit _hitInfo, set.weaponRange))
             {
@@ -259,8 +259,8 @@ public class Gun : IWeapon
     {
         if (set.bulletPrefab == null) return;
 
-        var bullet = GameObjectPoolManager.GetItem<Bullet>(set.bulletPrefab, muzzlePoint.position, muzzlePoint.rotation);
-        bullet.Initialization(muzzlePoint, set.weaponDamage, set.shootVelocity);
+        var bullet = GameObjectPoolManager.GetItem<Bullet>(set.bulletPrefab, muzzlePoint.position, Quaternion.LookRotation(direction));
+        bullet.Initialization(set.weaponDamage, set.shootVelocity);
     }
 
     #endregion

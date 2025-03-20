@@ -21,34 +21,35 @@ namespace UISystem
 
     public class UIManager : PersistentSingleton<UIManager>
     {
-        public Stack<UIViewController> openedViews = new();
+        public List<UIViewController> openedViews = new();
 
         public ConfimPanel confimPanel;
 
         void Start()
         {
-            Addressables.LoadAssetAsync<ConfimPanel>("ConfimPanel").Completed += (handle) =>
+            Addressables.LoadAssetAsync<GameObject>("ConfimPanel").Completed += (handle) =>
             {
-                confimPanel = Instantiate(handle.Result);
+                confimPanel = Instantiate(handle.Result).GetComponent<ConfimPanel>();
                 confimPanel.gameObject.SetActive(false);
+                handle.Release();
             };
         }
 
         public void PushUI(UIViewController controller)
         {
-            openedViews.Push(controller);
+            openedViews.Add(controller);
             controller.Index = openedViews.Count - 1;
             controller.OnLoad();
             controller.OnOpen();
             controller.SetVisible(true);
         }
 
-        public int PopUI()
+        public int PopUI(UIViewController controller)
         {
-            var control = openedViews.Pop();
-            control.OnClose();
-            control.SetVisible(false);
-            return control.Index;
+            openedViews.Remove(controller);
+            controller.OnClose();
+            controller.SetVisible(false);
+            return controller.Index;
         }
 
         public void LockCursor(bool isLock)

@@ -68,7 +68,7 @@ public class Grenadier : IWeapon
         if (grenade_used_prefab != null && spawnPoint != null)
         {
             Grenade grenade = GameObjectPoolManager.GetItem<Grenade>(grenade_used_prefab, spawnPoint.position, spawnPoint.rotation);
-            grenade.Initialization(spawnPoint, grenade.Damage, 0, grenade.LifeTime);
+            grenade.Initialization(grenade.Damage, 0, grenade.LifeTime);
             grenade.GetComponent<Rigidbody>().AddForce(spawnPoint.transform.forward * throwForce, ForceMode.Impulse);
         }
         holder.SwitchLastWeapon();

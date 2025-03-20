@@ -18,7 +18,7 @@ public class Bullet : IPoolableObject
 
     [SerializeField] protected LayerMask damagableLayer;
 
-    public bool isPhysicBullet = false;
+    public bool isProjectile = false;
     protected Rigidbody rb;
     protected Timer lifeTimer;
 
@@ -33,9 +33,8 @@ public class Bullet : IPoolableObject
     [SerializeField] protected float EffectLifeTime = 3f;
 
     #region Init
-    public virtual void Initialization(Transform muzzle, float damage, float velocity, float lifeTime = 2f, bool isPhysicBullet = false)
+    public virtual void Initialization(float damage, float velocity, float lifeTime = 2f, bool isProjectile = false)
     {
-        transform.SetPositionAndRotation(muzzle.position, muzzle.rotation);
         startTime = Time.time;
         startPosition = transform.position;
         startDirection = transform.forward;
@@ -47,9 +46,9 @@ public class Bullet : IPoolableObject
             TimerManager.RemoveTimer(lifeTimer);
         lifeTimer = TimerManager.CreateTimeOut(lifeTime, () => GameObjectPoolManager.RecycleItem(this));
 
-        if (isPhysicBullet)
+        if (isProjectile)
         {
-            this.isPhysicBullet = isPhysicBullet;
+            this.isProjectile = isProjectile;
             if (TryGetComponent(out Rigidbody rb)) this.rb = rb;
             else rb = gameObject.AddComponent<Rigidbody>();
             rb.velocity = transform.forward * velocity;
@@ -71,13 +70,13 @@ public class Bullet : IPoolableObject
 
     protected virtual void FixedUpdate()
     {
-        if (!isPhysicBullet) UpdatePosition();
+        if (!isProjectile) UpdatePosition();
     }
 
     // Unity 物理检测
     protected virtual void OnCollisionEnter(Collision other)
     {
-        if (!isPhysicBullet) return;
+        if (!isProjectile) return;
         if (other.collider.TryGetComponent(out IDamageable target))
         {
             target.TakeDamage(damage, DamageType.Bullet, transform.forward);
@@ -142,5 +141,7 @@ public class Bullet : IPoolableObject
             obj.particle.Play();
             TimerManager.CreateTimeOut(EffectLifeTime, () => GameObjectPoolManager.RecycleItem(obj));
         }
+
+        PlayerManager.Instance.playerHUD.crossHair.OnHit();
     }
 }

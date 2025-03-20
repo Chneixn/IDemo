@@ -2,6 +2,7 @@ using DRockInputBridge;
 using UnityEngine;
 using InventorySystem;
 using System;
+using UISystem;
 
 [DisallowMultipleComponent]
 public class PlayerManager : SameSceneSingleMono<PlayerManager>
@@ -22,6 +23,14 @@ public class PlayerManager : SameSceneSingleMono<PlayerManager>
     public ItemDatabase ItemDatabase;
 
     #endregion
+
+    [Header("UI")]
+    public PlayerHUD playerHUD;
+
+    void Start()
+    {
+        if (playerHUD != null) UIManager.Instance.PushUI(playerHUD);
+    }
 
     public void SetGamePasue(bool pause)
     {
