@@ -4,6 +4,7 @@ using System;
 using Random = UnityEngine.Random;
 using UnityGameObjectPool;
 using System.Collections;
+using Core.Attributes;
 
 public enum GunFireMode
 {
@@ -14,7 +15,7 @@ public enum GunFireMode
 
 public class Gun : IWeapon
 {
-    [SerializeField] protected GunSetting set;
+    [SerializeField, CreateEditableAsset] protected GunSetting set;
     public GunSetting Setting => set;
 
     [SerializeField, ReadOnly] protected int totalBulletsLeft = 0;        // 背包中剩余弹药数

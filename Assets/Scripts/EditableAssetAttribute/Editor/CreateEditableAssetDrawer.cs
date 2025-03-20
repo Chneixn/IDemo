@@ -17,6 +17,7 @@ namespace Core.Attributes.Drawers
         private Editor cachedEditor;
 
         // Static variable to store the last directory path
+        // 静态变量用于存储上次的目录路径
         private static string lastSavePath = "Assets";
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -28,6 +29,7 @@ namespace Core.Attributes.Drawers
             }
 
             // Retrieve the CreateEditableAsset attribute to check for the _AddLabel property
+            // 获取 CreateEditableAsset 属性以检查 _AddLabel 属性
             var createEditableAsset = (CreateEditableAsset)attribute;
 
             float spacing = 5f;
@@ -43,13 +45,16 @@ namespace Core.Attributes.Drawers
             DrawEditButton(quickEditRect, property);
 
             // Draw Object Field to assign or view the ScriptableObject
+            // 绘制 Object Field 以分配或查看 ScriptableObject
             GUIContent objectFieldLabel = createEditableAsset.AddLabel ? label : GUIContent.none;
             EditorGUIUtility.labelWidth = createEditableAsset.SetWidth; // Set the label width only once
 
             // Draw the Object Field with proper label handling
+            // 绘制 Object Field 并正确处理标签
             ObjectField(objectFieldRect, property, objectFieldLabel);
 
             // Reset label width back to default (optional, but good practice)
+            // 将标签宽度重置为默认值（可选，但建议这样做）
             EditorGUIUtility.labelWidth = 0;
 
             // Draw the New and Clone buttons
@@ -68,7 +73,7 @@ namespace Core.Attributes.Drawers
                 quickEdit = GUI.Toggle(position, quickEdit, EditorGUIUtility.IconContent("editicon.sml"), EditorStyles.miniButton);
                 if (quickEdit && property.objectReferenceValue != null)
                 {
-
+                    // The most amazing part.
                     Editor.CreateCachedEditor(property.objectReferenceValue, null, ref cachedEditor);
                     EditorGUILayout.BeginVertical(new GUIStyle(EditorStyles.helpBox));
                     cachedEditor.OnInspectorGUI();
