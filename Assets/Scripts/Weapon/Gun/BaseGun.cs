@@ -4,7 +4,7 @@ using System;
 using Random = UnityEngine.Random;
 using UnityGameObjectPool;
 using System.Collections;
-using Core.Attributes;
+using UnityUtils;
 
 public enum GunFireMode
 {

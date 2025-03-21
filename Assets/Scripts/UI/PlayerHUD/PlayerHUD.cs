@@ -6,6 +6,7 @@ namespace UISystem
 {
     public class PlayerHUD : UIViewController
     {
+        public WeaponInfo weaponInfo;
         public PlayerStateBar playerStateBar;
         public InteractionInfo interactionInfo;
         public MiniMapControl miniMap;
@@ -13,6 +14,7 @@ namespace UISystem
 
         public override void OnLoad()
         {
+            weaponInfo.OnInit();
             playerStateBar.OnInit();
             interactionInfo.OnInit();
             miniMap.OnInit();
@@ -21,6 +23,7 @@ namespace UISystem
 
         public override void OnOpen()
         {
+            weaponInfo.OnOpen();
             playerStateBar.OnOpen();
             interactionInfo.OnOpen();
             miniMap.OnOpen();

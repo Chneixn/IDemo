@@ -9,9 +9,6 @@ public class PlayerManager : SameSceneSingleMono<PlayerManager>
 {
     public int PlayerIndex = 0;
 
-    [SerializeField] private bool _gamePause;
-    public Action<bool> OnGamePause;
-
     #region 玩家常用属性
     public CharacterControl CharacterControl;
     public CameraController PlayerCam;
@@ -29,17 +26,18 @@ public class PlayerManager : SameSceneSingleMono<PlayerManager>
 
     void Start()
     {
-        if (playerHUD != null) UIManager.Instance.PushUI(playerHUD);
+        UIManager.Instance.PushUI(playerHUD);
+        EnablePlayerInput(true);
     }
 
-    public void SetGamePasue(bool pause)
+    public void EnablePlayerInput(bool enable)
     {
-        _gamePause = pause;
-        OnGamePause?.Invoke(pause);
-    }
-
-    private void OnApplicationPause(bool pauseStatus)
-    {
-        OnGamePause?.Invoke(pauseStatus);
+        if (enable) InputManager.Instance.Push(PlayerInput);
+        else if (InputManager.Instance.FSM.CurrentReceiver != PlayerInput as IInputReceiver)
+        {
+            Debug.LogError("Pop PlayerInput Failed! Current Receiver is not PlayerInput!");
+            return;
+        }
+        InputManager.Instance.Pop();
     }
 }

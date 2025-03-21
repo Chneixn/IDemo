@@ -12,7 +12,7 @@ public class TestPlayerScene : MonoBehaviour
     void Start()
     {
         manager = PlayerManager.Instance;
-        InputManager.Instance.Push(manager.PlayerInput);
+        
 
     }
 

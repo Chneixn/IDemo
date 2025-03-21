@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,44 +8,35 @@ namespace UISystem
 {
     public class PlayerStateBar : IUIView
     {
-        [Header("HealthBar")]
-        [SerializeField] private TextMeshProUGUI healthText;
-        [SerializeField] private Slider healthSlider;
+        [Header("Health Bar")]
+        [SerializeField] private Image hpFill;
+        [SerializeField] private Image hpFillDelay;
         [SerializeField] private float hp;
-        [SerializeField] private float healthDelay;
+        [SerializeField, Range(0f, 1f)] private float changSpeed;
 
-        [Space]
-        [Range(0f, 1f)]
-        [SerializeField] private float changSpeed;
-
-        public void UpdateView()
+        public void UpdateHPBar()
         {
-            if (healthDelay > hp)
-            {
-                healthDelay -= changSpeed;
-                healthText.SetText(string.Format("HP {0}", Mathf.CeilToInt(healthDelay)));
-                healthSlider.value = healthDelay / 100;
-            }
+            hpFill.fillAmount = hp;
+            StopAllCoroutines();
+            StartCoroutine(HealthDelay());
+        }
 
-            if (healthDelay < hp)
+        private IEnumerator HealthDelay()
+        {
+            while (hpFillDelay.fillAmount != hpFill.fillAmount)
             {
-                healthDelay += changSpeed;
-                healthText.SetText(string.Format("HP {0}", Mathf.CeilToInt(healthDelay)));
-                healthSlider.value = healthDelay / 100;
-            }
-
-            if (hp == 0)
-            {
-                healthText.SetText(string.Format("HP {0}", hp));
-                healthSlider.value = 0;
+                // 血少了
+                if (hpFillDelay.fillAmount - hpFill.fillAmount > 0) hpFillDelay.fillAmount -= changSpeed * 0.01f;
+                else hpFillDelay.fillAmount = hpFill.fillAmount;
+                yield return new WaitForSeconds(Time.deltaTime);
             }
         }
 
         public override void OnInit()
         {
-            healthDelay = 100;
-            healthSlider.value = 1.0f;
-            healthText.SetText(string.Format("HP {0}", Mathf.CeilToInt(healthDelay)));
+            hp = 100f;
+            hpFill.fillAmount = 1f;
+            hpFillDelay.fillAmount = 1f;
         }
 
         public override void OnOpen()

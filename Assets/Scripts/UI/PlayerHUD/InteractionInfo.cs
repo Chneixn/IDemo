@@ -8,6 +8,7 @@ namespace UISystem
 {
     public class InteractionInfo : IUIView
     {
+        public string InfoDefaultText = "按 \"E\" 交互";
         public string InfoText;
         public TextMeshProUGUI textGUI;
 
@@ -20,7 +21,7 @@ namespace UISystem
 
         private void OnHoverExit(IInteractable interactable)
         {
-            InfoText = "按 \"E\" 拿起";
+            InfoText = InfoDefaultText;
             gameObject.SetActive(false);
         }
 

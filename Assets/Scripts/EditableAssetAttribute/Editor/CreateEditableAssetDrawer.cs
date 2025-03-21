@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEditor.EditorGUI;
 
-namespace Core.Attributes.Drawers
+namespace UnityUtils.Drawers
 {
     /// <summary>
     /// Custom Property Drawer for <see cref="CreateEditableAsset"/> attribute, allowing users to quickly create and clone ScriptableObjects.

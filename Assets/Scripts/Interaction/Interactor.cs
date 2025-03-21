@@ -49,12 +49,7 @@ public class Interactor : MonoBehaviour
             {
                 if (interactingObject != interactable)
                 {
-                    if (interactingObject != null)
-                    {
-                        interactingObject.OnHoverExit(this);
-                        OnHoverExit?.Invoke(interactingObject);
-                        if (Log) Debug.Log("物体: " + lastObject + " 失去焦点");
-                    }
+                    HoverExited();
                     interactingObject = interactable;
                     interactable.OnHoverEnter(this);
                     if (Log)
@@ -71,15 +66,17 @@ public class Interactor : MonoBehaviour
                 }
             }
         }
-        else
+        else HoverExited();
+    }
+
+    private void HoverExited()
+    {
+        if (interactingObject != null)
         {
-            if (interactingObject != null)
-            {
-                interactingObject.OnHoverExit(this);
-                OnHoverExit?.Invoke(interactingObject);
-                if (Log) Debug.Log("物体: " + lastObject + " 失去焦点");
-                interactingObject = null;
-            }
+            interactingObject.OnHoverExit(this);
+            OnHoverExit?.Invoke(interactingObject);
+            if (Log) Debug.Log("物体: " + lastObject + " 失去焦点");
+            interactingObject = null;
         }
     }
 

@@ -21,7 +21,7 @@ namespace System.SceneManagement
         private void Start()
         {
             if (loadingCanvas == null){
-                Addressables.LoadAssetAsync<GameObject>("Loading_Canvas").Completed+=(handle) =>
+                Addressables.LoadAssetAsync<GameObject>("Loading Canvas").Completed+=(handle) =>
                 {
                     loadingCanvas = Instantiate(handle.Result).GetComponent<LoadingCanvas>();
                     handle.Release();
@@ -29,7 +29,7 @@ namespace System.SceneManagement
             }
 
             if (fadeCanvas == null){
-                Addressables.LoadAssetAsync<GameObject>("Fade_Canvas").Completed+=(handle) =>
+                Addressables.LoadAssetAsync<GameObject>("Fade Canvas").Completed+=(handle) =>
                 {
                     fadeCanvas = Instantiate(handle.Result).GetComponent<FadeCanvas>();
                     handle.Release();

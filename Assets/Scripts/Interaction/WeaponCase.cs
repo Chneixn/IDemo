@@ -19,6 +19,7 @@ public class WeaponCase : MonoBehaviour, IInteractable
             else return "打开武器箱";
         }
     }
+    
     [SerializeField] private Animator animator;
     [SerializeField] private float animationTime = 0.15f;
     [SerializeField] private bool isAnimating = false;

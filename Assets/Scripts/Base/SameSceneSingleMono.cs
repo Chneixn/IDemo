@@ -27,35 +27,3 @@ public class SameSceneSingleMono<T> : MonoBehaviour where T : SameSceneSingleMon
         Instance = null;
     }
 }
-
-// public static class MonoSingleMonoRegister<T> where T : MonoBehaviour
-// {
-//     private static T m_Instance;
-//     private static readonly object m_Locker = new();
-
-//     public static T Instance
-//     {
-//         get
-//         {
-//             if (m_Instance == null)
-//             {
-//                 lock (m_Locker)
-//                 {
-//                     if (m_Instance == null)
-//                     {
-//                         GameObject gameObject = new(typeof(T).Name + "[单例]");
-//                         GameObject.DontDestroyOnLoad(gameObject);
-//                         m_Instance = gameObject.AddComponent<T>();
-//                     }
-//                 }
-//             }
-//             return m_Instance;
-//         }
-//     }
-// }
-
-// 用例
-// public class Example : MonoBehaviour
-// {
-//     public static Example Instance { get => SingleMonoRegister<Example>.Instance; }
-// }

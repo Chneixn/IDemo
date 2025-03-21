@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Core.Attributes
+namespace UnityUtils
 {
     /// <summary>
     /// Attribute to mark fields as editable assets, allowing quick creation and cloning of ScriptableObjects from the Unity inspector.
