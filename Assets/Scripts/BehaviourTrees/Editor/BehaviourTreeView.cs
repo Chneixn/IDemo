@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using BehaviourTreesSystem;
+using BehaviourTreeSystem;
 
 public class BehaviourTreeView : GraphView
 {
@@ -41,7 +41,7 @@ public class BehaviourTreeView : GraphView
         }
     }
 
-    private NodeView FindNodeView(BehaviourTreesSystem.Node node)
+    private NodeView FindNodeView(BehaviourTreeSystem.Node node)
     {
         return GetNodeByGuid(node.guid) as NodeView;
     }
@@ -162,8 +162,8 @@ public class BehaviourTreeView : GraphView
     /// <param name="evt"></param>
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {
-        //base.BuildContextualMenu(evt);
-        //获取在视图中的鼠标坐标
+        base.BuildContextualMenu(evt);
+        // 获取在视图中的鼠标坐标
         clickPosition = contentViewContainer.WorldToLocal(evt.mousePosition);
 
         {
@@ -172,6 +172,15 @@ public class BehaviourTreeView : GraphView
             foreach (var type in types)
             {
                 evt.menu.AppendAction($"Action/ {type.Name}", (a) => CreateNode(type));
+            }
+        }
+
+        {
+            // 获取所有继承于ActionNode的类并显示在右键菜单中
+            var types = TypeCache.GetTypesDerivedFrom<ConditionalNode>();
+            foreach (var type in types)
+            {
+                evt.menu.AppendAction($"Condition/ {type.Name}", (a) => CreateNode(type));
             }
         }
 
@@ -199,11 +208,11 @@ public class BehaviourTreeView : GraphView
             Debug.LogWarning("You have to select an BehaviourTree assest first!");
             return;
         }
-        BehaviourTreesSystem.Node node = tree.CreateNode(type);
+        BehaviourTreeSystem.Node node = tree.CreateNode(type);
         CreateNewNodeView(node);
     }
 
-    private void CreateNewNodeView(BehaviourTreesSystem.Node node)
+    private void CreateNewNodeView(BehaviourTreeSystem.Node node)
     {
         NodeView nodeView = new(node);
         nodeView.OnNodeSelected = OnNodeSelected;
@@ -211,7 +220,7 @@ public class BehaviourTreeView : GraphView
         AddElement(nodeView);
     }
 
-    private void CreateNodeView(BehaviourTreesSystem.Node node)
+    private void CreateNodeView(BehaviourTreeSystem.Node node)
     {
         NodeView nodeView = new(node);
         nodeView.OnNodeSelected = OnNodeSelected;

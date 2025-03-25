@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public class RootNode : Node
     {

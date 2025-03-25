@@ -5,7 +5,7 @@ using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
 using System;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public class BehaviourTreeEditor : EditorWindow
     {
@@ -24,11 +24,11 @@ namespace BehaviourTreesSystem
         /// <summary>
         /// 打开BehaviourTreeEditor视图
         /// </summary>
-        [MenuItem("CustomSystem/BehaviourTreeEditor")]
+        [MenuItem("Tools/BehaviourTree Editor")]
         public static void OpenWindow()
         {
             BehaviourTreeEditor window = GetWindow<BehaviourTreeEditor>();
-            window.titleContent = new GUIContent("BehaviourTreeEditor");
+            window.titleContent = new GUIContent("BehaviourTree Editor");
             window.minSize = new Vector2(800, 600);
         }
 
@@ -157,6 +157,7 @@ namespace BehaviourTreesSystem
                     OnSelectionChange();
                     break;
                 case PlayModeStateChange.ExitingPlayMode:
+                    UpdateTreeView(null);
                     break;
             }
         }
@@ -207,6 +208,10 @@ namespace BehaviourTreesSystem
             {
                 //在资源文件中选择刷新
                 treeView.PopulateView(tree);
+            }
+            else
+            {
+                treeView.ClearView();
             }
 
             if (tree)

@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     [CreateAssetMenu(menuName = "BehaviourTree/Create BehaviourTreeSetting", fileName = "BehaviourTreeSettings")]
     public class BehaviourTreeSettings : ScriptableObject

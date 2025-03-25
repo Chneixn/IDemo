@@ -1,7 +1,7 @@
 using Unity.Collections;
 using UnityEngine;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public abstract class Node : ScriptableObject
     {
@@ -17,8 +17,8 @@ namespace BehaviourTreesSystem
         [HideInInspector] public string guid;
         [HideInInspector] public Vector2 position;
         [HideInInspector] public Blackboard blackboard;
-        [HideInInspector] public Agent agent;
         [TextArea] public string description;
+        public bool isLog = false;
 
         public State Update()
         {

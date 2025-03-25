@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3756476493494781479
+--- !u!114 &-8904979747206732364
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14,20 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 19b552bf597032b4a94c9d80ad63d687
-  position: {x: 0, y: 147.63025}
+  guid: 80d4c3e4775af4440b24e41e6308dcce
+  position: {x: 330.75632, y: 183.12604}
   blackboard:
-    MoveSpeed: 5
-    HasTarget: 0
-    Target: {fileID: 0}
-    TargetTransform: {fileID: 0}
-    MoveToPosition: {x: 0, y: 0, z: 0}
-  enemyControl: {fileID: 0}
-  description: 
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+  description: "\u6E38\u8361"
+  isLog: 0
   children:
-  - {fileID: 8565820284552653784}
-  - {fileID: -1963893152256324071}
---- !u!114 &-1963893152256324071
+  - {fileID: 5260380698494580687}
+  - {fileID: 3439245995806698481}
+  - {fileID: -7615099572616460321}
+--- !u!114 &-7615099572616460321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,18 +42,160 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: ed0480f8dcba5e845b316b49966a39db
-  position: {x: 108.90756, y: 324.30252}
+  guid: e183157eedbc90e4e8598b220af3cf28
+  position: {x: 527.59656, y: 322.6891}
   blackboard:
-    MoveSpeed: 5
-    HasTarget: 0
-    Target: {fileID: 0}
-    TargetTransform: {fileID: 0}
-    MoveToPosition: {x: 0, y: 0, z: 0}
-  enemyControl: {fileID: 0}
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
   description: 
+  isLog: 0
   duration: 1
---- !u!114 &-848932005062376472
+--- !u!114 &-2599702217382130342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7527c3978ca911d41b09e5f129ea8f61, type: 3}
+  m_Name: AIState
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 0da22212e17a1e2409ca9ecce3e3bb05
+  position: {x: 206.52103, y: -65.344536}
+  blackboard:
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+  description: 
+  isLog: 0
+  children:
+  - {fileID: 3729600882990908154}
+  - {fileID: -8904979747206732364}
+  - {fileID: -2302692791616687853}
+--- !u!114 &-2302692791616687853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ffb1004d978abf429627519cdf88d51, type: 3}
+  m_Name: WaitNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 767b7ab632157ac4fa25ef17a6f3c18a
+  position: {x: 583.2605, y: 183.12604}
+  blackboard:
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+  description: 
+  isLog: 0
+  duration: 1
+--- !u!114 &-1988282456435053427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c126fc67e38b8b44aa5f914287691455, type: 3}
+  m_Name: ChasePlayer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: d123e894839d0a444ac9a58bb61d14ab
+  position: {x: -70.99161, y: 321.07562}
+  blackboard:
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+  description: "\u5C06\u73A9\u5BB6\u4F5C\u4E3ATarget"
+  isLog: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27cab1969c60a6e4c9139a2d99cba6ab, type: 3}
+  m_Name: Zombie BehaviourTree
+  m_EditorClassIdentifier: 
+  isLog: 1
+  rootNode: {fileID: 4654048476744428933}
+  treeState: 0
+  nodes:
+  - {fileID: 4654048476744428933}
+  - {fileID: 8094502342933698148}
+  - {fileID: 5260380698494580687}
+  - {fileID: 3729600882990908154}
+  - {fileID: -8904979747206732364}
+  - {fileID: 3439245995806698481}
+  - {fileID: -7615099572616460321}
+  - {fileID: -1988282456435053427}
+  - {fileID: 4026790225618251577}
+  - {fileID: -2302692791616687853}
+  - {fileID: -2599702217382130342}
+  blackboard:
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+--- !u!114 &3439245995806698481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d948f4f2bf88042af49397444192d0, type: 3}
+  m_Name: MoveToPosition
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: a399d8623d8e5a8448b200fb4bb05e69
+  position: {x: 378.35294, y: 322.6891}
+  blackboard:
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+  description: "\u5DE1\u903B\u79FB\u52A8"
+  isLog: 0
+  speedMultiple: 1
+  stoppingDistance: 0.1
+  updateRotation: 1
+  angularSpeed: 360
+  acceleration: 40
+  tolerance: 0.1
+  autoBraking: 0
+  autoRepath: 0
+--- !u!114 &3729600882990908154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,47 +209,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: b32c4aae4f3256648be930db28594d65
-  position: {x: 0, y: -5.6470604}
+  guid: e2aad6bce424c104aad2d35b26b08264
+  position: {x: 48.40335, y: 183.12604}
   blackboard:
-    MoveSpeed: 5
-    HasTarget: 0
-    Target: {fileID: 0}
-    TargetTransform: {fileID: 0}
-    MoveToPosition: {x: 0, y: 0, z: 0}
-  enemyControl: {fileID: 0}
-  description: 
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+  description: "\u6247\u5F62\u89C6\u7EBF\u626B\u63CF\u73A9\u5BB6"
+  isLog: 0
   children:
-  - {fileID: 3348942314021228905}
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27cab1969c60a6e4c9139a2d99cba6ab, type: 3}
-  m_Name: Zombie BehaviourTree
-  m_EditorClassIdentifier: 
-  rootNode: {fileID: 4654048476744428933}
-  treeState: 0
-  nodes:
-  - {fileID: 4654048476744428933}
-  - {fileID: -1963893152256324071}
-  - {fileID: 8565820284552653784}
-  - {fileID: -3756476493494781479}
   - {fileID: 8094502342933698148}
-  - {fileID: -848932005062376472}
-  - {fileID: 3348942314021228905}
-  blackboard:
-    MoveSpeed: 5
-    HasTarget: 0
-    Target: {fileID: 0}
-    TargetTransform: {fileID: 0}
-    MoveToPosition: {x: 0, y: 0, z: 0}
---- !u!114 &3348942314021228905
+  - {fileID: -1988282456435053427}
+  - {fileID: 4026790225618251577}
+--- !u!114 &4026790225618251577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,22 +232,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cd1bd5536725f64f9d897282583e70c, type: 3}
-  m_Name: RepeatNode
+  m_Script: {fileID: 11500000, guid: 31d948f4f2bf88042af49397444192d0, type: 3}
+  m_Name: MoveToPosition
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 9e0878dfdd04eaf418fe7f5a67a61f2e
-  position: {x: -279.93277, y: 155.69748}
+  guid: 3170000894e72114c84cf3719cc9c8c3
+  position: {x: 79.05881, y: 321.07562}
   blackboard:
-    MoveSpeed: 5
-    HasTarget: 0
-    Target: {fileID: 0}
-    TargetTransform: {fileID: 0}
-    MoveToPosition: {x: 0, y: 0, z: 0}
-  enemyControl: {fileID: 0}
-  description: 
-  child: {fileID: 8094502342933698148}
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+  description: "\u8FFD\u9010\u79FB\u52A8"
+  isLog: 0
+  speedMultiple: 1
+  stoppingDistance: 0.1
+  updateRotation: 1
+  angularSpeed: 360
+  acceleration: 40
+  tolerance: 0.1
+  autoBraking: 1
+  autoRepath: 1
 --- !u!114 &4654048476744428933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,16 +270,41 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: aac98c54b3c37b24b8404689bff1343b
-  position: {x: 0, y: -120.201675}
+  position: {x: 206.52103, y: -146.82352}
   blackboard:
-    MoveSpeed: 5
-    HasTarget: 0
-    Target: {fileID: 0}
-    TargetTransform: {fileID: 0}
-    MoveToPosition: {x: 0, y: 0, z: 0}
-  enemyControl: {fileID: 0}
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
   description: 
-  child: {fileID: -848932005062376472}
+  isLog: 0
+  child: {fileID: -2599702217382130342}
+--- !u!114 &5260380698494580687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba40abde28d4cf419113535f1ab8a41, type: 3}
+  m_Name: RandomWalk
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 9e6edeed62e827247b3674026e128ef8
+  position: {x: 229.10922, y: 321.07562}
+  blackboard:
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
+  description: "\u968F\u673A\u6E38\u8361"
+  isLog: 0
+  range: 25
 --- !u!114 &8094502342933698148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,52 +320,28 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 241cc7e5df357ce428606dcce0d823c3
-  position: {x: -279.93277, y: 261.37814}
+  position: {x: -221.04202, y: 321.07562}
   blackboard:
-    MoveSpeed: 5
-    HasTarget: 0
-    Target: {fileID: 0}
-    TargetTransform: {fileID: 0}
-    MoveToPosition: {x: 0, y: 0, z: 0}
-  enemyControl: {fileID: 0}
+    mover: {fileID: 0}
+    gameObject: {fileID: 0}
+    transform: {fileID: 0}
+    TargetObj: {fileID: 0}
+    TargetPos: {x: 0, y: 0, z: 0}
   description: "\u6247\u5F62\u626B\u63CF"
+  isLog: 0
+  scanToContinue: 1
   distance: 10
   angle: 30
   height: 1
   scanFrequency: 30
   scanLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   occlusionLayers:
     serializedVersion: 2
     m_Bits: 0
+  enableDebug: 0
   debugDetectRange: 0
   debugScaner: 0
   debugTarget: 0
   debugColor: {r: 169, g: 84, b: 236, a: 0.5}
---- !u!114 &8565820284552653784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba40abde28d4cf419113535f1ab8a41, type: 3}
-  m_Name: RandomWalk
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: bb1699c26de81554fb557b5463a221c5
-  position: {x: -93.579834, y: 324.30252}
-  blackboard:
-    MoveSpeed: 5
-    HasTarget: 0
-    Target: {fileID: 0}
-    TargetTransform: {fileID: 0}
-    MoveToPosition: {x: 0, y: 0, z: 0}
-  enemyControl: {fileID: 0}
-  description: 
-  range: 25
-  targetUpdateTime: 1

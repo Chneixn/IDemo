@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public class DebugLogNode : ActionNode
     {

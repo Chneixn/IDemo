@@ -9,7 +9,7 @@ public class FadeCanvas : MonoBehaviour
 {
     [SerializeField] private Image fadeImage;
     [SerializeField] private Color color;
-    private CanvasGroup group;
+    [SerializeField] private CanvasGroup group;
     private float target;
 
     public bool IsDone => target == group.alpha;

@@ -2,13 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public class SectorScan : ActionNode
     {
+        [Tooltip("是否扫描到目标才返回 Success")]
+        public bool scanToContinue = true;
+        [Tooltip("扫描半径")]
         public float distance = 10f;
-        [Range(0f, 180f)]
+        [Tooltip("扫描角度"), Range(0f, 360f)]
         public float angle = 30f;
+        [Tooltip("扫描范围的高度")]
         public float height = 1.0f;
         [Tooltip("扫描频率")]
         public int scanFrequency = 30;
@@ -26,57 +30,67 @@ namespace BehaviourTreesSystem
             }
         }
 
+        #region Debug Viusal
         [Header("Debug")]
+        public bool enableDebug = false;
         public bool debugDetectRange;
         public bool debugScaner;
         public bool debugTarget;
         public Color debugColor = new(169, 84, 236, 0.5f);
-        private SectorScanDebug debug;
+        private SectorScanDebug debugger;
+        #endregion
 
-        private Collider[] colliders = new Collider[50];
-        private int count;
-        private float timePerScan;
-        private Timer timer;
+        private readonly Collider[] colliders = new Collider[50];
+        private float TimePerScan => 1.0f / scanFrequency;
+        private float timer = 0f;
 
         protected override void OnStart()
         {
-            if (debug == null)
-            {
-                if (agent.gameObject.TryGetComponent(out SectorScanDebug scanDebug))
-                {
-                    debug = scanDebug;
-                }
-                else debug = agent.gameObject.AddComponent<SectorScanDebug>();
 
-                debug.scan = this;
-            }
-
-            if (timer == null)
-                timer = TimerManager.CreateTimer();
-
-            timePerScan = 1.0f / scanFrequency;
-            timer.StartTiming(timePerScan, repeateTime: 0, onCompleted: () =>
-            {
-                Scan();
-            });
         }
 
         protected override void OnStop()
         {
-            TimerManager.RemoveTimer(timer);
+
         }
 
         protected override State OnUpdate()
         {
-            return State.Success;
+            timer -= Time.deltaTime;
+            if (timer < 0f)
+            {
+                timer = TimePerScan;
+                Scan();
+                if (scanToContinue)
+                {
+                    if (objects.Count > 0) return State.Success;
+                }
+                else return State.Success;
+            }
+
+            if (enableDebug && debugger == null)
+            {
+                debugger = blackboard.gameObject.AddComponent<SectorScanDebug>();
+                debugger.scan = this;
+            }
+
+            return State.Failure;
         }
 
         private void Scan()
         {
-            count = Physics.OverlapSphereNonAlloc(agent.transform.position, distance, colliders, scanLayers, QueryTriggerInteraction.Collide);
+            if (blackboard.transform == null)
+            {
+                Debug.LogError("Blackboard transform is null in SectorScan.Scan method.");
+                return;
+            }
 
+            int count = Physics.OverlapSphereNonAlloc(blackboard.transform.position, distance, colliders, scanLayers, QueryTriggerInteraction.Collide);
+            
+            if (isLog) Debug.Log(blackboard.transform.name + " 物理检测目标数: " + count);
             objects.Clear();
-            for (int i = 0; i < count; ++i)
+            if (count > 0) blackboard.TargetObj = colliders[0].gameObject;
+            for (int i = 0; i < count; i++)
             {
                 GameObject obj = colliders[i].gameObject;
                 if (IsInSight(obj))
@@ -86,22 +100,30 @@ namespace BehaviourTreesSystem
             }
         }
 
+        // FIXME: 当前目标检测有问题
         public bool IsInSight(GameObject obj)
         {
-            Vector3 origin = agent.transform.position;
+            bool result = true;
+            Vector3 origin = blackboard.transform.position;
             Vector3 dest = obj.transform.position;
             Vector3 direction = dest - origin;
-            if (direction.y < 0 || direction.y > height) return false;
+            // 如果物体在扫描高度范围外，则忽略该物体
+            if (direction.y < 0 || direction.y > height) result = false;
 
             direction.y = 0;
-            float deltaAngle = Vector3.Angle(direction, agent.transform.forward);
-            if (deltaAngle > angle) return false;
+            float deltaAngle = Vector3.Angle(direction, blackboard.transform.forward);
+            if (deltaAngle > angle * 0.5f) result = false;
 
-            origin.y += height / 2;
+            origin.y += height * 0.5f;
             dest.y = origin.y;
-            if (Physics.Linecast(origin, dest, occlusionLayers)) return false;
+            if (Physics.Linecast(origin, dest, occlusionLayers)) result = false;
 
-            return true;
+            if (isLog) {
+                if (result) Debug.Log(blackboard.transform.name + " 目标在视线内: " + obj.name);
+                else Debug.Log(blackboard.transform.name + " 目标不在视线内: " + obj.name);
+            }
+            
+            return result;
         }
 
         /// <summary>

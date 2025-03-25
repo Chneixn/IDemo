@@ -5,21 +5,14 @@ using UnityEngine;
 namespace BehaviourTreeSystem
 {
     /// <summary>
-    /// 序列节点: 顺序执行节点，出现 fail 不执行后续节点
+    /// 只要有一个节点成功, 则返回成功
     /// </summary>
-    public class SequencerNode : CompositeNode
+    public class SelectorNode : CompositeNode
     {
-        int current;
+        protected int current;
+        protected override void OnStart() { current = 0; }
 
-        protected override void OnStart()
-        {
-            current = 0;
-        }
-
-        protected override void OnStop()
-        {
-            
-        }
+        protected override void OnStop() { }
 
         protected override State OnUpdate()
         {
@@ -29,14 +22,13 @@ namespace BehaviourTreeSystem
                 case State.Running:
                     return State.Running;
                 case State.Failure:
-                    return State.Failure;
-                case State.Success:
                     current++;
                     break;
+                case State.Success:
+                    return State.Success;
             }
 
-            return current == children.Count ? State.Success : State.Running;
+            return current == children.Count ? State.Failure : State.Running;
         }
     }
 }
-

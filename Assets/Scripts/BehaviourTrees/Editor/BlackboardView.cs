@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
-using BehaviourTreesSystem;
+using BehaviourTreeSystem;
 
 public class BlackboardView : ScrollView
 {
@@ -24,8 +24,11 @@ public class BlackboardView : ScrollView
 
         // 刷新treeObject缓存为当前选择tree
         treeObject = new SerializedObject(tree);
-        blackboardProperty = treeObject.FindProperty(tree.blackboard.ToString().ToLower());
-        // Debug.Log(tree.blackboard.ToString().ToLower());
+        string blackboardName = tree.blackboard.ToString();
+        int dotIndex = blackboardName.IndexOf('.');
+        if (dotIndex != -1) blackboardName = blackboardName[(dotIndex + 1)..];
+
+        blackboardProperty = treeObject.FindProperty(blackboardName.ToLower());
 
         IMGUIContainer container = new(() =>
         {

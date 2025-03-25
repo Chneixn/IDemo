@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public class BehaviourTreeRunner : MonoBehaviour
     {
         public BehaviourTree tree;
-        public Agent agent;
+        [SerializeField] protected bool isLog = false;
 
-        private void Start()
+        protected virtual void Start()
         {
+            tree.isLog = isLog;
             tree = tree.Clone();
-            tree.Bind(GetComponent<Agent>());
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             tree.Update();
         }

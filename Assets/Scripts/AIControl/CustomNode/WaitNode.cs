@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public class WaitNode : ActionNode
     {
-        public float duration = 1;
-        Timer timer;
+        [Tooltip("等待时间")]
+        public float duration = 5;
+        private float timer = 0f;
 
         protected override void OnStart()
         {
-            if (timer == null)
-                timer = TimerManager.CreateTimer();
+            timer = duration;
+            if (isLog) Debug.Log(blackboard.transform.name + " 开始计时: " + timer);
         }
 
         protected override void OnStop()
@@ -22,10 +23,14 @@ namespace BehaviourTreesSystem
 
         protected override State OnUpdate()
         {
-            State state = State.Running;
-            if (timer.IsEnd)
-                timer.StartTiming(duration, onCompleted: () => { state = State.Success; });
-            return state;
+            timer -= Time.deltaTime;
+            // if (isLog) Debug.Log(blackboard.transform.name + " 计时剩余: " + timer);
+            if (timer < 0f)
+            {
+                if (isLog) Debug.Log(blackboard.transform.name + " 计时结束");
+                return State.Success;
+            }
+            else return State.Running;
         }
     }
 }

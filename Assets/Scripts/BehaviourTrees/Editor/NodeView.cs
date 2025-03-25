@@ -7,7 +7,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public class NodeView : UnityEditor.Experimental.GraphView.Node
     {
@@ -36,7 +36,7 @@ namespace BehaviourTreesSystem
 
         private void SetupClasses()
         {
-            if (node is ActionNode)
+            if (node is ActionNode || node is ConditionalNode)
             {
                 AddToClassList("action");
             }
@@ -56,7 +56,7 @@ namespace BehaviourTreesSystem
 
         private void CreateInputPorts()
         {
-            if (node is ActionNode)
+            if (node is ActionNode || node is ConditionalNode)
             {
                 input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
             }

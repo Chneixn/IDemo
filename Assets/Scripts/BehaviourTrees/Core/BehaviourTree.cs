@@ -7,11 +7,12 @@ using System;
 using UnityEditor;
 #endif
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     [CreateAssetMenu(menuName = "BehaviourTree/Create new BehaviourTree", fileName = "New BehaviourTree")]
     public class BehaviourTree : ScriptableObject
     {
+        public bool isLog = false;
         public Node rootNode;
         public Node.State treeState = Node.State.Running;
         public List<Node> nodes = new();
@@ -153,18 +154,20 @@ namespace BehaviourTreesSystem
             tree.nodes = new List<Node>();
             Traverse(tree.rootNode, (n) =>
             {
+                n.blackboard = tree.blackboard;
+                n.isLog = tree.isLog;
                 tree.nodes.Add(n);
             });
             return tree;
         }
 
-        public void Bind(Agent agent)
-        {
-            Traverse(rootNode, node =>
-            {
-                node.agent = agent;
-                node.blackboard = blackboard;
-            });
-        }
+        // public void Bind(Agent agent)
+        // {
+        //     Traverse(rootNode, node =>
+        //     {
+        //         node.agent = agent;
+        //         node.blackboard = blackboard;
+        //     });
+        // }
     }
 }

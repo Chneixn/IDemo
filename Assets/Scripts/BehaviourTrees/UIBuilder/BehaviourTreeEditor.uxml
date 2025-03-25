@@ -8,7 +8,7 @@
         <ui:VisualElement name="left-panel" style="flex-basis: 30%; flex-grow: 1;">
             <ui:VisualElement name="inspector-container" style="justify-content: flex-start; align-items: stretch; background-color: rgb(56, 56, 56); min-height: 200px; flex-basis: 50%; flex-grow: 1;">
                 <ui:Label text=" Inspector" display-tooltip-when-elided="true" style="background-color: rgb(37, 37, 37); align-items: stretch; margin-left: 0;" />
-                <BehaviourTreeNodeInspectorView name="InsectorView" style="flex-grow: 1; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%;" />
+                <BehaviourTreeNodeInspectorView name="InsectorView" style="flex-grow: 1; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;" />
             </ui:VisualElement>
             <ui:VisualElement name="blackboard-container" style="justify-content: flex-start; align-items: stretch; background-color: rgb(56, 56, 56); flex-basis: 50%; flex-grow: 1; min-height: 200px;">
                 <ui:Label text=" Blackboard" display-tooltip-when-elided="true" style="background-color: rgb(37, 37, 37);" />

@@ -80,7 +80,6 @@ namespace UnityUtils.Drawers
                     EditorGUILayout.EndVertical();
                 }
             }
-
         }
 
         /// <summary>

@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using BehaviourTreesSystem;
+using BehaviourTreeSystem;
 using UnityEngine;
-using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(CharacterStateHolder))]
-[RequireComponent(typeof(RagdollControl))]
-public class ZombieAgent : Agent
+[RequireComponent(typeof(ZombieMover))]
+public class ZombieAgent : BehaviourTreeRunner
 {
-    public NavMeshAgent nav;
-
-
-    private void Start()
+    public AgentMover agentMover;
+    
+    protected override void Start()
     {
-        nav = GetComponent<NavMeshAgent>();
-        
+        base.Start();
+        tree.blackboard.gameObject = gameObject;
+        tree.blackboard.transform = transform;
+        tree.blackboard.mover = agentMover;
     }
 
 }

@@ -1,31 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
-using BehaviourTreesSystem;
+using BehaviourTreeSystem;
 
 public class RandomWalk : ActionNode
 {
+    [Tooltip("随机范围的半径")]
     public float range = 25.0f;
-    public float targetUpdateTime = 1.0f;
-    private NavMeshAgent nav;
-    private Timer timer;
 
     protected override void OnStart()
     {
-        nav = (agent as ZombieAgent).nav;
-        if (nav == null) return;
-
-        timer ??= TimerManager.CreateTimer();
-
-        timer.StartTiming(targetUpdateTime, repeateTime: 0, onCompleted: () =>
-        {
-            if (blackboard.TargetTransform != null)
-            {
-                nav.destination = blackboard.TargetTransform.position;
-            }
-        });
-
+        // 获得的随机坐标为，xz平面上的随机坐标，z轴为0
+        var randomXZ = range * Random.insideUnitCircle;
+        var randomXYZ = new Vector3(randomXZ.x, 0f, randomXZ.y);
+        blackboard.TargetPos = randomXYZ + blackboard.mover.transform.position;
+        if (isLog) Debug.Log(blackboard.transform.name + " 获得随机坐标: " + blackboard.TargetPos.ToString());
     }
 
     protected override void OnStop()
@@ -35,12 +24,7 @@ public class RandomWalk : ActionNode
 
     protected override State OnUpdate()
     {
-        if (nav == null) return State.Failure;
-
-        if (blackboard.TargetTransform != null || nav.pathPending || !nav.isOnNavMesh || nav.remainingDistance > 0.1f)
-            return State.Running;
-
-        nav.destination = range * Random.insideUnitCircle;
+        if (blackboard.mover == null) return State.Failure;
         return State.Success;
     }
 }

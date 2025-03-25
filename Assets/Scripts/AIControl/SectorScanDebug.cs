@@ -1,15 +1,17 @@
 using UnityEngine;
 
-namespace BehaviourTreesSystem
+namespace BehaviourTreeSystem
 {
     public class SectorScanDebug : MonoBehaviour
     {
+        [Tooltip("当修改了Scanner属性后, 修改该值以刷新可视化")]
+        public bool RefashVisual;
         [HideInInspector]
         public SectorScan scan;
         private Mesh mesh;
 
         /// <summary>
-        /// 可视化扫描器范围
+        /// 创建可视化扫描器的 Mesh
         /// </summary>
         /// <returns></returns>
         private Mesh CreateWedgeMesh()
